@@ -76,8 +76,6 @@ class Dataset(object):
                 self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
                     max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank)
 
-        print self.games.get("Catan")
-
     def exists(self, name):
         """
             Checks to see if game name exists in the dataset
