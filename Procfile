@@ -1,1 +1,1 @@
-web: sh -c 'cd ./flaskr/flaskr && python app.py &'
+web: gunicorn ./flaskr/flaskr/app:app
