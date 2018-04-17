@@ -1,0 +1,9 @@
+<div class="results">
+  <!-- PRINT THE RESULTS FROM SEARCH -->
+  <h1>Results</h1>
+  {% if results %}
+    {% for row in results[0:10] %}
+      <p>{{ row }}</p>
+    {% endfor %}
+  {% endif %}
+</div>

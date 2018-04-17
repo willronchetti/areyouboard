@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+    <body>
+        <header>
+        <div class="topcorner">
+            <p>Project Name: Are You Board? </p>
+            <p>Student Name: Will Ronchetti wrr33, Eliot Huang keh228, Tiffany Wang tw292, Ziyad Duron zad22, Jake Jermanok jaj224 </p>
+        </div>
+        </header>
+        <form class="form-inline global-search">
+            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
+                C
+                <font color=#EA4335>S</font>
+                <font color=#FBBC05>4</font>
+                3
+                <font color=#34A853>0</font>
+                <font color=#EA4335>0</font>
+            </h1>
+
+            <br><br>
+
+            <div class="form-group">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Your Input">
+            </div>
+            <button type="submit" class="btn btn-info"> Go! </button>
+        </form>
+
+        <div id="search-flex">
+          <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
+          <button id="search-button" onclick="querySearch()">Search</button>
+        </div>
+        <div class="results">
+          <!-- PRINT THE RESULTS FROM SEARCH -->
+          <h1>Results</h1>
+          {% if results %}
+            <p>
+              {{ hi }}
+            </p>
+            {% for row in results[0:10] %}
+              <div>{{ row }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <a href="results.html">Hi</a>
+
+          <div>
+            <!-- <div id="seedmap" class="project-exp">
+              <div class="return unselectable">
+                  <span class="shadow"></span>
+                  <img src="imgs/icons/return.png"></div>
+              <span class="hdr">SeedMap<span class="divider">//</span><a href="http://github.com/jy686/SeedMap">GitHub</a></span>
+              <span class="desc">A Java application to simplify the registration process for the Ithaca Community Gardens.</span>
+              <span>I worked with a small group of five other classmates to develop an application for the Random Hacks of Kindness hackathon, hosted at Cornell University. We designed and implemented a prototype to assist the Ithaca Community Gardens in streamlining their registration process. Our proposed solution reduced the need for paper forms and made the process easier for both garden administrators and community users. We used Java, utilizing JavaFX for local administration and Vaadin for the web platform.</span>
+              <span><img src="imgs/seedmap.png" style="width: 100%; max-width: 650px;"></span>
+            </div> -->
+
+            <div id="gloomhaven" class="results-explanation">
+              <div class="return">
+                  <span class="shadow"></span>
+                  <img src="/static/images/return.png">
+              </div>
+              <div class="explanation">
+                <div class="explanation-img">
+                  <img src="https://cf.geekdo-images.com/images/pic2437871.jpg" />
+                </div>
+                <div class="explanation-text">
+                  <h2>Game Name</h2>
+                  <h2>Similarity Score</h2>
+                  <p>All statistics (tags, complexity, players, etc.)</p>
+                  <p>Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                </div>
+              </div>
+            </div>
+            <div id="pandemiclegacy" class="results-explanation">
+              <div class="return">
+                  <span class="shadow"></span>
+                  <img src="/static/images/return.png">
+              </div>
+              <div class="explanation">
+                <div class="explanation-img">
+                  <img src="https://cf.geekdo-images.com/images/pic2452831.png" />
+                </div>
+                <div class="explanation-text">
+                  <h2>Game Name</h2>
+                  <h2>Similarity Score</h2>
+                  <p>All statistics (tags, complexity, players, etc.)</p>
+                  <p>Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                </div>
+              </div>
+            </div>
+            <div id="throughtheages" class="results-explanation">
+              <div class="return">
+                  <span class="shadow"></span>
+                  <img src="/static/images/return.png">
+              </div>
+              <div class="explanation">
+                <div class="explanation-img">
+                  <img src="https://cf.geekdo-images.com/images/pic2663291.jpg" />
+                </div>
+                <div class="explanation-text">
+                  <h2>Game Name</h2>
+                  <h2>Similarity Score</h2>
+                  <p>All statistics (tags, complexity, players, etc.)</p>
+                  <p>Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <!-- <script src="scripts/vendor/animate-number.min.js"></script> -->
+        <script src="/static/js/results.js"></script>
+
+        <script>
+        function querySearch() {
+          var query = document.getElementById("search-bar").value
+          console.log("QUERY:", query);
+          var resultSimple = [
+                  {"state": currentState },
+                  { "name": query }
+                  ];
+          console.log(resultSimple);
+
+          var results = []
+          $.ajax({
+              url: '/receiveData',
+              data: JSON.stringify(resultSimple),
+              type: 'POST',
+              contentType: 'application/json',
+              success: function(response) {
+                console.log('this is a success');
+                results = response
+                console.log(response);
+                console.log("hello");
+              },
+              error: function(error) {
+                  console.log(error);
+              }
+          });
+        }
+        </script>
+    </body>
+</html>

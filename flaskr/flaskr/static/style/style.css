@@ -1,0 +1,176 @@
+/*******************STYLING FOR HOMEPAGE********************/
+body {
+    text-align: center;
+    background-size: 500px;
+    font-family: StyleThief;
+}
+
+svg { border: solid #ccc 1px; }
+
+#title { display: inline-block; font-family: StyleThief; font-size: 8vw; padding: 0px; margin: 0px; margin-top: 3vw; margin-bottom: 2vw; transition: 0.35s }
+#title:hover { cursor: pointer; color: grey; transition: 0.35s }
+
+/* CARDS */
+#card-flex { display: flex; flex-direction: row; justify-content: center; align-items: center; width: 400px; height: 300px; margin-left: auto; margin-right: auto; }
+#blue { width: 175px; order: 2; margin-left: 10px; transition: 0.35s }
+#blue:hover { width: 190px; cursor: pointer; transition: 0.35s }
+#red { width: 175px; order: 1; margin-right: 10px; transition: 0.35s}
+#red:hover { width: 190px; cursor: pointer; transition: 0.35s }
+
+/* SEARCH BAR */
+#search-flex { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 250px; margin-left: auto; margin-right: auto; }
+#search-bar { font-family: StyleThief; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; }
+#search-button { font-family: StyleThief; font-size: 22px; border-radius: 4px; width: 60px; height: 35px; margin-left: 5px; order: 2; }
+
+/* FORM */
+/*#form { font-size: 30px; width: 150px; height: 100px; background-color: black; margin-left: auto; margin-right: auto; color: white; }*/
+
+/* FONT */
+@font-face {
+font-family: "StyleThief";
+src: url("fonts/StyleThief.otf") format("opentype");
+}
+
+/************************STYLING FOR FORM*******************/
+button {
+    /*font-family: 'PT Sans';*/
+}
+
+button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch {
+    outline:0 !important;
+}
+
+.card {
+    width:75%;
+    margin: 0 12.5%;
+    border:1px solid grey;
+    display:inline-block;
+}
+
+.card p {
+    width:100%;
+    text-align:center;
+    position:relative;
+}
+
+#playerSlider {
+    margin-bottom: 20px;
+    border:none;
+    background: #c8e8ff;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width:75%;
+    margin: 0 12.5%;
+
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background:grey;
+    height:5px;
+    border:none;
+}
+
+/*adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp*/
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+        /*appearance: none;*/
+    width: 50px; /* Set a specific slider handle width */
+    height: 50px; /* Slider handle height */
+    background-image:  url('../images/loading-dice.png'); /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+input[type=range]::-moz-range-track {
+    background:grey;
+    height:5px;
+    border:none;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 50px; /* Set a specific slider handle width */
+    height: 50px; /* Slider handle height */
+    background:none; /*make background of slider transparent*/
+    background-image: url('images/loading-dice.png'); /* set image as background */
+    border:0;
+    cursor: pointer; /* Cursor on hover */
+}
+
+/*#playing-time, #age, #difficulty, #categories {
+    width:37.35%;
+    height:250px;
+}*/
+
+/*#playing-time, #difficulty {
+    float:left;
+    margin-right:0;
+}*/
+
+.time-buttons, .age-buttons {
+    margin: 0 12.5%;
+}
+
+.time-buttons button {
+    width: 24.5%;
+    height:90px;
+    margin-bottom:5px;
+}
+
+.time-buttons button img {
+    display: block;
+    margin: 0 auto;
+    padding-bottom:5px;
+}
+
+#age, #categories {
+    float:right;
+    margin-left:0%;
+    margin-right:12.35%;
+}
+
+.age-buttons button {
+    width:32%;
+    height:150px;
+    border:none;
+    margin-bottom:5px;
+}
+
+.age-buttons button img {
+    display: block;
+    margin: 0 auto;
+}
+
+.selectedAge {
+    background:orange;
+}
+
+.difficulty-buttons {
+    margin: 0 auto;
+    display: block;
+}
+
+.diffClass {
+    background:green;
+}
+
+/* Can we rename this since it's not actually the results */
+#results {
+    border:none;
+}
+#results button {
+    width:75%;
+    margin: 10px 12.5%;
+    height:50px;
+    background:pink;
+    border:1px solid grey;
+}
+
+#state1 .results h1 {
+  font-size: 48px;
+  font-family: sans-serif;
+}
+#state1 .results p {
+  font-size: 24px;
+  font-family: sans-serif;
+}
