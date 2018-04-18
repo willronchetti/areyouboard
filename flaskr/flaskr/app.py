@@ -27,10 +27,16 @@ def search():
 
 @app.route('/receiveData', methods=['GET','POST'])
 def getResults():
-    data = request.get_json()
+    print "Receiving Data"
+    # data = request.get_json()
+
+    d = request.form["jsonval"]
+    data = json.loads(d)
+
     related_games = getRelatedGames(Dataset(), data[1]['name'].upper())
-    return render_template('test_results.html', results=related_games)
+    return render_template('search.html', results=related_games)
 
 if __name__ == "__main__":
-	dataset = Dataset()
-	socketio.run(app, host="0.0.0.0", port=5000)
+    dataset = Dataset()
+    print("Flask app running at http://0.0.0.0:5000")
+    socketio.run(app, host="0.0.0.0", port=5000)

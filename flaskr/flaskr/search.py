@@ -41,7 +41,7 @@ class Dataset(object):
         self.games = dict()
 
         # Get absolute path
-        script_dir = os.path.dirname(__file__) 
+        script_dir = os.path.dirname(__file__)
         rel_path = "data/2018_01.csv"
         abs_file_path = os.path.join(script_dir, rel_path)
 
@@ -227,7 +227,7 @@ def getRelatedGames(dataset, name):
         print(results[0:10])
         return results
     else:
-        print "Could not locate game"
+        print("Could not locate game")
         return []
 
 def doAdvancedSearch(dataset, n_players, age, length, complexity, genres):
@@ -251,4 +251,3 @@ if __name__ == "__main__":
         getRelatedGames(d, 'Catan')
     else:
         doAdvancedSearch(d, 4, 14, 120, 3, ["strategy","Co-operative Play"])
-

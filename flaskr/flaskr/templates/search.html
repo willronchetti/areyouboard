@@ -19,20 +19,20 @@
   <div id="state0">
     <div id="card-flex">
       <img src="/static/images/red.png" alt="red card" id="red" onclick="redSelect()"></img>
-      <!-- <img src="/static/images/blue.png" alt="blue card" id="blue" onclick="blueSelect()"></img> -->
+      <img src="/static/images/blue.png" alt="blue card" id="blue" onclick="blueSelect()"></img>
     </div>
   </div>
 
   <!-- STATE 1 CASE -->
   <div id="state1">
     <div id="search-flex">
-      <!-- <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
+      <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
         <input id="search-bar" type="text" type="submit" placeholder="Search a game you like to find similar ones..."/>
         <input type="hidden" name="jsonval" value=""/>
-      </form> -->
+      </form>
 
-      <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
-      <button id="search-button" onclick="querySearch()">Search</button>
+      <!-- <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
+      <button id="search-button" onclick="querySearch()">Search</button> -->
     </div>
     <div class="results">
       <!-- PRINT THE RESULTS FROM SEARCH -->
@@ -46,12 +46,12 @@
   </div>
 
   <!-- STATE 2 CASE -->
-  <!-- <div id="state2">
+  <div id="state2">
     <div id="form">
       <div class='card' id='number-of-players'>
             <p> Number of Players </p>
             <div id='playerSlider'></div>
-            <p id='player-output'></p> -->
+            <p id='player-output'></p>
                 <!-- ********what should the max be? ******-->
 
             <!-- adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
@@ -85,9 +85,9 @@
                 });
 
             </script>
-        <!-- </div> -->
+        </div>
 
-        <!-- <div class='card' id='playing-time'>
+        <div class='card' id='playing-time'>
             <p> Playing Time </p>
             <div class='time-buttons'>
                 <button id='0-30min'><img src='/static/images/30.png'> 0-30 min </button>
@@ -193,16 +193,16 @@
 
         <div class='card' id='categories'>
             <p> Category </p>
-            <input type='text' id='categorySearch'> -->
+            <input type='text' id='categorySearch'>
 
-<!--             <script>
+            <script>
               for (var i = 0; i < array.length; i++) {
                   var option = document.createElement("option");
                   option.value = array[i];
                   option.text = array[i];
                   selectList.appendChild(option);
               }
-            </script> -->
+            </script>
 
             <script>
               //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
@@ -227,12 +227,12 @@
                 }
             });
             </script>
-        <!-- </div>
+        </div>
 
         <div class='card' id='mechanics'>
             <p> Mechanics </p>
 
-            <input type='text' id='mechanicSearch'> -->
+            <input type='text' id='mechanicSearch'>
 
             <script>
               //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
@@ -256,7 +256,7 @@
                 }
             });
             </script>
-        <!-- </div>
+        </div>
 
         <div class = 'card' id='results'>
 
@@ -294,7 +294,7 @@
             </script>
         </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- JAVASCRIPT -->
   <script>
