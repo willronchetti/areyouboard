@@ -1,5 +1,5 @@
-from flask import request, Flask
-from flask import render_template
+from flask import request, Flask, render_template
+from flask_socketio import SocketIO
 from string import Template
 import sys
 import json
@@ -7,6 +7,11 @@ import json
 from search import *
 
 app = Flask(__name__)
+socketio = SocketIO()
+
+# Initialize app w/SocketIO
+socketio.init_app(app)
+
 global dataset
 
 @app.route('/', methods=['GET', 'POST'])
@@ -28,4 +33,4 @@ def getResults():
 
 if __name__ == "__main__":
 	dataset = Dataset()
-	app.run(host='0.0.0.0', port=5000)
+	socketio.run(app, host="0.0.0.0", port=5000)
