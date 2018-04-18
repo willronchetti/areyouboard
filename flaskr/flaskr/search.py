@@ -216,6 +216,9 @@ def score(dataset, vector):
             scores[name] -= 4
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
+
+
+
     return sorted_scores
 
 def getRelatedGames(dataset, name):

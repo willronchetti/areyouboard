@@ -38,8 +38,8 @@
       <!-- PRINT THE RESULTS FROM SEARCH -->
       <h1>Results</h1>
       {% if results %}
-        {% for row in results[0:10] %}
-          <p>{{ row }}</p>
+        {% for row in results %}
+          <p>{{ row[0].name }}</p>
         {% endfor %}
       {% endif %}
     </div>
