@@ -1,1 +1,1 @@
-web: gunicorn .flaskr.flaskr.app:app
+web: gunicorn flaskr.flaskr.app:app
