@@ -12,7 +12,7 @@ socketio = SocketIO()
 # Initialize app w/SocketIO
 socketio.init_app(app)
 
-global dataset
+#global dataset
 
 #Loads the blank homepage
 @app.route('/', methods=['GET', 'POST'])
@@ -44,6 +44,7 @@ def getResults():
     return render_template('search.html', results=related_games_info)
 
 if __name__ == "__main__":
+    global dataset
     dataset = Dataset()
     print("Flask app running at http://0.0.0.0:5000")
     socketio.run(app, host="0.0.0.0", port=5000)
