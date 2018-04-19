@@ -1,2 +1,4 @@
 *.pyc
 .venv
+.DS_STORE
+venv
