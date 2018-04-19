@@ -44,7 +44,7 @@
         {% for row in results %}
           <div class="results-button" data-id="r{{row[0].rank}}">
             <img src= "{{ row[0].image }}"/>
-            <p>2. {{ row[0].name}}</p>
+            <!-- <p>2. {{ row[0].name}}</p> -->
           </div>
         {% endfor %}
       {% endif %}
@@ -55,7 +55,7 @@
         {% for row in results %}
         <div id="r{{row[0].rank}}" class="results-explanation">
           <div class="return">
-              <span class="shadow"></span>
+              <!-- <span class="shadow"></span> -->
               <img src="/static/images/return.png">
           </div>
           <div class="explanation">
@@ -64,8 +64,10 @@
             </div>
             <div class="explanation-text">
               <h2>{{ row[0].name }}</h2>
-              <p>{{ row[0].complexity }}</p>
-              <p>{{ row[0].avg_time }}</p>
+              <p>Players: {{ row[0].min_players }}-{{ row[0].max_players }}</p>
+              <p>Complexity: {{ "%.2f" % row[0].complexity }} / 5</p>
+              <p>Average Time: {{ row[0].avg_time }} minutes</p>
+              <p>Average Rating: {{ row[0].avg_rating[0:4] }} / 10</p>
             </div>
           </div>
         </div>
