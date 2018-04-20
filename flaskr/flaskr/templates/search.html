@@ -42,9 +42,14 @@
       <div id="results-grid">
       {% if results %}
         {% for row in results %}
-          <div class="results-button" data-id="r{{row[0].rank}}">
-            <img src= "{{ row[0].image }}"/>
+          <div class="results-button" data-id="r{{row[0].rank}}"
+          style="background-image: url({{row[0].image}});">
+            <!-- <img src= "{{ row[0].image }}"/> -->
             <!-- <p>2. {{ row[0].name}}</p> -->
+            <div class="results-button-caption">
+              <p class="caption-name">{{ row[0].name }}</p>
+              <p class="caption-info">Click for more info</p>
+            </div>
           </div>
         {% endfor %}
       {% endif %}
