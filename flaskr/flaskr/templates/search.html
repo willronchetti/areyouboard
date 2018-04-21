@@ -159,7 +159,7 @@
                   var time1Button = $('#30-60min');
                   var time2Button = $('#60-120min');
                   var time3Button = $('#120+min');
-                  var timeInput;
+                  var timeInput = 0;
                   time0Button.on('click',function() {
                     timeInput = '0-30 minutes';
                   });
@@ -187,7 +187,7 @@
                     var babyButton = $('#baby-button');
                     var kidButton = $('#kid-button');
                     var adultButton = $('#adult-button');
-                    var ageInput;
+                    var ageInput = 0;
                     babyButton.on('click',function() {
                         babyButton.addClass('selectedAge');
                         kidButton.removeClass('selectedAge');
@@ -256,7 +256,7 @@
             <script>
               $("#dropdownAdvanced").click(function(){
                   $("#advancedOptions").slideToggle("slow");
-                  document.getElementById('results').scrollIntoView();
+                  document.getElementById('resultInput').scrollIntoView();
               });
             </script>
 
@@ -265,7 +265,7 @@
               <div class='card' id='categories'>
                 <div id='categorySearch'>
                   <p> Search by Category </p>
-                  <input type='text' id='categoryResult'>
+                  <input type='text' name='categoryResult' id='categoryResult'>
                 </div>
                 <div id='myCategories'>
                   <p>My Categories</p>
@@ -280,7 +280,7 @@
                     var categoryInput = [];
                     $('#categoryResult').bind("enterKey",function(e){
                         value = $('#categoryResult').val();
-                        if ($.inArray(value, categoryInput)==-1) {
+                        if ($.inArray(value, categoryInput)==-1 && categoryList.indexOf(value) != -1) {
                           //add it to the data
                           categoryInput.push(value);
                           //remove non-alphabetical chars
@@ -307,16 +307,36 @@
 
                     var categoryList = ["Adventure", "Deduction", "Mythology", "Card Game", "Abstract Strategy", "Wargame", "World War II", "Aviation / Flight", "Animals", "City Building", "Economic", "Exploration", "Farming", "Industry / Manufacturing", "Racing", "Territory Building", "Transportation", "Travel", "Age of Reason", "American Indian Wars", "American Revolutionary War", "Trains", "Environmental", "Medical", "Civilization", "Modern Warfare", "Political", "Fantasy", "Fighting", "Miniatures", "Movies / TV / Radio theme", "Science Fiction", "Ancient", "Dice", "Medieval", "Novel-based", "American West", "Horror", "Murder/Mystery", "Puzzle", "Video Game Theme", "Space Exploration", "Collectible Components", "Bluffing", "Religious", "Nautical", "Party Game", "Spies/Secret Agents", "Word Game", "Mature / Adult", "Renaissance", "Zombies", "Negotiation", "Prehistoric", "Arabian", "Post-Napoleonic", "Action / Dexterity", "World War I", "Comic Book / Strip", "Real-time", "Humor", "Electronic", "Book", "Civil War", "Expansion for Base-game", "Sports", "Memory", "Pirates", "none", "Educational", "Maze", "Napoleonic", "Print & Play", "American Civil War", "Children's Game", "Vietnam War", "Pike and Shot", "Mafia", "Trivia", "Number", "Game System", "Korean War", "Music", "Math"];
 
-                    $("#categoryResult").autocomplete({
-                      source: categoryList
-                    })
-
                     $("#categoryResult").keyup(function(e){
                       if(e.keyCode == 13) {
                         $(this).trigger("enterKey");
                       }
                     });
 
+                    var autoCompleteCategory = new autoComplete({
+                      selector: 'input[name="categoryResult"]',
+                      minChars: 1,
+                      source: function(term, suggest){
+                          term = term.toLowerCase();
+                          var choices = categoryList;
+                          var matches = [];
+                          for (i=0; i<choices.length; i++) {
+                              // var choice = choices[i].toLowerCase();
+                              // console.log(choice);
+                              for (j=1;j<choices[i].length; j++) {
+                                if (choices[i].toLowerCase().substring(0,j) == term) {
+                                  matches.push(choices[i]);
+                                };
+                              };
+                          }
+                          for (k=0; k<choices.length; k++) {
+                              if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                                matches.push(choices[k]);
+                              };
+                          }
+                          suggest(matches);
+                    }
+                  });
 
                   </script>
               </div>
@@ -324,7 +344,7 @@
               <div class='card' id='mechanics'>
                 <div id='mechanicSearch'>
                   <p> Search by Mechanic </p>
-                  <input type='text' name="q" id='mechanicResult'>
+                  <input type='text' name="mechanicResult" id='mechanicResult'>
                 </div>
                 <div id='myMechanics'>
                   <p>My Mechanics</p>
@@ -368,8 +388,8 @@
                       }
                   });
 
-                  var autoComplete = new autoComplete({
-                      selector: 'input[name="q"]',
+                  var autoCompleteMechanic = new autoComplete({
+                      selector: 'input[name="mechanicResult"]',
                       minChars: 1,
                       source: function(term, suggest){
                           term = term.toLowerCase();
@@ -397,38 +417,29 @@
 
             </div>
 
-            <div class = 'card' id='results'>
-
-                <button id='resultInput'> See Results! </button>
+            <div class = 'card' id='advancedSubmit'>
+                <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
+                  <button id='resultInput'> See Results! </button>
+                  <input type="hidden" name="advancedVal" value=""/>
+                </form>
 
                 <script>
-
-                  $('#resultInput').on('click',function() {
+                  function jsonAdvanced() {
                     var resultComplex = [
                        { "state": 2 },
                       {
                         "players": playerInput,
-                        "time":timeInput,
-                        "age":ageInput,
+                        "time": timeInput,
+                        "age": ageInput,
                         "difficulty": diffInput,
                         "category": categoryInput,
                         "mechanics": mechanicInput
                       }];
-                      console.log(resultComplex);
-                      $.ajax({
-                          url: '/receiveData',
-                          data: JSON.stringify(resultComplex),
-                          type: 'POST',
-                          contentType: 'application/json',
-                          success: function(response) {
-                            console.log('this is a success');
-                              console.log(response);
-                          },
-                          error: function(error) {
-                              console.log(error);
-                          }
-                      });
-                    });
+                    var json = JSON.stringify(resultComplex);
+                    var formInfo = document.forms['advancedForm'];
+                    formInfo.advancedVal.value = json;
+                    console.log(json);
+                  };
                 </script>
             </div>
         </div>
@@ -457,13 +468,13 @@
     // state 1 -> red card was selected (query search)
     // state 2 -> blue card was selected (advanced search)
 
-    function getJSON(){
+      function getJSON(){
         var query = document.getElementById("search-bar").value
         var resultSimple = [
             {"state": currentState },
             { "name": query }
             ];
-        json = JSON.stringify(resultSimple);
+        var json = JSON.stringify(resultSimple);
 
         var formInfo = document.forms['send'];
         formInfo.jsonval.value = json;

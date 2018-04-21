@@ -176,10 +176,10 @@ input[type=range]::-moz-range-thumb {
 }
 
 /* Can we rename this since it's not actually the results */
-#results {
+#advancedSubmit {
     border:none;
 }
-#results button {
+#advancedSubmit button {
     width:75%;
     margin: 10px 12.5%;
     height:50px;
