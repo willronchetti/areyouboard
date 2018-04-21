@@ -1,3 +1,5 @@
+numpy
+flask-sqlalchemy
 gunicorn
 flask
 python-socketio

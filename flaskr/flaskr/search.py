@@ -50,6 +50,8 @@ class Dataset(object):
         rel_path = "data/tfidf.csv"
         tf_idf = os.path.join(script_dir, rel_path)
 
+        #db.write('hello', 'world')
+
         # Open csv, iterate through data
         with open(tf_idf, 'rb') as f2:
             tfidf_reader = csv.DictReader(f2)
@@ -118,13 +120,14 @@ def score(dataset, vector):
         # Start at 0
         scores[name] = 0
 
-        # Only do this if we have a vector
-        if vector.tf_idf_vector.any() != None:
-            scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
-
         # Ignore same game
         if name == vector.name or name in vector.name:
             continue
+
+        # Only do this if we have a vector
+        if vector.tf_idf_vector.any() != None:
+            scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
+        
 
         # If categories shared award points
         if vector.categories != None:

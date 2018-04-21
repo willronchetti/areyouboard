@@ -1,5 +1,6 @@
 from flask import request, Flask, render_template
 from flask_socketio import SocketIO
+from flask_sqlalchemy import SQLAlchemy
 from string import Template
 import sys
 import json
@@ -8,6 +9,9 @@ from search import *
 
 app = Flask(__name__)
 socketio = SocketIO()
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db = SQLAlchemy(app)
 
 # Initialize app w/SocketIO
 socketio.init_app(app)
