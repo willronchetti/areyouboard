@@ -13,10 +13,10 @@
 
 <body>
   <!-- HTML -->
-  <h1 id="title" onclick="window.location.reload()">Are You Board?</h1>
+  <a href="/"><h1 id="title">Are You Board?</h1></a>
 
   <!-- STATE 0 CASE -->
-  <div id="state0">
+  <div id="state0" style="display: none">
     <div id="card-flex">
       <img src="../static/images/red.png" alt="red card" id="red" onclick="redSelect()"></img>
       <img src="../static/images/blue.png" alt="blue card" id="blue" onclick="blueSelect()"></img>
@@ -411,12 +411,25 @@
         </div>
   </div>
 
+
+<!-- {% if results %}
+  <script>
+    // console.log("results red select");
+    // redSelect();
+    stateHandler(1);
+  </script>
+{% endif %} -->
+
   <!-- JAVASCRIPT -->
   <script>
   // *************************************** state handling
 
     var currentState = 0;
-    stateHandler(0);
+    {% if results %}
+      currentState = 1;
+    {% endif %}
+
+    stateHandler(currentState);
     // state 0 -> initial state (both cards on the screen)
     // state 1 -> red card was selected (query search)
     // state 2 -> blue card was selected (advanced search)
@@ -534,6 +547,7 @@
 
       if (state == 0) {
         currentState = 0;
+        state0Div.style("display", "block");
         state1Div.style("display", "none");
         state2Div.style("display", "none");
       }
