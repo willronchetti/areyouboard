@@ -9,6 +9,8 @@
     <link rel='stylesheet' href='../static/scripts/jquery-ui-1.12.1.custom/jquery-ui.css'>
     <script src='../static/scripts/jquery-3.3.1.min.js'></script>
     <script src='../static/scripts/jquery-ui-1.12.1.custom/jquery-ui.js'></script>
+    <script src='../static/js/auto-complete.js'></script>
+    <link rel='stylesheet' href='../static/style/auto-complete.css'>
 </head>
 
 <body>
@@ -322,7 +324,7 @@
               <div class='card' id='mechanics'>
                 <div id='mechanicSearch'>
                   <p> Search by Mechanic </p>
-                  <input type='text' id='mechanicResult'>
+                  <input type='text' name="q" id='mechanicResult'>
                 </div>
                 <div id='myMechanics'>
                   <p>My Mechanics</p>
@@ -334,7 +336,7 @@
                     mechanicInput = [];
                     $('#mechanicResult').bind("enterKey",function(e){
                         value = $('#mechanicResult').val();
-                        if ($.inArray(value, mechanicInput)==-1) {
+                        if ($.inArray(value, mechanicInput)==-1 && mechanicList.indexOf(value) != -1) {
                           mechanicInput.push(value);
                           //remove non-alphabetical chars
                           var val = value.replace(/[^a-zA-Z]+/g, '');
@@ -360,14 +362,35 @@
 
                     var mechanicList = ["Auction/Bidding", "Variable Phase Order", "Variable Player Powers", "Hand Management", "Partnerships", "Trick-taking", "Hex-and-Counter", "Dice Rolling", "Simulation", "Area Control / Area Influence", "Area Enclosure", "Area Movement", "Commodity Speculation", "Grid Movement", "Modular Board", "Pick-up and Deliver", "Player Elimination", "Point to Point Movement", "Route/Network Building", "Set Collection", "Stock Holding", "Take That", "Tile Placement", "Action Point Allowance System", "Co-operative Play", "Trading", "Card Drafting", "Campaign / Battle Card Driven", "Simultaneous Action Selection", "Action / Movement Programming", "Role Playing", "Storytelling", "Worker Placement", "Deck / Pool Building", "Memory", "Secret Unit Deployment", "Pattern Recognition", "Press Your Luck", "Time Track", "Voting", "Area-Impulse", "Pattern Building", "Betting/Wagering", "Line Drawing", "Rock-Paper-Scissors", "Roll / Spin and Move", "Paper-and-Pencil", "Acting", "Singing", "Chit-Pull System", "Crayon Rail System"];
 
-                    $("#mechanicResult").autocomplete({
-                      source: mechanicList
-                    })
-
                     $("#mechanicResult").keyup(function(e){
                       if(e.keyCode == 13) {
                         $(this).trigger("enterKey");
                       }
+                  });
+
+                  var autoComplete = new autoComplete({
+                      selector: 'input[name="q"]',
+                      minChars: 1,
+                      source: function(term, suggest){
+                          term = term.toLowerCase();
+                          var choices = mechanicList;
+                          var matches = [];
+                          for (i=0; i<choices.length; i++) {
+                              // var choice = choices[i].toLowerCase();
+                              // console.log(choice);
+                              for (j=1;j<choices[i].length; j++) {
+                                if (choices[i].toLowerCase().substring(0,j) == term) {
+                                  matches.push(choices[i]);
+                                };
+                              };
+                          }
+                          for (k=0; k<choices.length; k++) {
+                              if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                                matches.push(choices[k]);
+                              };
+                          }
+                          suggest(matches);
+                    }
                   });
                   </script>
               </div>
