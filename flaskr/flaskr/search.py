@@ -127,7 +127,7 @@ def score(dataset, vector):
         # Only do this if we have a vector
         if vector.tf_idf_vector.any() != None:
             scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
-        
+
 
         # If categories shared award points
         if vector.categories != None:
@@ -317,12 +317,15 @@ def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, gen
     """
         Does an advanced search based on parameters given.
     """
-    min_players = n_players-2
-    max_players = n_players+2
-    min_time = length - 30
-    max_time = length + 30
+    min_players = n_players[0]
+    max_players = n_players[1]
+    min_time = 30*length[0];
+    max_time = 30*length[0]+30;
+    if (length == 3):
+        max_time = 1000;
     new_game = Game(None, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, age, mechanics, None, genres, complexity, None)
+            max_time, None, None, None, None, None, None, None, genres, complexity[0], None)
+
     results = score(dataset, new_game)
     print(results[0:10])
     return new_game, results
