@@ -5,10 +5,10 @@
     <title>Are You Board?</title>
     <meta charset="UTF-8">
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <link rel='stylesheet' type='text/css' href='/static/style/style.css'>
-    <link rel='stylesheet' href='/static/scripts/jquery-ui-1.12.1.custom/jquery-ui.css'>
-    <script src='/static/scripts/jquery-3.3.1.min.js'></script>
-    <script src='/static/scripts/jquery-ui-1.12.1.custom/jquery-ui.js'></script>
+    <link rel='stylesheet' type='text/css' href='../static/style/style.css'>
+    <link rel='stylesheet' href='../static/scripts/jquery-ui-1.12.1.custom/jquery-ui.css'>
+    <script src='../static/scripts/jquery-3.3.1.min.js'></script>
+    <script src='../static/scripts/jquery-ui-1.12.1.custom/jquery-ui.js'></script>
 </head>
 
 <body>
@@ -18,8 +18,8 @@
   <!-- STATE 0 CASE -->
   <div id="state0">
     <div id="card-flex">
-      <img src="/static/images/red.png" alt="red card" id="red" onclick="redSelect()"></img>
-      <img src="/static/images/blue.png" alt="blue card" id="blue" onclick="blueSelect()"></img>
+      <img src="../static/images/red.png" alt="red card" id="red" onclick="redSelect()"></img>
+      <img src="../static/images/blue.png" alt="blue card" id="blue" onclick="blueSelect()"></img>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
         <div id="r{{row[0].rank}}" class="results-explanation">
           <div class="return">
               <!-- <span class="shadow"></span> -->
-              <img src="/static/images/return.png">
+              <img src="../static/images/return.png">
           </div>
           <div class="explanation">
             <div class="explanation-img">
@@ -108,253 +108,307 @@
 
   <!-- STATE 2 CASE -->
   <div id="state2">
+
     <div id="form">
-      <div class='card' id='number-of-players'>
-            <p> Number of Players </p>
-            <div id='playerSlider'></div>
-            <p id='player-output'></p>
-                <!-- ********what should the max be? ******-->
+          <div class='card' id='number-of-players'>
+                <p> Number of Players </p>
+                <div id='playerSlider'></div>
+                <p id='player-output'></p>
 
-            <!-- adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+                <!-- adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+                <script>
+                    var playerInput;
+
+                    $(function() {
+                        $("#playerSlider").slider({
+                            range: true,
+                            min: 1,
+                            max: 15,
+                            values: [4, 6],
+                            slide: function( event, input ) {
+                              if (input.values[1] == 15) {
+                                $( "#player-output" ).text(input.values[0] + " - " + input.values[1] + '+');
+                              } else {
+                                $( "#player-output" ).text(input.values[0] + " - " + input.values[1]);
+                              }
+                              playerInput = input.values[0] + " - " + input.values[1]
+                              console.log(playerInput);
+                            }
+                        });
+                        $("#player-output").text($( "#playerSlider" ).slider( "values", 0) +
+                        " - " + $("#playerSlider").slider( "values",1) );
+                        playerInput = $( "#playerSlider" ).slider( "values", 0) +
+                          " - " + $("#playerSlider").slider( "values",1);
+                    });
+                </script>
+            </div>
+
+            <div class='card' id='playing-time'>
+                <p> Playing Time </p>
+                <div class='time-buttons'>
+                    <button id='0-30min'><img src='../static/images/30.png'> 0-30 min </button>
+                    <button id='30-60min'><img src='../static/images/60.png'> 30-60 min </button>
+                    <button id='60-120min'><img src='../static/images/90.png'> 60-120 min </button>
+                    <button id='120+min'><img src='../static/images/120.png'> 120+ min </button>
+                </div>
+
+                <script>
+                  var time0Button = $('#0-30min');
+                  var time1Button = $('#30-60min');
+                  var time2Button = $('#60-120min');
+                  var time3Button = $('#120+min');
+                  var timeInput;
+                  time0Button.on('click',function() {
+                    timeInput = '0-30 minutes';
+                  });
+                  time1Button.on('click',function() {
+                    timeInput = '30-60 minutes';
+                  });
+                  time2Button.on('click',function() {
+                    timeInput = '60-120 minutes';
+                  });
+                  time3Button.on('click',function() {
+                    timeInput = '120+ minutes';
+                  });
+                </script>
+            </div>
+
+            <div class='card' id='age'>
+                <p> Age Range </p>
+                <div class='age-buttons'>
+                    <button id='baby-button'><img src='../static/images/baby.png'> 0-6 years </button>
+                    <button id='kid-button'><img src='../static/images/kid.png'> 6-12 years </button>
+                    <button id='adult-button'><img src='../static/images/adult.png'> 12+ years </button>
+                </div>
+
+                <script>
+                    var babyButton = $('#baby-button');
+                    var kidButton = $('#kid-button');
+                    var adultButton = $('#adult-button');
+                    var ageInput;
+                    babyButton.on('click',function() {
+                        babyButton.addClass('selectedAge');
+                        kidButton.removeClass('selectedAge');
+                        adultButton.removeClass('selectedAge');
+                        ageInput = '0-7';
+                    });
+                    kidButton.on('click',function() {
+                        babyButton.removeClass('selectedAge');
+                        kidButton.addClass('selectedAge');
+                        adultButton.removeClass('selectedAge');
+                        ageInput = '8-14';
+                    });
+                    adultButton.on('click',function() {
+                        babyButton.removeClass('selectedAge');
+                        kidButton.removeClass('selectedAge');
+                        adultButton.addClass('selectedAge');
+                        ageInput = '14+';
+                    });
+                </script>
+            </div>
+
+            <div class='card' id='difficulty'>
+                <p> Difficulty </p>
+                <div class='difficulty-buttons'>
+                  <button id='diff-1'><img src='../static/images/difficulty1.png'></button>
+                  <button id='diff-2'><img src='../static/images/difficulty2.png'></button>
+                  <button id='diff-3'><img src='../static/images/difficulty3.png'></button>
+                  <button id='diff-4'><img src='../static/images/difficulty4.png'></button>
+                  <button id='diff-5'><img src='../static/images/difficulty5.png'></button>
+                  <button id='diff-6'><img src='../static/images/difficulty5.png'></button>
+                  <button id='diff-7'><img src='../static/images/difficulty5.png'></button>
+                </div>
+
+                <script>
+                  var diff1 = $('#diff-1')
+                  var diff2 = $('#diff-2')
+                  var diff3 = $('#diff-3')
+                  var diff4 = $('#diff-4')
+                  var diff5 = $('#diff-5')
+                  var diff6 = $('#diff-6')
+                  var diff7 = $('#diff-7')
+                  var allDiff = [diff1, diff2, diff3, diff4, diff5, diff6,diff7];
+                  var diffInput = [];
+
+                  allDiff.forEach(function(d,i) {
+                      d.on('click',function() {
+                            d.toggleClass('diffClass');
+                            if (d.hasClass('diffClass')) {
+                                diffInput.push(i);
+                            } else {
+                                var remove = diffInput.indexOf(i);
+                                diffInput.splice(remove,1);
+                            }
+                      });
+                      d.on('hover',function() {
+                        //show the tooltip
+                      });
+                  });
+                </script>
+            </div>
+
+            <div id='dropdownAdvanced'>
+              <button id='dropdownButton'>Click for Advanced Options</button>
+            </div>
+
             <script>
-                // var playerRange = document.getElementById("player-range");
-                // var playerOutput = document.getElementById('player-output');
-                // playerOutput.innerHTML = playerRange.value;
-                // var playerInput;
-                // playerRange.oninput = function() {
-                //     playerInput = this.value;
-                //     playerOutput.innerHTML = this.value;
-                //     console.log(playerInput);
-                // }
-                var playerInput;
+              $("#dropdownAdvanced").click(function(){
+                  $("#advancedOptions").slideToggle("slow");
+                  document.getElementById('results').scrollIntoView();
+              });
+            </script>
 
-                $(function() {
-                    $( "#playerSlider" ).slider({
-                        range: true,
-                        min: 1,
-                        max: 15,
-                        values: [ 4, 6 ],
-                        slide: function( event, input ) {
-                          $( "#player-output" ).text(input.values[0] + " - " + input.values[1]);
-                          playerInput = input.values[0] + " - " + input.values[1];
+            <div id='advancedOptions' style='display:none'>
+
+              <div class='card' id='categories'>
+                <div id='categorySearch'>
+                  <p> Search by Category </p>
+                  <input type='text' id='categoryResult'>
+                </div>
+                <div id='myCategories'>
+                  <p>My Categories</p>
+                  <div class='categoryTags'></div>
+                </div>
+
+                  <script>
+                    //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+
+                    //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                    var myCategories = [];
+                    var categoryInput = [];
+                    $('#categoryResult').bind("enterKey",function(e){
+                        value = $('#categoryResult').val();
+                        if ($.inArray(value, categoryInput)==-1) {
+                          //add it to the data
+                          categoryInput.push(value);
+                          //remove non-alphabetical chars
+                          var val = value.replace(/[^a-zA-Z]+/g, '');
+                          //show it as a tag
+                          d3.select('.categoryTags')
+                            .append('div')
+                            .attr('id',val)
+                            .style('display','inline-flex')
+                            .append('button')
+                            .attr('type','button')
+                            .attr('class','X')
+                            .text('X')
+                            .on('click',function() {
+                              this.remove();
+                              d3.select("#"+val).remove();
+                              categoryInput.splice(categoryInput.indexOf(val),1);
+                            });
+                          d3.select("#"+val)
+                            .append('text')
+                            .text(value);
+                        }
+                      });
+
+                    var categoryList = ["Adventure", "Deduction", "Mythology", "Card Game", "Abstract Strategy", "Wargame", "World War II", "Aviation / Flight", "Animals", "City Building", "Economic", "Exploration", "Farming", "Industry / Manufacturing", "Racing", "Territory Building", "Transportation", "Travel", "Age of Reason", "American Indian Wars", "American Revolutionary War", "Trains", "Environmental", "Medical", "Civilization", "Modern Warfare", "Political", "Fantasy", "Fighting", "Miniatures", "Movies / TV / Radio theme", "Science Fiction", "Ancient", "Dice", "Medieval", "Novel-based", "American West", "Horror", "Murder/Mystery", "Puzzle", "Video Game Theme", "Space Exploration", "Collectible Components", "Bluffing", "Religious", "Nautical", "Party Game", "Spies/Secret Agents", "Word Game", "Mature / Adult", "Renaissance", "Zombies", "Negotiation", "Prehistoric", "Arabian", "Post-Napoleonic", "Action / Dexterity", "World War I", "Comic Book / Strip", "Real-time", "Humor", "Electronic", "Book", "Civil War", "Expansion for Base-game", "Sports", "Memory", "Pirates", "none", "Educational", "Maze", "Napoleonic", "Print & Play", "American Civil War", "Children's Game", "Vietnam War", "Pike and Shot", "Mafia", "Trivia", "Number", "Game System", "Korean War", "Music", "Math"];
+
+                    $("#categoryResult").autocomplete({
+                      source: categoryList
+                    })
+
+                    $("#categoryResult").keyup(function(e){
+                      if(e.keyCode == 13) {
+                        $(this).trigger("enterKey");
+                      }
+                    });
+
+
+                  </script>
+              </div>
+
+              <div class='card' id='mechanics'>
+                <div id='mechanicSearch'>
+                  <p> Search by Mechanic </p>
+                  <input type='text' id='mechanicResult'>
+                </div>
+                <div id='myMechanics'>
+                  <p>My Mechanics</p>
+                  <div class='mechanicTags'></div>
+                </div>
+
+                  <script>
+                    //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+                    mechanicInput = [];
+                    $('#mechanicResult').bind("enterKey",function(e){
+                        value = $('#mechanicResult').val();
+                        if ($.inArray(value, mechanicInput)==-1) {
+                          mechanicInput.push(value);
+                          //remove non-alphabetical chars
+                          var val = value.replace(/[^a-zA-Z]+/g, '');
+                          //show it as a tag
+                          d3.select('.mechanicTags')
+                            .append('div')
+                            .attr('id',val)
+                            .style('display','inline-flex')
+                            .append('button')
+                            .attr('type','button')
+                            .attr('class','X')
+                            .text('X')
+                            .on('click',function() {
+                              this.remove();
+                              d3.select("#"+val).remove();
+                              mechanicInput.splice(mechanicInput.indexOf(val),1);
+                            });
+                          d3.select("#"+val)
+                            .append('text')
+                            .text(value);
                         }
                     });
-                    $("#player-output").text($( "#playerSlider" ).slider( "values", 0) +
-                      " - " + $("#playerSlider").slider( "values",1) );
-                    playerInput = $( "#playerSlider" ).slider( "values", 0) +
-                      " - " + $("#playerSlider").slider( "values",1);
-                });
 
-            </script>
-        </div>
+                    var mechanicList = ["Auction/Bidding", "Variable Phase Order", "Variable Player Powers", "Hand Management", "Partnerships", "Trick-taking", "Hex-and-Counter", "Dice Rolling", "Simulation", "Area Control / Area Influence", "Area Enclosure", "Area Movement", "Commodity Speculation", "Grid Movement", "Modular Board", "Pick-up and Deliver", "Player Elimination", "Point to Point Movement", "Route/Network Building", "Set Collection", "Stock Holding", "Take That", "Tile Placement", "Action Point Allowance System", "Co-operative Play", "Trading", "Card Drafting", "Campaign / Battle Card Driven", "Simultaneous Action Selection", "Action / Movement Programming", "Role Playing", "Storytelling", "Worker Placement", "Deck / Pool Building", "Memory", "Secret Unit Deployment", "Pattern Recognition", "Press Your Luck", "Time Track", "Voting", "Area-Impulse", "Pattern Building", "Betting/Wagering", "Line Drawing", "Rock-Paper-Scissors", "Roll / Spin and Move", "Paper-and-Pencil", "Acting", "Singing", "Chit-Pull System", "Crayon Rail System"];
 
-        <div class='card' id='playing-time'>
-            <p> Playing Time </p>
-            <div class='time-buttons'>
-                <button id='0-30min'><img src='/static/images/30.png'> 0-30 min </button>
-                <button id='30-60min'><img src='/static/images/60.png'> 30-60 min </button>
-                <button id='60-120min'><img src='/static/images/90.png'> 60-120 min </button>
-                <button id='120+min'><img src='/static/images/120.png'> 120+ min </button>
-            </div>
+                    $("#mechanicResult").autocomplete({
+                      source: mechanicList
+                    })
 
-            <script>
-              var time0Button = $('#0-30min');
-              var time1Button = $('#30-60min');
-              var time2Button = $('#60-120min');
-              var time3Button = $('#120+min');
-              var timeInput;
-              time0Button.on('click',function() {
-                timeInput = '0-30 minutes';
-              });
-              time1Button.on('click',function() {
-                timeInput = '30-60 minutes';
-              });
-              time2Button.on('click',function() {
-                timeInput = '60-120 minutes';
-              });
-              time3Button.on('click',function() {
-                timeInput = '120+ minutes';
-              });
-            </script>
-        </div>
-
-        <div class='card' id='age'>
-            <p> Age Range </p>
-            <div class='age-buttons'>
-                <button id='baby-button'><img src='/static/images/baby.png'> 0-6 years </button>
-                <button id='kid-button'><img src='/static/images/kid.png'> 6-12 years </button>
-                <button id='adult-button'><img src='/static/images/adult.png'> 12+ years </button>
-            </div>
-
-            <script>
-                var babyButton = $('#baby-button');
-                var kidButton = $('#kid-button');
-                var adultButton = $('#adult-button');
-                var ageInput;
-                babyButton.on('click',function() {
-                    babyButton.addClass('selectedAge');
-                    kidButton.removeClass('selectedAge');
-                    adultButton.removeClass('selectedAge');
-                    ageInput = '0-6';
-                });
-                kidButton.on('click',function() {
-                    babyButton.removeClass('selectedAge');
-                    kidButton.addClass('selectedAge');
-                    adultButton.removeClass('selectedAge');
-                    ageInput = '6-12';
-                });
-                adultButton.on('click',function() {
-                    babyButton.removeClass('selectedAge');
-                    kidButton.removeClass('selectedAge');
-                    adultButton.addClass('selectedAge');
-                    ageInput = '12+';
-                });
-            </script>
-        </div>
-
-        <div class='card' id='difficulty'>
-            <p> Difficulty </p>
-            <div class='difficulty-buttons'>
-              <button id='diff-1'><img src='/static/images/difficulty1.png'></button>
-              <button id='diff-2'><img src='/static/images/difficulty2.png'></button>
-              <button id='diff-3'><img src='/static/images/difficulty3.png'></button>
-              <button id='diff-4'><img src='/static/images/difficulty4.png'></button>
-              <button id='diff-5'><img src='/static/images/difficulty5.png'></button>
-              <button id='diff-6'><img src='/static/images/difficulty5.png'></button>
-              <button id='diff-7'><img src='/static/images/difficulty5.png'></button>
-            </div>
-
-            <script>
-              var diff1 = $('#diff-1')
-              var diff2 = $('#diff-2')
-              var diff3 = $('#diff-3')
-              var diff4 = $('#diff-4')
-              var diff5 = $('#diff-5')
-              var diff6 = $('#diff-6')
-              var diff7 = $('#diff-7')
-              var allDiff = [diff1, diff2, diff3, diff4, diff5, diff6,diff7];
-              var diffInput = [];
-
-              allDiff.forEach(function(d,i) {
-                  d.on('click',function() {
-                        d.toggleClass('diffClass');
-                        if (d.hasClass('diffClass')) {
-                            diffInput.push(i);
-                        } else {
-                            var remove = diffInput.indexOf(i);
-                            diffInput.splice(remove,1);
-                        }
-                  });
-                  d.on('hover',function() {
-                    //show the tooltip
-                  });
-              });
-            </script>
-        </div>
-
-        <div class='card' id='categories'>
-            <p> Category </p>
-            <input type='text' id='categorySearch'>
-
-            <script>
-              for (var i = 0; i < array.length; i++) {
-                  var option = document.createElement("option");
-                  option.value = array[i];
-                  option.text = array[i];
-                  selectList.appendChild(option);
-              }
-            </script>
-
-            <script>
-              //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
-
-              categoryInput = []
-              $('#categorySearch').bind("enterKey",function(e){
-                  value = $('#categorySearch').val();
-                  if ($.inArray(value, categoryInput)==-1) {
-                    categoryInput.push(value);
-                  }
-              });
-
-              var categoryList = ["Adventure", "Deduction", "Mythology", "Card Game", "Abstract Strategy", "Wargame", "World War II", "Aviation / Flight", "Animals", "City Building", "Economic", "Exploration", "Farming", "Industry / Manufacturing", "Racing", "Territory Building", "Transportation", "Travel", "Age of Reason", "American Indian Wars", "American Revolutionary War", "Trains", "Environmental", "Medical", "Civilization", "Modern Warfare", "Political", "Fantasy", "Fighting", "Miniatures", "Movies / TV / Radio theme", "Science Fiction", "Ancient", "Dice", "Medieval", "Novel-based", "American West", "Horror", "Murder/Mystery", "Puzzle", "Video Game Theme", "Space Exploration", "Collectible Components", "Bluffing", "Religious", "Nautical", "Party Game", "Spies/Secret Agents", "Word Game", "Mature / Adult", "Renaissance", "Zombies", "Negotiation", "Prehistoric", "Arabian", "Post-Napoleonic", "Action / Dexterity", "World War I", "Comic Book / Strip", "Real-time", "Humor", "Electronic", "Book", "Civil War", "Expansion for Base-game", "Sports", "Memory", "Pirates", "none", "Educational", "Maze", "Napoleonic", "Print & Play", "American Civil War", "Children's Game", "Vietnam War", "Pike and Shot", "Mafia", "Trivia", "Number", "Game System", "Korean War", "Music", "Math"];
-
-              $("#categorySearch").autocomplete({
-                source: categoryList
-              })
-
-              $("#categorySearch").keyup(function(e){
-                if(e.keyCode == 13) {
-                  $(this).trigger("enterKey");
-                }
-            });
-            </script>
-        </div>
-
-        <div class='card' id='mechanics'>
-            <p> Mechanics </p>
-
-            <input type='text' id='mechanicSearch'>
-
-            <script>
-              //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
-              mechanicInput = [];
-              $('#mechanicSearch').bind("enterKey",function(e){
-                  value = $('#mechanicSearch').val();
-                  if ($.inArray(value, mechanicInput)==-1) {
-                    mechanicInput.push(value);
-                  }
-              });
-
-              var mechanicList = ["Auction/Bidding", "Variable Phase Order", "Variable Player Powers", "Hand Management", "Partnerships", "Trick-taking", "Hex-and-Counter", "Dice Rolling", "Simulation", "Area Control / Area Influence", "Area Enclosure", "Area Movement", "Commodity Speculation", "Grid Movement", "Modular Board", "Pick-up and Deliver", "Player Elimination", "Point to Point Movement", "Route/Network Building", "Set Collection", "Stock Holding", "Take That", "Tile Placement", "Action Point Allowance System", "Co-operative Play", "Trading", "Card Drafting", "Campaign / Battle Card Driven", "Simultaneous Action Selection", "Action / Movement Programming", "Role Playing", "Storytelling", "Worker Placement", "Deck / Pool Building", "Memory", "Secret Unit Deployment", "Pattern Recognition", "Press Your Luck", "Time Track", "Voting", "Area-Impulse", "Pattern Building", "Betting/Wagering", "Line Drawing", "Rock-Paper-Scissors", "Roll / Spin and Move", "Paper-and-Pencil", "Acting", "Singing", "Chit-Pull System", "Crayon Rail System"];
-
-              $("#mechanicSearch").autocomplete({
-                source: mechanicList
-              })
-
-              $("#mechanicSearch").keyup(function(e){
-                if(e.keyCode == 13) {
-                  $(this).trigger("enterKey");
-                }
-            });
-            </script>
-        </div>
-
-        <div class = 'card' id='results'>
-
-            <button id='resultInput'> See Results! </button>
-
-            <script>
-
-              $('#resultInput').on('click',function() {
-                var resultComplex = [
-                   { "state": 2 },
-                  {
-                    "players": playerInput,
-                    "time":timeInput,
-                    "age":ageInput,
-                    "difficulty": diffInput,
-                    "category": categoryInput,
-                    "mechanics": mechanicInput
-                  }];
-                  console.log(resultComplex);
-                  $.ajax({
-                      url: '/receiveData',
-                      data: JSON.stringify(resultComplex),
-                      type: 'POST',
-                      contentType: 'application/json',
-                      success: function(response) {
-                        console.log('this is a success');
-                          console.log(response);
-                      },
-                      error: function(error) {
-                          console.log(error);
+                    $("#mechanicResult").keyup(function(e){
+                      if(e.keyCode == 13) {
+                        $(this).trigger("enterKey");
                       }
                   });
-                });
+                  </script>
+              </div>
 
-            </script>
+            </div>
+
+            <div class = 'card' id='results'>
+
+                <button id='resultInput'> See Results! </button>
+
+                <script>
+
+                  $('#resultInput').on('click',function() {
+                    var resultComplex = [
+                       { "state": 2 },
+                      {
+                        "players": playerInput,
+                        "time":timeInput,
+                        "age":ageInput,
+                        "difficulty": diffInput,
+                        "category": categoryInput,
+                        "mechanics": mechanicInput
+                      }];
+                      console.log(resultComplex);
+                      $.ajax({
+                          url: '/receiveData',
+                          data: JSON.stringify(resultComplex),
+                          type: 'POST',
+                          contentType: 'application/json',
+                          success: function(response) {
+                            console.log('this is a success');
+                              console.log(response);
+                          },
+                          error: function(error) {
+                              console.log(error);
+                          }
+                      });
+                    });
+                </script>
+            </div>
         </div>
-    </div>
   </div>
 
   <!-- JAVASCRIPT -->
