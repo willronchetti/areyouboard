@@ -4,6 +4,7 @@ import operator
 import sys
 import os
 import numpy as np
+from numpy.linalg import svd
 
 class Game(object):
     """
@@ -87,13 +88,17 @@ class Dataset(object):
 
             f.close()
 
-            for row in tfidf_reader:
-                name = str(row['all_names']).upper()
-                if self.games.get(name) == None:
-                    continue
+            result = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
+            U, E, V = svd(result)
 
-                del row['all_names']
-                self.games[name].tf_idf_vector = np.array(row.values(),dtype=float)
+            # Uncomment this to run tf-idf stuff
+            # for row in tfidf_reader:
+            #     name = str(row['all_names']).upper()
+            #     if self.games.get(name) == None:
+            #         continue
+
+            #     del row['all_names']
+            #     self.games[name].tf_idf_vector = np.array(row.values(),dtype=float)
 
     def exists(self, name):
         """
@@ -121,13 +126,13 @@ def score(dataset, vector):
         scores[name] = 0
 
         # Ignore same game
-        if name == vector.name or name in vector.name:
+        if (name == vector.name) or (name in vector.name):
             continue
-
+        
         # Only do this if we have a vector
-        if vector.tf_idf_vector.any() != None:
+        # XXX: This may not work when we're actually using tf-idf
+        if vector.tf_idf_vector != None:
             scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
-
 
         # If categories shared award points
         if vector.categories != None:
@@ -295,8 +300,8 @@ def getRelatedMultipleGames(dataset, games):
         mechanics = set(mechanics.union(game.mechanic))
         genres = set(genres.union(game.categories))
 
-    new_game = Game(games, None, min_players, max_players, length[0], min_time,
-            max_time, None, None, None, None, age[0], mechanics, None, genres, complexity[0], None)
+    new_game = Game(games, None, min_players, max_players, length, min_time,
+            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None)
     results = score(dataset, new_game)
     print(results[0:10])
     return new_game, results
@@ -319,12 +324,12 @@ def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, gen
     """
     min_players = n_players[0]
     max_players = n_players[1]
-    min_time = 30*length[0];
-    max_time = 30*length[0]+30;
+    min_time = 30*length;
+    max_time = 30*length+30;
     if (length == 3):
         max_time = 1000;
-    new_game = Game(None, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, None, None, None, genres, complexity[0], None)
+    new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
+        None, None, None, age, mechanics, None, genres, complexity[0], None, None)
 
     results = score(dataset, new_game)
     print(results[0:10])
