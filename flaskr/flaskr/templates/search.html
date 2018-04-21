@@ -169,7 +169,7 @@
                   });
                   time1Button.on('click',function() {
                     timeInput = '30-60 minutes';
-                    time0Button.addClass('selectedTime');
+                    time0Button.removeClass('selectedTime');
                     time1Button.addClass('selectedTime');
                     time2Button.removeClass('selectedTime');
                     time3Button.removeClass('selectedTime');
@@ -183,7 +183,7 @@
                   });
                   time3Button.on('click',function() {
                     timeInput = '120+ minutes';
-                    time0Button.addClass('selectedTime');
+                    time0Button.removeClass('selectedTime');
                     time1Button.removeClass('selectedTime');
                     time2Button.removeClass('selectedTime');
                     time3Button.addClass('selectedTime');

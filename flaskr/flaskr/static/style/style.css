@@ -109,7 +109,7 @@ input[type=range]::-moz-range-thumb {
 }*/
 
 .selectedTime {
-  background:yellow;
+  background:lightblue;
 }
 .time-buttons, .age-buttons {
     margin: 0 12.5%;
