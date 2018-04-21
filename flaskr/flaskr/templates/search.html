@@ -31,6 +31,7 @@
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
         <input id="search-bar" type="text" type="submit" placeholder="Search a game you like to find similar ones..."/>
         <input type="hidden" name="jsonval" value=""/>
+        <input type="hidden" name='state' value=""/>
       </form>
 
       <!-- <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
@@ -133,14 +134,13 @@
                               } else {
                                 $( "#player-output" ).text(input.values[0] + " - " + input.values[1]);
                               }
-                              playerInput = input.values[0] + " - " + input.values[1]
+                              playerInput = [input.values[0], input.values[1]]
                               console.log(playerInput);
                             }
                         });
                         $("#player-output").text($( "#playerSlider" ).slider( "values", 0) +
                         " - " + $("#playerSlider").slider( "values",1) );
-                        playerInput = $( "#playerSlider" ).slider( "values", 0) +
-                          " - " + $("#playerSlider").slider( "values",1);
+                        playerInput = [$( "#playerSlider" ).slider( "values", 0), $("#playerSlider").slider( "values",1)];
                     });
                 </script>
             </div>
@@ -161,28 +161,28 @@
                   var time3Button = $('#120+min');
                   var timeInput = 0;
                   time0Button.on('click',function() {
-                    timeInput = '0-30 minutes';
+                    timeInput = 1;
                     time0Button.addClass('selectedTime');
                     time1Button.removeClass('selectedTime');
                     time2Button.removeClass('selectedTime');
                     time3Button.removeClass('selectedTime');
                   });
                   time1Button.on('click',function() {
-                    timeInput = '30-60 minutes';
+                    timeInput = 2;
                     time0Button.removeClass('selectedTime');
                     time1Button.addClass('selectedTime');
                     time2Button.removeClass('selectedTime');
                     time3Button.removeClass('selectedTime');
                   });
                   time2Button.on('click',function() {
-                    timeInput = '60-120 minutes';
+                    timeInput = 3;
                     time0Button.removeClass('selectedTime');
                     time1Button.removeClass('selectedTime');
                     time2Button.addClass('selectedTime');
                     time3Button.removeClass('selectedTime');
                   });
                   time3Button.on('click',function() {
-                    timeInput = '120+ minutes';
+                    timeInput = 4;
                     time0Button.removeClass('selectedTime');
                     time1Button.removeClass('selectedTime');
                     time2Button.removeClass('selectedTime');
@@ -208,19 +208,19 @@
                         babyButton.addClass('selectedAge');
                         kidButton.removeClass('selectedAge');
                         adultButton.removeClass('selectedAge');
-                        ageInput = '0-7';
+                        ageInput = 1;
                     });
                     kidButton.on('click',function() {
                         babyButton.removeClass('selectedAge');
                         kidButton.addClass('selectedAge');
                         adultButton.removeClass('selectedAge');
-                        ageInput = '8-14';
+                        ageInput = 2;
                     });
                     adultButton.on('click',function() {
                         babyButton.removeClass('selectedAge');
                         kidButton.removeClass('selectedAge');
                         adultButton.addClass('selectedAge');
-                        ageInput = '14+';
+                        ageInput = 3;
                     });
                 </script>
             </div>
@@ -437,6 +437,7 @@
                 <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
                   <button id='resultInput'> See Results! </button>
                   <input type="hidden" name="advancedVal" value=""/>
+                  <input type='hidden' name='state' value=''/>
                 </form>
 
                 <script>
@@ -451,9 +452,11 @@
                         "category": categoryInput,
                         "mechanics": mechanicInput
                       }];
+                    var state2 = JSON.stringify({'state': 2});
                     var json = JSON.stringify(resultComplex);
-                    var formInfo = document.forms['advancedForm'];
-                    formInfo.advancedVal.value = json;
+                    var formInfo2 = document.forms['advancedForm'];
+                    formInfo2.advancedVal.value = json;
+                    formInfo2.state.value = state2;
                     console.log(json);
                   };
                 </script>
@@ -491,9 +494,10 @@
             { "name": query }
             ];
         var json = JSON.stringify(resultSimple);
-
+        var state1 = JSON.stringify({"state": 1});
         var formInfo = document.forms['send'];
         formInfo.jsonval.value = json;
+        formInfo.state.value = state1;
         console.log("json sent");
         console.log(json);
     }
