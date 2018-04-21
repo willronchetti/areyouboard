@@ -26,7 +26,7 @@ def search():
 def getResults():
     print "Receiving Data"
     dataset = Dataset()
-
+    print request.form["advancedVal"]
     d = request.form["jsonval"]
     data = json.loads(d)
 
