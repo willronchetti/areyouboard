@@ -155,6 +155,25 @@ input[type=range]::-moz-range-thumb {
     background:green;
 }
 
+#categories, #mechanics {
+    padding-bottom:20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly
+}
+
+#categorySearch, #mechanicSearch {
+    width: 50%;
+    /*float:left;*/
+    /*margin-left: 15%;*/
+}
+
+#myCategories, #myMechanics {
+    width: 50%;
+    /*float:right;*/
+    /*margin-right: 15%;*/
+}
+
 /* Can we rename this since it's not actually the results */
 #results {
     border:none;
