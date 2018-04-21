@@ -111,120 +111,102 @@
   <!-- STATE 2 CASE -->
   <div id="state2">
 
-            <!-- adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
-            <script>
-                // var playerRange = document.getElementById("player-range");
-                // var playerOutput = document.getElementById('player-output');
-                // playerOutput.innerHTML = playerRange.value;
-                // var playerInput;
-                // playerRange.oninput = function() {
-                //     playerInput = this.value;
-                //     playerOutput.innerHTML = this.value;
-                //     console.log(playerInput);
-                // }
-                var playerInput;
+    <div id="form">
+          <div class='card' id='number-of-players'>
+                <p> Number of Players </p>
+                <div id='playerSlider'></div>
+                <p id='player-output'></p>
 
-                $(function() {
-                    $( "#playerSlider" ).slider({
-                        range: true,
-                        min: 1,
-                        max: 15,
-                        values: [ 4, 6 ],
-                        slide: function( event, input ) {
-                          $( "#player-output" ).text(input.values[0] + " - " + input.values[1]);
-                          //playerInput = [input.values[0] + " - " + input.values[1];
-                          playerInput = [input.values[0],input.values[1]];
-                        }
+                <!-- adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+                <script>
+                    var playerInput;
+
+                    $(function() {
+                        $("#playerSlider").slider({
+                            range: true,
+                            min: 1,
+                            max: 15,
+                            values: [4, 6],
+                            slide: function( event, input ) {
+                              if (input.values[1] == 15) {
+                                $( "#player-output" ).text(input.values[0] + " - " + input.values[1] + '+');
+                              } else {
+                                $( "#player-output" ).text(input.values[0] + " - " + input.values[1]);
+                              }
+                              playerInput = input.values[0] + " - " + input.values[1]
+                              console.log(playerInput);
+                            }
+                        });
+                        $("#player-output").text($( "#playerSlider" ).slider( "values", 0) +
+                        " - " + $("#playerSlider").slider( "values",1) );
+                        playerInput = $( "#playerSlider" ).slider( "values", 0) +
+                          " - " + $("#playerSlider").slider( "values",1);
                     });
-                    $("#player-output").text($( "#playerSlider" ).slider( "values", 0) +
-                      " - " + $("#playerSlider").slider( "values",1) );
-                    playerInput = $( "#playerSlider" ).slider( "values", 0) +
-                      " - " + $("#playerSlider").slider( "values",1);
-                    playerInput = [$( "#playerSlider").slider( "values", 0),
-                                   $( "#playerSlider").slider( "values", 1)];
-                });
-
-            </script>
-        </div>
-
-        <div class='card' id='playing-time'>
-            <p> Playing Time </p>
-            <div class='time-buttons'>
-                <button id='0-30min'><img src='/static/images/30.png'> 0-30 min </button>
-                <button id='30-60min'><img src='/static/images/60.png'> 30-60 min </button>
-                <button id='60-120min'><img src='/static/images/90.png'> 60-120 min </button>
-                <button id='120+min'><img src='/static/images/120.png'> 120+ min </button>
+                </script>
             </div>
 
-            <script>
-              var time0Button = $('#0-30min');
-              var time1Button = $('#30-60min');
-              var time2Button = $('#60-120min');
-              var time3Button = $('#120+min');
-              var timeInput;
-              time0Button.on('click',function() {
-                //timeInput = '0-30 minutes';
-                timeInput = [0];
-              });
-              time1Button.on('click',function() {
-                //timeInput = '30-60 minutes';
-                timeInput = [1];
-              });
-              time2Button.on('click',function() {
-                //timeInput = '60-120 minutes';
-                timeInput = [2];
-              });
-              time3Button.on('click',function() {
-                //timeInput = '120+ minutes';
-                timeInput = [3];
-              });
-            </script>
-        </div>
+            <div class='card' id='playing-time'>
+                <p> Playing Time </p>
+                <div class='time-buttons'>
+                    <button id='0-30min'><img src='../static/images/30.png'> 0-30 min </button>
+                    <button id='30-60min'><img src='../static/images/60.png'> 30-60 min </button>
+                    <button id='60-120min'><img src='../static/images/90.png'> 60-120 min </button>
+                    <button id='120+min'><img src='../static/images/120.png'> 120+ min </button>
+                </div>
 
-        <div class='card' id='age'>
-            <p> Age Range </p>
-            <div class='age-buttons'>
-                <button id='baby-button'><img src='/static/images/baby.png'> 0-6 years </button>
-                <button id='kid-button'><img src='/static/images/kid.png'> 6-12 years </button>
-                <button id='adult-button'><img src='/static/images/adult.png'> 12+ years </button>
+                <script>
+                  var time0Button = $('#0-30min');
+                  var time1Button = $('#30-60min');
+                  var time2Button = $('#60-120min');
+                  var time3Button = $('#120+min');
+                  var timeInput = 0;
+                  time0Button.on('click',function() {
+                    timeInput = '0-30 minutes';
+                  });
+                  time1Button.on('click',function() {
+                    timeInput = '30-60 minutes';
+                  });
+                  time2Button.on('click',function() {
+                    timeInput = '60-120 minutes';
+                  });
+                  time3Button.on('click',function() {
+                    timeInput = '120+ minutes';
+                  });
+                </script>
             </div>
 
-            <script>
-                var babyButton = $('#baby-button');
-                var kidButton = $('#kid-button');
-                var adultButton = $('#adult-button');
-                var ageInput;
-                babyButton.on('click',function() {
-                    babyButton.addClass('selectedAge');
-                    kidButton.removeClass('selectedAge');
-                    adultButton.removeClass('selectedAge');
-                    ageInput = [0];
-                });
-                kidButton.on('click',function() {
-                    babyButton.removeClass('selectedAge');
-                    kidButton.addClass('selectedAge');
-                    adultButton.removeClass('selectedAge');
-                    ageInput = [1];
-                });
-                adultButton.on('click',function() {
-                    babyButton.removeClass('selectedAge');
-                    kidButton.removeClass('selectedAge');
-                    adultButton.addClass('selectedAge');
-                    ageInput = [2];
-                });
-            </script>
-        </div>
+            <div class='card' id='age'>
+                <p> Age Range </p>
+                <div class='age-buttons'>
+                    <button id='baby-button'><img src='../static/images/baby.png'> 0-6 years </button>
+                    <button id='kid-button'><img src='../static/images/kid.png'> 6-12 years </button>
+                    <button id='adult-button'><img src='../static/images/adult.png'> 12+ years </button>
+                </div>
 
-        <div class='card' id='difficulty'>
-            <p> Difficulty </p>
-            <div class='difficulty-buttons'>
-              <button id='diff-1'><img src='/static/images/difficulty1.png'></button>
-              <button id='diff-2'><img src='/static/images/difficulty2.png'></button>
-              <button id='diff-3'><img src='/static/images/difficulty3.png'></button>
-              <button id='diff-4'><img src='/static/images/difficulty4.png'></button>
-              <button id='diff-5'><img src='/static/images/difficulty5.png'></button>
-              <button id='diff-6'><img src='/static/images/difficulty5.png'></button>
-              <button id='diff-7'><img src='/static/images/difficulty5.png'></button>
+                <script>
+                    var babyButton = $('#baby-button');
+                    var kidButton = $('#kid-button');
+                    var adultButton = $('#adult-button');
+                    var ageInput = 0;
+                    babyButton.on('click',function() {
+                        babyButton.addClass('selectedAge');
+                        kidButton.removeClass('selectedAge');
+                        adultButton.removeClass('selectedAge');
+                        ageInput = '0-7';
+                    });
+                    kidButton.on('click',function() {
+                        babyButton.removeClass('selectedAge');
+                        kidButton.addClass('selectedAge');
+                        adultButton.removeClass('selectedAge');
+                        ageInput = '8-14';
+                    });
+                    adultButton.on('click',function() {
+                        babyButton.removeClass('selectedAge');
+                        kidButton.removeClass('selectedAge');
+                        adultButton.addClass('selectedAge');
+                        ageInput = '14+';
+                    });
+                </script>
             </div>
 
             <div class='card' id='difficulty'>
