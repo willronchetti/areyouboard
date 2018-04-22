@@ -101,9 +101,9 @@ class Dataset(object):
             U, E, V = svds(result)
             end = time.time()
             print end - start
-            np.save('data/u.npy',U)
-            np.save('data/e.npy',E)
-            np.save('data/v.npy',V)
+            # np.save('data/u.npy',U)
+            # np.save('data/e.npy',E)
+            # np.save('data/v.npy',V)
 
             # Uncomment this to run tf-idf stuff
             # for row in tfidf_reader:
