@@ -191,11 +191,21 @@ input[type=range]::-moz-range-thumb {
 /* ============================================================
     .::[ Actual Results ]::.
 ============================================================= */
+#swap-switches-button {
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  margin: 0;
+  padding: 0;
+}
+
 .results h1 {
   font-size: 48px;
   font-family: sans-serif;
 }
-.results p {
+.results p,
+.results a {
   font-size: 24px;
   font-family: sans-serif;
 }

@@ -17,6 +17,10 @@
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
+  <div id="swap-switches-button">
+    <img src="../static/images/return.png"/>
+  </div>
+
   <!-- STATE 0 CASE -->
   <div id="state0" style="display: none">
     <div id="card-flex">
@@ -46,14 +50,14 @@
         {% for row in results %}
           <div class="results-button" data-id="r{{row[0].rank}}"
           style="background-image: url({{row[0].image}});">
-            <!-- <img src= "{{ row[0].image }}"/> -->
-            <!-- <p>2. {{ row[0].name}}</p> -->
             <div class="results-button-caption">
               <p class="caption-name">{{ row[0].name }}</p>
               <p class="caption-info">Click for more info</p>
             </div>
           </div>
         {% endfor %}
+      {% else %}
+        <p>Search for a game!</p>
       {% endif %}
       </div>
 
@@ -71,10 +75,12 @@
             </div>
             <div class="explanation-text">
               <h2>{{ row[0].name }}</h2>
+              <p>Similarity Score: {{ row[1] }} </p>
               <p>Players: {{ row[0].min_players }}-{{ row[0].max_players }}</p>
               <p>Complexity: {{ "%.2f" % row[0].complexity }} / 5</p>
               <p>Average Time: {{ row[0].avg_time }} minutes</p>
               <p>Average Rating: {{ row[0].avg_rating[0:4] }} / 10</p>
+              <a href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{row[0].name}}">Amazon Link</a>
             </div>
           </div>
         </div>
@@ -449,6 +455,7 @@
 
     var currentState = 0;
     {% if results %}
+      //change this to check if search was from state1
       currentState = 1;
     {% endif %}
 
@@ -567,12 +574,16 @@
       var state0Div = d3.select("#state0");
       var state1Div = d3.select("#state1");
       var state2Div = d3.select("#state2");
+      var swapSwitchesButton = d3.select("#swap-switches-button");
 
       if (state == 0) {
         currentState = 0;
         state0Div.style("display", "block");
         state1Div.style("display", "none");
         state2Div.style("display", "none");
+
+        //show swap switches button
+        swapSwitchesButton.style("display", "none");
       }
 
       if (state == 1) {
@@ -583,6 +594,9 @@
           state0Div.style("display", "none");
           state1Div.style("display", "block");
           state2Div.style("display", "none");
+
+          //show swap switches button
+          swapSwitchesButton.style("display", "block");
         }, 250);
       } // end of state 1
 
@@ -594,6 +608,9 @@
           state0Div.style("display", "none");
           state1Div.style("display", "none");
           state2Div.style("display", "block");
+
+          //show swap switches button
+          swapSwitchesButton.style("display", "block");
         }, 250);
       } // end of state 2
     };
