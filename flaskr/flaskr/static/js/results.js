@@ -9,6 +9,7 @@ $('.results-button').click(function() {
   // }
 
   $('#results-grid').slideUp();
+  $('#results-grid2').slideUp();
   // $('#results-grid').css('display', 'none');
     //Talk to harrison about making this smoother via scrolling
   $('#' + $(this).data("id")).slideDown();

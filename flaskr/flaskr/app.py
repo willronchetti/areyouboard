@@ -28,13 +28,17 @@ def getResults():
     print "Receiving Data"
     dataset = Dataset()
 
+    originalState = 0
+
     # State variable is 2
     if (json.loads(request.form['state'])['state'] == 2):
+        originalState = 2
         d = request.form['advancedVal']
         data = json.loads(d)
         related_games = doAdvancedSearch(Dataset(), data[1]["players"], data[1]["age"], data[1]["time"],
             data[1]["difficulty"], data[1]['mechanics'], data[1]["category"])[1]
     else:
+        originalState = 1
         d = request.form["jsonval"]
         data = json.loads(d)
         related_games = getRelatedGames(Dataset(), data[1]["name"].upper())
@@ -47,7 +51,9 @@ def getResults():
         game_name = game_tup[0]
         game_data = dataset.games[game_name]
         related_games_info.append([game_data, game_tup[1]])
-    return render_template('search.html', results=related_games_info)
+    print(originalState)
+    print(related_games_info)
+    return render_template('search.html', state=originalState, results=related_games_info)
 
 if __name__ == "__main__":
     print("Flask app running at http://0.0.0.0:5000")
