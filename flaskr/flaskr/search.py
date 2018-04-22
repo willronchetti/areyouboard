@@ -3,6 +3,8 @@ import copy
 import operator
 import sys
 import os
+import numpy as np
+from numpy.linalg import svd
 
 class Game(object):
     """
@@ -10,7 +12,7 @@ class Game(object):
     """
 
     def __init__(self, name, bgg_url, min_players, max_players, avg_time, min_time, max_time, avg_rating,
-        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank):
+        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector):
 
         self.name = name
         self.url = bgg_url
@@ -29,6 +31,7 @@ class Game(object):
         self.categories = category
         self.complexity = complexity
         self.rank = rank
+        self.tf_idf_vector = vector
 
 class Dataset(object):
     """
@@ -40,41 +43,62 @@ class Dataset(object):
         # All the info on the games in one place
         self.games = dict()
 
-        # Get absolute path
+        # Get absolute paths
         script_dir = os.path.dirname(__file__)
         rel_path = "data/2018_01.csv"
-        abs_file_path = os.path.join(script_dir, rel_path)
+        data = os.path.join(script_dir, rel_path)
+        script_dir = os.path.dirname(__file__)
+        rel_path = "data/tfidf.csv"
+        tf_idf = os.path.join(script_dir, rel_path)
+
+        #db.write('hello', 'world')
 
         # Open csv, iterate through data
-        with open(abs_file_path, 'rb') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
+        with open(tf_idf, 'rb') as f2:
+            tfidf_reader = csv.DictReader(f2)
+            with open(data, 'rb') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
 
-                # Get the name, drop it if we already have it
-                name = str(row['names']).upper()
-                if self.games.get(name) != None:
-                    continue
+                    # Get the name, drop it if we already have it
+                    name = str(row['names']).upper()
+                    if self.games.get(name) != None:
+                        continue
 
-                # Get all the stuff we need, add it to global dict
-                url = row['bgg_url']
-                age = int(row['age'])
-                image = row['image_url']
-                rating = row['avg_rating']
-                g_rating = row['geek_rating']
-                min_players = row['min_players']
-                max_players = row['max_players']
-                avg_time = int(row['avg_time'])
-                min_time = row['min_time']
-                max_time = row['max_time']
-                owned = row['owned']
-                votes = row['num_votes']
-                categories = row['category'].strip(' ').split(',')
-                mechanic = row['mechanic'].split(',')
-                complexity = float(row['weight'])
-                rank = int(row['rank'])
+                    # Get all the stuff we need, add it to global dict
+                    url = row['bgg_url']
+                    age = int(row['age'])
+                    image = row['image_url']
+                    rating = row['avg_rating']
+                    g_rating = row['geek_rating']
+                    min_players = row['min_players']
+                    max_players = row['max_players']
+                    avg_time = int(row['avg_time'])
+                    min_time = row['min_time']
+                    max_time = row['max_time']
+                    owned = row['owned']
+                    votes = row['num_votes']
+                    categories = row['category'].strip(' ').split(',')
+                    mechanic = row['mechanic'].split(',')
+                    complexity = float(row['weight'])
+                    rank = int(row['rank'])
 
-                self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
-                    max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank)
+                    self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
+                    max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank, None)
+
+            f.close()
+
+            result = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
+            U, E, V = svd(result)
+
+            # Uncomment this to run tf-idf stuff
+            # for row in tfidf_reader:
+            #     name = str(row['all_names']).upper()
+            #     if self.games.get(name) == None:
+            #         continue
+
+            #     del row['all_names']
+            #     self.games[name].tf_idf_vector = np.array(row.values(),dtype=float)
 
     def exists(self, name):
         """
@@ -102,8 +126,13 @@ def score(dataset, vector):
         scores[name] = 0
 
         # Ignore same game
-        if name == vector.name:
+        if (name == vector.name) or (name in vector.name):
             continue
+        
+        # Only do this if we have a vector
+        # XXX: This may not work when we're actually using tf-idf
+        if vector.tf_idf_vector != None:
+            scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
 
         # If categories shared award points
         if vector.categories != None:
@@ -216,10 +245,66 @@ def score(dataset, vector):
             scores[name] -= 4
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
-
-
-
     return sorted_scores
+
+def getRelatedMultipleGames(dataset, games):
+    """
+        Takes in a list of games and finds games related to those games
+    """
+
+    min_players = 100
+    max_players = 0
+    min_time = 10000
+    max_time = 0
+    length = (0, 0)
+    age = (0, 0)
+    mechanics = set()
+    genres = set()
+    complexity = (0, 0)
+
+    for g in games:
+
+        game = dataset.getGames()[g]
+
+        # Bound min/max players on lowest/highest values
+        if game.min_players < min_players:
+            min_players = game.min_players
+        if game.max_players > max_players:
+            max_players = game.max_players
+
+        # Bound min/max time on lowest/highest values
+        if game.min_time < min_time:
+            min_time = game.min_time
+        if game.max_time > max_time:
+            max_time = game.max_time
+
+        # Handle length
+        if length == 0:
+            length = (game.avg_time, 1)
+        else:
+            length = ((length[0] + game.avg_time) / (length[1] + 1), length[1] + 1)
+
+        # Handle age
+        if age == 0:
+            age = (game.age, 1)
+        else:
+            age = ((age[0] + game.age) / (age[1] + 1), age[1] + 1)
+
+        # Handle complexity
+        if complexity == 0:
+            complexity = (game.complexity, 1)
+        else:
+            complexity = ((complexity[0] + game.complexity) / (complexity[1] + 1), complexity[1] + 1)
+
+        # Handle mechanics, genres
+        mechanics = set(mechanics.union(game.mechanic))
+        genres = set(genres.union(game.categories))
+
+    new_game = Game(games, None, min_players, max_players, length, min_time,
+            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None)
+    results = score(dataset, new_game)
+    print(results[0:10])
+    return new_game, results
 
 def getRelatedGames(dataset, name):
     """
@@ -233,16 +318,19 @@ def getRelatedGames(dataset, name):
         print("Could not locate game")
         return []
 
-def doAdvancedSearch(dataset, n_players, age, length, complexity, genres):
+def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, genres):
     """
         Does an advanced search based on parameters given.
     """
-    min_players = n_players-2
-    max_players = n_players+2
-    min_time = length - 30
-    max_time = length + 30
-    new_game = Game(None, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, age, None, None, genres, complexity, None)
+    min_players = n_players[0]
+    max_players = n_players[1]
+    min_time = 30*length;
+    max_time = 30*length+30;
+    if (length == 3):
+        max_time = 1000;
+    new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
+        None, None, None, age, mechanics, None, genres, complexity[0], None, None)
+
     results = score(dataset, new_game)
     print(results[0:10])
     return new_game, results
@@ -251,6 +339,7 @@ if __name__ == "__main__":
     args = sys.argv
     d = Dataset()
     if args[1] == '0':
-        getRelatedGames(d, 'Catan')
+        getRelatedGames(d, 'CATAN')
     else:
-        doAdvancedSearch(d, 4, 14, 120, 3, ["strategy","Co-operative Play"])
+        # doAdvancedSearch(d, 4, 14, 120, 3, ["strategy","Co-operative Play"])
+        getRelatedMultipleGames(d, ['CATAN'])

@@ -107,7 +107,6 @@ input[type=range]::-moz-range-thumb {
     float:left;
     margin-right:0;
 }*/
-
 .time-buttons, .age-buttons {
     margin: 0 12.5%;
 }
@@ -123,6 +122,11 @@ input[type=range]::-moz-range-thumb {
     margin: 0 auto;
     padding-bottom:5px;
 }
+
+.selectedTime {
+  background: lightblue;
+}
+
 
 #age, #categories {
     float:right;
@@ -176,10 +180,10 @@ input[type=range]::-moz-range-thumb {
 }
 
 /* Can we rename this since it's not actually the results */
-#results {
+#advancedSubmit {
     border:none;
 }
-#results button {
+#advancedSubmit button {
     width:75%;
     margin: 10px 12.5%;
     height:50px;
