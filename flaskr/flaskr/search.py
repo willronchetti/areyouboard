@@ -4,7 +4,10 @@ import operator
 import sys
 import os
 import numpy as np
+import scipy
 from numpy.linalg import svd
+from scipy.sparse.linalg import svds
+import time
 
 class Game(object):
     """
@@ -88,8 +91,19 @@ class Dataset(object):
 
             f.close()
 
+            # U = np.load('data/u.npy')
+            # E = np.load('data/e.npy')
+            # V = np.load('data/v.npy')
+
+            # original tf-idf stuff
+            start = time.time()
             result = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
-            U, E, V = svd(result)
+            U, E, V = svds(result)
+            end = time.time()
+            print end - start
+            np.save('data/u.npy',U)
+            np.save('data/e.npy',E)
+            np.save('data/v.npy',V)
 
             # Uncomment this to run tf-idf stuff
             # for row in tfidf_reader:
