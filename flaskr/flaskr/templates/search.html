@@ -33,10 +33,74 @@
   <div id="state1">
     <div id="search-flex">
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
-        <input id="search-bar" type="text" type="submit" placeholder="Search a game you like to find similar ones..."/>
+        <input id="search-bar" type="text" type="submit" name='gameResult' placeholder="Search a game you like to find similar ones..."/>
         <input type="hidden" name="jsonval" value=""/>
         <input type="hidden" name='state' value=""/>
       </form>
+
+      <script>
+        //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+
+        //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+        var gameInput = [];
+        $('#search-bar').bind("enterKey",function(e){
+            value = $('#search-bar').val();
+            if ($.inArray(value, gameInput)==-1 && gameList.indexOf(value) != -1) {
+              //add it to the data
+              gameInput.push(value);
+              //remove non-alphabetical chars
+              var val = value.replace(/[^a-zA-Z]+/g, '');
+              //show it as a tag
+              d3.select('.gameTags')
+                .append('div')
+                .attr('id',val)
+                .style('display','inline-flex')
+                .append('button')
+                .attr('type','button')
+                .attr('class','X')
+                .text('X')
+                .on('click',function() {
+                  this.remove();
+                  d3.select("#"+val).remove();
+                  gameInput.splice(gameInput.indexOf(val),1);
+                });
+              d3.select("#"+val)
+                .append('text')
+                .text(value);
+            }
+          });
+
+        var gameList = [""];
+
+        $("#gameResult").keyup(function(e){
+          if(e.keyCode == 13) {
+            $(this).trigger("enterKey");
+          }
+        });
+
+        var autoCompleteGame = new autoComplete({
+          selector: 'input[name="gameResult"]',
+          minChars: 1,
+          source: function(term, suggest){
+              term = term.toLowerCase();
+              var choices = gameList;
+              var matches = [];
+              for (i=0; i<choices.length; i++) {
+                  for (j=1;j<choices[i].length; j++) {
+                    if (choices[i].toLowerCase().substring(0,j) == term) {
+                      matches.push(choices[i]);
+                    };
+                  };
+              }
+              for (k=0; k<choices.length; k++) {
+                  if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                    matches.push(choices[k]);
+                  };
+              }
+              suggest(matches);
+          };
+        });
+      </script>
 
       <!-- <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
       <button id="search-button" onclick="querySearch()">Search</button> -->
@@ -297,7 +361,6 @@
                   //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
 
                   //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-                  var myCategories = [];
                   var categoryInput = [];
                   $('#categoryResult').bind("enterKey",function(e){
                       value = $('#categoryResult').val();
