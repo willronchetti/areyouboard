@@ -15,7 +15,7 @@ class Game(object):
     """
 
     def __init__(self, name, bgg_url, min_players, max_players, avg_time, min_time, max_time, avg_rating,
-        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector):
+        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V):
 
         self.name = name
         self.url = bgg_url
@@ -35,6 +35,7 @@ class Game(object):
         self.complexity = complexity
         self.rank = rank
         self.tf_idf_vector = vector
+        self.svd = V
 
 class Dataset(object):
     """
@@ -49,53 +50,71 @@ class Dataset(object):
         # Get absolute paths
         script_dir = os.path.dirname(__file__)
         rel_path = "data/2018_01.csv"
-        data = os.path.join(script_dir, rel_path)
-        script_dir = os.path.dirname(__file__)
+        data_file = os.path.join(script_dir, rel_path)
         rel_path = "data/tfidf.csv"
-        tf_idf = os.path.join(script_dir, rel_path)
+        tfidf_file = os.path.join(script_dir, rel_path)
+        rel_path = "data/u.npy"
+        u_file = os.path.join(script_dir, rel_path)
+        rel_path = "data/v.npy"
+        v_file = os.path.join(script_dir, rel_path)
+        rel_path = "data/e.npy"
+        e_file = os.path.join(script_dir, rel_path)
+        rel_path = "data/tfidf.npy"
+        tfidf_np_file = os.path.join(script_dir, rel_path)
 
-        #db.write('hello', 'world')
+        # Load in svd, tfidf
+        # U = np.load(u_file)
+        # E = np.load(e_file)
+        # V = np.transpose(np.load(v_file))
+        # tf_idf = np.load(tfidf_np_file)
+        
+        # Get correct vectors
+        #tf_idf_dict = dict()
+
+        # for row in tf_idf[1:]:
+        #     tf_idf_dict[row[0].upper()] = np.array((row[1:])).astype('float')   
 
         # Open csv, iterate through data
-        with open(tf_idf, 'rb') as f2:
-            tfidf_reader = csv.DictReader(f2)
-            with open(data, 'rb') as f:
-                reader = csv.DictReader(f)
-                for row in reader:
+        with open(data_file, 'rb') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
 
-                    # Get the name, drop it if we already have it
-                    name = str(row['names']).upper()
-                    if self.games.get(name) != None:
-                        continue
+                # Get the name, drop it if we already have it
+                name = str(row['names']).upper()
+                if self.games.get(name) != None:
+                    continue
 
-                    # Get all the stuff we need, add it to global dict
-                    url = row['bgg_url']
-                    age = int(row['age'])
-                    image = row['image_url']
-                    rating = row['avg_rating']
-                    g_rating = row['geek_rating']
-                    min_players = row['min_players']
-                    max_players = row['max_players']
-                    avg_time = int(row['avg_time'])
-                    min_time = row['min_time']
-                    max_time = row['max_time']
-                    owned = row['owned']
-                    votes = row['num_votes']
-                    categories = row['category'].strip(' ').split(',')
-                    mechanic = row['mechanic'].split(',')
-                    complexity = float(row['weight'])
-                    rank = int(row['rank'])
+                # Get all the stuff we need, add it to global dict
+                url = row['bgg_url']
+                age = int(row['age'])
+                image = row['image_url']
+                rating = row['avg_rating']
+                g_rating = row['geek_rating']
+                min_players = row['min_players']
+                max_players = row['max_players']
+                avg_time = int(row['avg_time'])
+                min_time = row['min_time']
+                max_time = row['max_time']
+                owned = row['owned']
+                votes = row['num_votes']
+                categories = row['category'].strip(' ').split(',')
+                mechanic = row['mechanic'].split(',')
+                complexity = float(row['weight'])
+                rank = int(row['rank'])
+                current_tf_idf = None
+                svd_row = None
 
-                    self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
-                    max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank, None)
+                self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
+                max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank, current_tf_idf, svd_row)
 
             f.close()
 
+<<<<<<< HEAD
             # U = np.load('data/u.npy')
             # E = np.load('data/e.npy')
             # V = np.load('data/v.npy')
 
-            # original tf-idf stuff
+             # original tf-idf stuff
             start = time.time()
             result = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
             time2 = time.time()
@@ -120,6 +139,27 @@ class Dataset(object):
 
             #     del row['all_names']
             #     self.games[name].tf_idf_vector = np.array(row.values(),dtype=float)
+=======
+
+        with open(tfidf_file, 'rb') as f2:
+            tfidf_reader = csv.DictReader(f2)
+            for row in tfidf_reader:
+                name = str(row['all_names']).upper()
+                del row['all_names']
+                self.games[name].tf_idf_vector = np.array(row.values(), dtype=float)
+
+        # original tf-idf stuff
+        #result = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
+        #print(result)
+        #print(np.count_nonzero(tf_idf))
+        #np.save(tfidf_np_file, result)
+        # U, E, V = svds(result, k=100)
+        # print("saving")
+        # np.save(u_file,U)
+        # np.save(e_file,E)
+        # np.save(v_file,V)
+        # print("done")
+>>>>>>> 2cc271967fcbe137cf4b2b868a35e106444f36f8
 
     def exists(self, name):
         """
@@ -151,9 +191,12 @@ def score(dataset, vector):
             continue
         
         # Only do this if we have a vector
-        # XXX: This may not work when we're actually using tf-idf
-        if vector.tf_idf_vector != None:
-            scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
+        try:
+            if vector.tf_idf_vector == None:
+                pass
+        except:
+            if vector.tf_idf_vector.any() != None:
+                scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
 
         # If categories shared award points
         if vector.categories != None:
@@ -322,7 +365,7 @@ def getRelatedMultipleGames(dataset, games):
         genres = set(genres.union(game.categories))
 
     new_game = Game(games, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None)
+            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
     results = score(dataset, new_game)
     print(results[0:10])
     return new_game, results
@@ -350,7 +393,7 @@ def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, gen
     if (length == 3):
         max_time = 1000;
     new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
-        None, None, None, age, mechanics, None, genres, complexity[0], None, None)
+        None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
 
     results = score(dataset, new_game)
     print(results[0:10])
