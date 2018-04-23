@@ -98,9 +98,16 @@ class Dataset(object):
             # original tf-idf stuff
             start = time.time()
             result = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
-            U, E, V = svds(result)
+            time2 = time.time()
+            print 'csv with list slicing and typing', time2 - start
+            result2 = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))
+            time3 = time.time()
+            print 'raw csv reading', time3 - time2
+            # np.savez_compressed('data/tfidf',result) 
+            result3 = np.load('data/tfidf.npz')['arr_0']
+            # U, E, V = svds(result)
             end = time.time()
-            print end - start
+            print 'load npz file', end - time3
             # np.save('data/u.npy',U)
             # np.save('data/e.npy',E)
             # np.save('data/v.npy',V)
