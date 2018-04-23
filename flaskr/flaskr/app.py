@@ -41,7 +41,7 @@ def getResults():
         originalState = 1
         d = request.form["jsonval"]
         data = json.loads(d)
-        related_games = getRelatedGames(Dataset(), data[1]["name"].upper())
+        related_games = getRelatedGames(dataset, data[1]["name"].upper())
 
     top10_related_games = related_games[:15]
 
@@ -51,7 +51,6 @@ def getResults():
         game_name = game_tup[0]
         game_data = dataset.games[game_name]
         related_games_info.append([game_data, game_tup[1]])
-    print(originalState)
     print(related_games_info)
     return render_template('search.html', state=originalState, results=related_games_info)
 
