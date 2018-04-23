@@ -19,7 +19,9 @@ $('.results-button').click(function() {
 $('.return').click(function() {
   $(this).parent().slideUp();
   $('#results-grid').slideDown();
+  $('#results-grid2').slideDown();
   console.log("hi");
   $('#results-grid').css('display', 'block');
-  console.log("hi");
+  $('#results-grid2').css('display', 'block');
+  console.log("hi2");
 });

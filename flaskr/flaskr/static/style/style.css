@@ -199,9 +199,15 @@ input[type=range]::-moz-range-thumb {
   display: none;
   position: absolute;
   top: 10%;
-  left: 5%;
+  left: 10%;
   margin: 0;
   padding: 0;
+  height: 100px;
+  width: 100px;
+}
+#swap-switches-button img {
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .results h1 {
@@ -242,7 +248,16 @@ input[type=range]::-moz-range-thumb {
 }
 .results .results-button .results-button-caption {
   opacity: 0;
-  background: repeating-linear-gradient(135deg, rgba(98, 122, 129, 0.97), rgba(98, 122, 129, 0.97) 4px, rgba(96, 112, 126, 0.97) 4px, rgba(96, 112, 126, 0.97) 8px);
+
+  /* LIGHT BROWN */
+  /* background: #eacda3;
+  background: -webkit-linear-gradient(to right, #d6ae7b, #eacda3);
+  background: linear-gradient(to right, #d6ae7b, #eacda3); */
+
+  /* RED BLUE MIX */
+  background: #3a6186;
+  background: -webkit-linear-gradient(to right, #89253e, #3a6186);
+  background: linear-gradient(to right, #89253e, #3a6186);
 
   position: absolute;
   top: 0;

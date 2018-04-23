@@ -18,7 +18,7 @@
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
   <div id="swap-switches-button">
-    <img src="../static/images/return.png"/>
+    <img src="../static/images/red.png"/>
   </div>
 
   <!-- STATE 0 CASE -->
@@ -98,7 +98,7 @@
                   };
               }
               suggest(matches);
-          };
+          }
         });
       </script>
 
@@ -107,11 +107,11 @@
     </div>
     <div class="results">
       <!-- PRINT THE RESULTS FROM SEARCH -->
+      {% if results %}
       <h1>Results</h1>
 
       <!-- CREATE GRID -->
-      <div id="results-grid2">
-      {% if results %}
+      <div id="results-grid">
         {% for row in results %}
           <div class="results-button" data-id="r{{row[0].rank}}"
           style="background-image: url({{row[0].image}});">
@@ -122,7 +122,7 @@
           </div>
         {% endfor %}
       {% else %}
-        <p>Search for a game!</p>
+        <p>Try searching for a game!</p>
       {% endif %}
       </div>
 
@@ -535,7 +535,7 @@
         <h1>Results</h1>
 
         <!-- CREATE GRID -->
-        <div id="results-grid">
+        <div id="results-grid2">
         {% if results %}
           {% for row in results %}
             <div class="results-button" data-id="r{{row[0].rank}}"
