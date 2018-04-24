@@ -60,20 +60,19 @@ class Dataset(object):
         v_file = os.path.join(script_dir, rel_path)
         rel_path = "data/e.npy"
         e_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/tfidf.npy"
+        rel_path = "data/tfidf.npz"
         tfidf_np_file = os.path.join(script_dir, rel_path)
+        rel_path = "data/game_map.csv"
+        map_file = os.path.join(script_dir, rel_path)
 
-        # Load in svd, tfidf
-        # U = np.load(u_file)
-        # E = np.load(e_file)
-        # V = np.transpose(np.load(v_file))
-        # tf_idf = np.load(tfidf_np_file)
-
-        # Get correct vectors
-        #tf_idf_dict = dict()
-
-        # for row in tf_idf[1:]:
-        #     tf_idf_dict[row[0].upper()] = np.array((row[1:])).astype('float')
+        # Pull in game map
+        reader = csv.reader(open(map_file, 'r'))
+        game_map = {}
+        for k,v in reader:
+            try:
+                game_map[int(k)] = v
+            except:
+                continue
 
         # Open csv, iterate through data
         with open(data_file, 'rb') as f:
@@ -110,74 +109,9 @@ class Dataset(object):
 
             f.close()
 
-        # with open(tfidf_file, 'rb') as f2:
-        #     tfidf_reader = csv.DictReader(f2)
-        #     for row in tfidf_reader:
-        #         name = str(row['all_names']).upper()
-        #         del row['all_names']
-        #         self.games[name].tf_idf_vector = np.array(row.values(), dtype=float)
-
-         # original tf-idf stuff
-        start = time.time()
-
-        ##load data
-        tfidf_array = np.load(script_dir + '/data/tfidf.npz')['arr_0']
-        print tfidf_array[-1]
-        time2 = time.time()
-        print 'load npz file', time2 - start
-
-        ##use these lines to get the game map
-        # result2 = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
-        # result21 = np.delete(result2,0,0) #delete first row
-        # game_map = {} ##dictionary mapping indices to games
-        # for idx, row in enumerate(result21): 
-        #     game_map[idx] = row[0]
-        # df = pd.DataFrame.from_dict(game_map, orient="index")
-        # df.to_csv("data/game_map.csv")
-
-        ##load dictionary
-        reader = csv.reader(open('data/game_map.csv', 'r'))
-        game_map = {}
-        for k,v in reader:
-           game_map[k] = v
-        time3 = time.time()
-        print 'dictionary loaded', time3 - time2
-
-        for row in tfidf_array:
-            self.games[game_map[str(int(row[0]))].upper()].tf_idf_vector = row[1:]
-        time4 = time.time()
-        print 'all vectors populated', time4 - time3
-
-        ###creating the tfidf.npz
-        # result22 = np.delete(result21,0,1) ## delete first column
-        # insertion = np.arange(0,4999)
-        # result23 = np.insert(result22,0,insertion,axis=1)
-        # np.savez_compressed('data/tfidf',result23.astype('float')) 
-
-        ##load data
-        # result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
-        # print result3.shape
-        # time4 = time.time()
-        # print 'load npz file', time4 - start
-
-        ##pandas
-        # a = pd.read_csv(script_dir + '/data/tfidf.csv',sep=',')
-        # result = a.drop('all_names',1).as_matrix()
-        # print result.shape
-        # end = time.time()
-        # print 'pandas', end - time4
-
-        # original tf-idf stuff
-        #result = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
-        #print(result)
-        #print(np.count_nonzero(tf_idf))
-        #np.save(tfidf_np_file, result)
-        # U, E, V = svds(result, k=100)
-        # print("saving")
-        # np.save(u_file,U)
-        # np.save(e_file,E)
-        # np.save(v_file,V)
-        # print("done")
+        rows = np.load(tfidf_np_file)['arr_0']
+        for row in rows:
+            self.games[game_map[int(row[0])].upper()].tf_idf_vector = np.array(row[1:], dtype=float)
 
     def exists(self, name):
         """
