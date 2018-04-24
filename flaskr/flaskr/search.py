@@ -155,7 +155,7 @@ def score(dataset, vector):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
+                scores[name] += np.dot(vector.tf_idf_vector, info.tf_idf_vector)
 
         # If categories shared award points
         if vector.categories != None:
