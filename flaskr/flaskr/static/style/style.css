@@ -122,7 +122,6 @@ input[type=range]::-moz-range-thumb {
     width: 24.5%;
     height:90px;
     margin-bottom:5px;
-    border:lightgrey;
     background: rgb(255,255,255,0.5);
 }
 
@@ -149,7 +148,6 @@ input[type=range]::-moz-range-thumb {
 .age-buttons button {
     width:20%;
     height:150px;
-    border:lightgrey;
     background:rgb(255,255,255,0.5);
     margin-bottom:5px;
 }
@@ -165,7 +163,6 @@ input[type=range]::-moz-range-thumb {
 }
 
 .difficulty-buttons button {
-  border: none;
   background:none;
   padding-top:10px;
 }
