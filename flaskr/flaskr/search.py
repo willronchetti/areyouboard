@@ -140,7 +140,6 @@ class Dataset(object):
         for k,v in reader:
            game_map[k] = v
         time3 = time.time()
-        print game_map
         print 'dictionary loaded', time3 - time2
 
         ###creating the tfidf.npz
