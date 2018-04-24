@@ -57,7 +57,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     width:100%;
     text-align:center;
     position:relative;
-    font-size:16px;
+    font-size:18px;
     font-family: 'Arapey';
 }
 
@@ -131,7 +131,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .selectedTime {
-  background: lightblue;
+  background: lightblue !important;
 }
 
 
@@ -141,10 +141,15 @@ input[type=range]::-moz-range-thumb {
     margin-right:12.35%;
 }
 
+.selectedAge {
+    background:lightblue !important;
+}
+
 .age-buttons button {
     width:20%;
     height:150px;
-    border:none;
+    border:lightgrey;
+    background:rgb(255,255,255,0.5);
     margin-bottom:5px;
 }
 
@@ -153,17 +158,19 @@ input[type=range]::-moz-range-thumb {
     margin: 0 auto;
 }
 
-.selectedAge {
-    background:lightblue;
-}
-
 .difficulty-buttons {
     margin: 0 auto;
     display: block;
 }
 
+.difficulty-buttons button {
+  border: none;
+  background:none;
+  margin-top:10px;
+}
+
 .diffClass {
-    background:lightblue;
+    background:lightblue !important;
 }
 
 #categories, #mechanics {
@@ -176,12 +183,18 @@ input[type=range]::-moz-range-thumb {
 
 #categorySearch, #mechanicSearch {
     width: 50%;
+    font-family: 'Arapey';
+    font-weight:800;
+    font-size: 16px;
     /*float:left;*/
     /*margin-left: 15%;*/
 }
 
 #myCategories, #myMechanics {
     width: 50%;
+    font-family: 'Arapey';
+    font-weight:800;
+    font-size: 16px;
     /*float:right;*/
     /*margin-right: 15%;*/
 }
@@ -191,10 +204,14 @@ input[type=range]::-moz-range-thumb {
     border:none;
 }
 #advancedSubmit button {
+    cursor:pointer;
     width:75%;
     margin: 10px 12.5%;
     height:50px;
-    background:pink;
+    font-family: 'Arapey';
+    color:white;
+    font-size:20px;
+    background:#01539E;
     border:1px solid grey;
 }
 
@@ -267,6 +284,7 @@ input[type=range]::-moz-range-thumb {
   grid-template-columns: 1fr 1fr 1fr; */
 }
 .results .results-button {
+  cursor: pointer;
   height: 350px;
   width: 350px;
   margin: 5px;
