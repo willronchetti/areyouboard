@@ -155,7 +155,8 @@ def score(dataset, vector):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
+                scores[name] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
+                     np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 20
 
         # If categories shared award points
         if vector.categories != None:
@@ -249,23 +250,23 @@ def score(dataset, vector):
 
         # Add points if in top 50%, 25%, 10%, 5%
         if info.rank < (.5 * 5329):
-            scores[name] += 4
+            scores[name] += 2
         if info.rank < (.25 * 5329):
-            scores[name] += 4
+            scores[name] += 2
         if info.rank < (.1 * 5329):
-            scores[name] += 4
+            scores[name] += 2
         if info.rank < (.05 * 5329):
-            scores[name] += 4
+            scores[name] += 2
 
         # Lower weight for low rated games, bottom 50%, 25%, 10%, 5%
         if info.rank > (.5 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
         if info.rank > (.25 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
         if info.rank > (.1 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
         if info.rank > (.05 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_scores
