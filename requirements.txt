@@ -5,3 +5,4 @@ gunicorn
 flask
 python-socketio
 flask-socketio
+pandas
