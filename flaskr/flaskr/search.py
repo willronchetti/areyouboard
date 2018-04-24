@@ -110,19 +110,19 @@ class Dataset(object):
 
             f.close()
 
-        with open(tfidf_file, 'rb') as f2:
-            tfidf_reader = csv.DictReader(f2)
-            for row in tfidf_reader:
-                name = str(row['all_names']).upper()
-                del row['all_names']
-                self.games[name].tf_idf_vector = np.array(row.values(), dtype=float)
+        # with open(tfidf_file, 'rb') as f2:
+        #     tfidf_reader = csv.DictReader(f2)
+        #     for row in tfidf_reader:
+        #         name = str(row['all_names']).upper()
+        #         del row['all_names']
+        #         self.games[name].tf_idf_vector = np.array(row.values(), dtype=float)
 
          # original tf-idf stuff
         start = time.time()
 
         ##load data
-        result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
-        print result3.shape
+        tfidf_array = np.load(script_dir + '/data/tfidf.npz')['arr_0']
+        print tfidf_array[-1]
         time2 = time.time()
         print 'load npz file', time2 - start
 
@@ -135,12 +135,18 @@ class Dataset(object):
         # df = pd.DataFrame.from_dict(game_map, orient="index")
         # df.to_csv("data/game_map.csv")
 
+        ##load dictionary
         reader = csv.reader(open('data/game_map.csv', 'r'))
         game_map = {}
         for k,v in reader:
            game_map[k] = v
         time3 = time.time()
         print 'dictionary loaded', time3 - time2
+
+        for row in tfidf_array:
+            self.games[game_map[str(int(row[0]))].upper()].tf_idf_vector = row[1:]
+        time4 = time.time()
+        print 'all vectors populated', time4 - time3
 
         ###creating the tfidf.npz
         # result22 = np.delete(result21,0,1) ## delete first column
