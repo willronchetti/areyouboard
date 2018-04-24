@@ -66,7 +66,6 @@ class Dataset(object):
         map_file = os.path.join(script_dir, rel_path)
 
         # Pull in game map
-        start = time.time()
         reader = csv.reader(open(map_file, 'r'))
         game_map = {}
         for k,v in reader:
@@ -74,8 +73,6 @@ class Dataset(object):
                 game_map[int(k)] = v
             except:
                 continue
-        middle = time.time()
-        print 'game map done', middle - start
 
         # Open csv, iterate through data
         with open(data_file, 'rb') as f:
@@ -111,14 +108,9 @@ class Dataset(object):
                 max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank, current_tf_idf, svd_row)
 
             f.close()
-        middle2 = time.time()
-        print 'games loaded', middle2 - middle
 
-        rows = np.load(tfidf_np_file)['arr_0']
         for row in rows:
             self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
-        end = time.time()
-        print 'tf idfs loaded', end - middle2
 
     def exists(self, name):
         """
