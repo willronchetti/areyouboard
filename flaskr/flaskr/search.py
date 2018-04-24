@@ -119,10 +119,12 @@ class Dataset(object):
 
          # original tf-idf stuff
         start = time.time()
-        # result1 = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))[1:, 1:].astype('float')
-        # print result1.shape
-        # time2 = time.time()
-        # print 'csv with list slicing and typing', time2 - start
+
+        ##load data
+        result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
+        print result3.shape
+        time2 = time.time()
+        print 'load npz file', time2 - start
 
         ##use these lines to get the game map
         result2 = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
@@ -131,17 +133,15 @@ class Dataset(object):
         for idx, row in enumerate(result21): 
             game_map[idx] = row[0]
 
+        ###creating the tfidf.npz
         # result22 = np.delete(result21,0,1) ## delete first column
         # insertion = np.arange(0,4999)
         # result23 = np.insert(result22,0,insertion,axis=1)
-        # time3 = time.time()
-        # print 'raw csv reading', time3 - time2
         # np.savez_compressed('data/tfidf',result23.astype('float')) 
-        # result3 = np.load('data/tfidf.npz')['arr_0']
-        # # np.savez_compressed('data/tfidf',result1)
+
+        ##load data
         result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
         print result3.shape
-        # U, E, V = svds(result)
         time4 = time.time()
         print 'load npz file', time4 - start
 
@@ -151,7 +151,6 @@ class Dataset(object):
         # print result.shape
         # end = time.time()
         # print 'pandas', end - time4
-
 
         # original tf-idf stuff
         #result = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
