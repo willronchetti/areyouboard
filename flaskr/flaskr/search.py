@@ -109,6 +109,7 @@ class Dataset(object):
 
             f.close()
 
+        rows = np.load(tfidf_np_file)['arr_0']
         for row in rows:
             self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
 
@@ -154,33 +155,33 @@ def score(dataset, vector):
         if vector.categories != None:
             common = set(info.categories).intersection(vector.categories)
             if len(common) > 0:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 1:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 2:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 3:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 4:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 5:
-                scores[name] += 2
+                scores[name] += 1
 
         # If mechanic shared award points
         if vector.mechanic != None:
             common = set(info.mechanic).intersection(vector.mechanic)
             if len(common) > 0:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 1:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 2:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 3:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 4:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 5:
-                scores[name] += 2
+                scores[name] += 1
 
         # If the complexity is within a certain range award points. If they're closer together
         # award more points
@@ -213,9 +214,9 @@ def score(dataset, vector):
         # Add weight to games that are owned by more than average
         # Add more if 1 std above average
         if info.owned >= 2700:
-            scores[name] += 2
+            scores[name] += 5
         if info.owned > 9000:
-            scores[name] += 2
+            scores[name] += 5
 
         # Remove weight from games that are not common
         # Remove more if significantly less common
@@ -227,11 +228,11 @@ def score(dataset, vector):
         # Add weight for games w more than average votes
         # Add more if significantly highly voted
         if info.num_votes >= 1773:
-            scores[name] += 2
+            scores[name] += 4
         if info.num_votes > 6000:
-            scores[name] += 2
+            scores[name] += 4
         if info.num_votes > 10000:
-            scores[name] += 2
+            scores[name] += 4
 
         # Lower weight for votes less than average
         # Lower even more if it has very few
