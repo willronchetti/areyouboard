@@ -113,7 +113,7 @@
 
     <!-- Results -->
     <div class="results">
-      {% if results %}
+      {% if (results) and (state == 1) %}
       <h1>Results</h1>
 
       <!-- CREATE GRID -->
@@ -521,7 +521,7 @@
 
         <!-- CREATE GRID -->
         <div id="results-grid2">
-        {% if results %}
+        {% if (results) and (state == 2) %}
           {% for row in results %}
             <div class="results-button" data-id="r{{row[0].rank}}"
             style="background-image: url({{row[0].image}});">
