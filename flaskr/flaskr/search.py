@@ -111,7 +111,7 @@ class Dataset(object):
 
         rows = np.load(tfidf_np_file)['arr_0']
         for row in rows:
-            self.games[game_map[int(row[0])].upper()].tf_idf_vector = np.array(row[1:], dtype=float)
+            self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
 
     def exists(self, name):
         """
