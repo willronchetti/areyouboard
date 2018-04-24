@@ -8,6 +8,7 @@ import scipy
 from numpy.linalg import svd
 from scipy.sparse.linalg import svds
 import time
+import pandas as pd
 
 class Game(object):
     """
@@ -116,6 +117,26 @@ class Dataset(object):
                 del row['all_names']
                 self.games[name].tf_idf_vector = np.array(row.values(), dtype=float)
 
+         # original tf-idf stuff
+        start = time.time()
+        result1 = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
+        time2 = time.time()
+        print 'csv with list slicing and typing', time2 - start
+        result2 = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))
+        result21 = np.delete(result2,0,0)
+        result22 = np.delete(result21,0,1)
+        print result22[0], result22.shape
+        time3 = time.time()
+        print 'raw csv reading', time3 - time2
+        # np.savez_compressed('data/tfidf',result) 
+        result3 = np.load('data/tfidf.npz')['arr_0']
+        # U, E, V = svds(result)
+        time4 = time.time()
+        print 'load npz file', time4 - time3
+        a = pd.read_csv('data/tfidf.csv',sep=',')
+        result = a.drop('all_names',1).as_matrix()
+        end = time.time()
+        print 'pandas', end - time4
         # original tf-idf stuff
         #result = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
         #print(result)
