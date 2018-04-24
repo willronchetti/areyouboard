@@ -122,6 +122,8 @@ input[type=range]::-moz-range-thumb {
     width: 24.5%;
     height:90px;
     margin-bottom:5px;
+    border:none;
+    background: rgb(255,255,255,0.5);
 }
 
 .time-buttons button img {
@@ -133,7 +135,6 @@ input[type=range]::-moz-range-thumb {
 .selectedTime {
   background: lightblue !important;
 }
-
 
 #age, #categories {
     float:right;
@@ -166,7 +167,7 @@ input[type=range]::-moz-range-thumb {
 .difficulty-buttons button {
   border: none;
   background:none;
-  margin-top:10px;
+  padding-top:10px;
 }
 
 .diffClass {
