@@ -123,13 +123,19 @@ class Dataset(object):
         print result1.shape
         time2 = time.time()
         print 'csv with list slicing and typing', time2 - start
+        ##use these lines to get the game map
         result2 = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
-        result21 = np.delete(result2,0,0)
-        result22 = np.delete(result21,0,1)
-        print result22.shape
+        result21 = np.delete(result2,0,0) #delete first row
+        game_map = {} ##dictionary mapping indices to games
+        for idx, row in enumerate(result21): 
+            game_map[idx] = row[0]
+
+        # result22 = np.delete(result21,0,1) ## delete first column
+        # insertion = np.arange(0,4999)
+        # result23 = np.insert(result22,0,insertion,axis=1)
         time3 = time.time()
         print 'raw csv reading', time3 - time2
-        # np.savez_compressed('data/tfidf',result1) 
+        # np.savez_compressed('data/tfidf',result23) 
         result3 = np.load('data/tfidf.npz')['arr_0']
         print result3.shape
         # U, E, V = svds(result)
