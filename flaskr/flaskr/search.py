@@ -127,11 +127,21 @@ class Dataset(object):
         print 'load npz file', time2 - start
 
         ##use these lines to get the game map
-        result2 = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
-        result21 = np.delete(result2,0,0) #delete first row
-        game_map = {} ##dictionary mapping indices to games
-        for idx, row in enumerate(result21): 
-            game_map[idx] = row[0]
+        # result2 = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
+        # result21 = np.delete(result2,0,0) #delete first row
+        # game_map = {} ##dictionary mapping indices to games
+        # for idx, row in enumerate(result21): 
+        #     game_map[idx] = row[0]
+        # df = pd.DataFrame.from_dict(game_map, orient="index")
+        # df.to_csv("data/game_map.csv")
+
+        reader = csv.reader(open('data/game_map.csv', 'r'))
+        game_map = {}
+        for k,v in reader:
+           game_map[k] = v
+        time3 = time.time()
+        print game_map
+        print 'dictionary loaded', time3 - time2
 
         ###creating the tfidf.npz
         # result22 = np.delete(result21,0,1) ## delete first column
@@ -140,10 +150,10 @@ class Dataset(object):
         # np.savez_compressed('data/tfidf',result23.astype('float')) 
 
         ##load data
-        result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
-        print result3.shape
-        time4 = time.time()
-        print 'load npz file', time4 - start
+        # result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
+        # print result3.shape
+        # time4 = time.time()
+        # print 'load npz file', time4 - start
 
         ##pandas
         # a = pd.read_csv(script_dir + '/data/tfidf.csv',sep=',')
