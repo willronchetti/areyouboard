@@ -67,12 +67,12 @@ class Dataset(object):
         # E = np.load(e_file)
         # V = np.transpose(np.load(v_file))
         # tf_idf = np.load(tfidf_np_file)
-        
+
         # Get correct vectors
         #tf_idf_dict = dict()
 
         # for row in tf_idf[1:]:
-        #     tf_idf_dict[row[0].upper()] = np.array((row[1:])).astype('float')   
+        #     tf_idf_dict[row[0].upper()] = np.array((row[1:])).astype('float')
 
         # Open csv, iterate through data
         with open(data_file, 'rb') as f:
@@ -109,38 +109,6 @@ class Dataset(object):
 
             f.close()
 
-<<<<<<< HEAD
-            # U = np.load('data/u.npy')
-            # E = np.load('data/e.npy')
-            # V = np.load('data/v.npy')
-
-             # original tf-idf stuff
-            start = time.time()
-            result = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))[1:, 1:].astype('float')
-            time2 = time.time()
-            print 'csv with list slicing and typing', time2 - start
-            result2 = np.array(list(csv.reader(open(tf_idf, "rb"), delimiter=",")))
-            time3 = time.time()
-            print 'raw csv reading', time3 - time2
-            # np.savez_compressed('data/tfidf',result) 
-            result3 = np.load('data/tfidf.npz')['arr_0']
-            # U, E, V = svds(result)
-            end = time.time()
-            print 'load npz file', end - time3
-            # np.save('data/u.npy',U)
-            # np.save('data/e.npy',E)
-            # np.save('data/v.npy',V)
-
-            # Uncomment this to run tf-idf stuff
-            # for row in tfidf_reader:
-            #     name = str(row['all_names']).upper()
-            #     if self.games.get(name) == None:
-            #         continue
-
-            #     del row['all_names']
-            #     self.games[name].tf_idf_vector = np.array(row.values(),dtype=float)
-=======
-
         with open(tfidf_file, 'rb') as f2:
             tfidf_reader = csv.DictReader(f2)
             for row in tfidf_reader:
@@ -159,7 +127,6 @@ class Dataset(object):
         # np.save(e_file,E)
         # np.save(v_file,V)
         # print("done")
->>>>>>> 2cc271967fcbe137cf4b2b868a35e106444f36f8
 
     def exists(self, name):
         """
@@ -189,7 +156,7 @@ def score(dataset, vector):
         # Ignore same game
         if (name == vector.name) or (name in vector.name):
             continue
-        
+
         # Only do this if we have a vector
         try:
             if vector.tf_idf_vector == None:
