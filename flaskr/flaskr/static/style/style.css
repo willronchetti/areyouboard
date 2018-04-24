@@ -3,10 +3,12 @@ body {
     text-align: center;
     background-size: 500px;
     font-family: StyleThief;
+    background-image: url("/static/images/pattern.png");
+    background-size: 200px;
     /* margin-bottom: 150px; */
 }
 
-svg { border: solid #ccc 1px; }
+/* svg { border: solid #ccc 1px; } */
 
 #title { display: inline-block; font-family: StyleThief; font-size: 8vw; padding: 0px; margin: 0px; margin-top: 3vw; margin-bottom: 2vw; transition: 0.35s; color: black; }
 #title:hover { cursor: pointer; color: grey; transition: 0.35s }
@@ -17,11 +19,12 @@ svg { border: solid #ccc 1px; }
 #blue:hover { width: 190px; cursor: pointer; transition: 0.35s }
 #red { width: 175px; order: 1; margin-right: 10px; transition: 0.35s}
 #red:hover { width: 190px; cursor: pointer; transition: 0.35s }
+.text { font-size: 35px; }
 
 /* SEARCH BAR */
 #search-flex { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 100px; margin-left: auto; margin-right: auto; text-align: center;}
 #send {display: block; margin-left: auto; margin-right: auto;}
-#search-bar { font-family: StyleThief; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; display: block;}
+#search-bar { font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; display: block;}
 #search-button { font-family: StyleThief; font-size: 22px; border-radius: 4px; width: 60px; height: 35px; margin-left: 5px; order: 2; }
 
 /* FORM */
@@ -45,7 +48,8 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 .card {
     width:75%;
     margin: 0 12.5%;
-    border:1px solid grey;
+    /* border:1px solid grey; */
+    background-color: rgba(255, 255, 255, 0.4);
     display:inline-block;
 }
 
@@ -53,6 +57,8 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     width:100%;
     text-align:center;
     position:relative;
+    font-size:16px;
+    font-family: 'Arapey';
 }
 
 #playerSlider {
@@ -136,7 +142,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .age-buttons button {
-    width:32%;
+    width:20%;
     height:150px;
     border:none;
     margin-bottom:5px;
@@ -148,7 +154,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .selectedAge {
-    background:orange;
+    background:lightblue;
 }
 
 .difficulty-buttons {
@@ -157,7 +163,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 .diffClass {
-    background:green;
+    background:lightblue;
 }
 
 #categories, #mechanics {
@@ -198,22 +204,37 @@ input[type=range]::-moz-range-thumb {
 ============================================================= */
 #swap-switches-button,
 #swap-switches-button2 {
+  background-image: url("../images/both.png");
+  background-size: 70px;
+  background-repeat: no-repeat;
+  width: 70px;
+  height: 100px;
   display: none;
   position: absolute;
+  cursor: pointer;
   top: 8%;
   left: 4%;
   margin: 0;
   padding: 0;
-  height: 100px;
-  width: 100px;
+  transition: 0.35s;
 }
-#swap-switches-button img,
-#swap-switches-button2 img {
-  max-height: 100%;
-  max-width: 100%;
+
+#swap-switches-button:hover {
+  background-image: url("../images/blue.png");
+  transition: 0.35s;
+  cursor: pointer;
+  transform: rotate(360deg);
 }
+
+#swap-switches-button2:hover {
+  background-image: url("../images/red.png");
+  transition: 0.35s;
+  cursor: pointer;
+  transform: rotate(360deg);
+}
+
 #state1 p {
-  font-family: sans-serif;
+  font-family: 'Arapey', serif;
 }
 .example-queries {
   height: 150px;
@@ -228,7 +249,7 @@ input[type=range]::-moz-range-thumb {
 .results p,
 .results a {
   font-size: 24px;
-  font-family: sans-serif;
+  font-family: 'Arapey', serif;
 }
 .results {
   display: block;
@@ -367,7 +388,7 @@ input[type=range]::-moz-range-thumb {
 }
 .results .results-explanation .explanation-text {
   margin-top: 10px;
-  font-family: sans-serif;
+  font-family: 'Arapey', serif;
   width: 40%;
   display: inline-block;
   float: right;
