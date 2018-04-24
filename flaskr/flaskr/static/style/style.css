@@ -122,7 +122,7 @@ input[type=range]::-moz-range-thumb {
     width: 24.5%;
     height:90px;
     margin-bottom:5px;
-    border:none;
+    border:lightgrey;
     background: rgb(255,255,255,0.5);
 }
 
