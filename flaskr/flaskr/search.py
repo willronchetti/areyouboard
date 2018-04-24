@@ -137,11 +137,13 @@ class Dataset(object):
         print 'raw csv reading', time3 - time2
         # np.savez_compressed('data/tfidf',result23) 
         result3 = np.load('data/tfidf.npz')['arr_0']
+        # np.savez_compressed('data/tfidf',result1)
+        result3 = np.load(script_dir + '/data/tfidf.npz')['arr_0']
         print result3.shape
         # U, E, V = svds(result)
         time4 = time.time()
         print 'load npz file', time4 - time3
-        a = pd.read_csv('data/tfidf.csv',sep=',')
+        a = pd.read_csv(script_dir + '/data/tfidf.csv',sep=',')
         result = a.drop('all_names',1).as_matrix()
         print result.shape
         end = time.time()

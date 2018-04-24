@@ -17,10 +17,6 @@
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
-  <div id="swap-switches-button">
-    <img src="../static/images/red.png"/>
-  </div>
-
   <!-- STATE 0 CASE -->
   <div id="state0" style="display: none">
     <div id="card-flex">
@@ -31,6 +27,10 @@
 
   <!-- STATE 1 CASE -->
   <div id="state1">
+    <div id="swap-switches-button" onclick="stateHandler(2)">
+      <img src="../static/images/blue.png"/>
+    </div>
+
     <div id="search-flex">
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
         <input id="search-bar" type="text" type="submit" name='gameResult' placeholder="Search a game you like to find similar ones..."/>
@@ -105,18 +105,24 @@
       <!-- <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
       <button id="search-button" onclick="querySearch()">Search</button> -->
     </div>
+
+    <!-- Example Queries -->
+    <div class="example-queries">
+      <p>Try some examples: Catan, Pandemic, Codenames, etc.</p>
+    </div>
+
+    <!-- Results -->
     <div class="results">
-      <!-- PRINT THE RESULTS FROM SEARCH -->
-      {% if results %}
+      {% if (results) and (state == 1) %}
       <h1>Results</h1>
 
       <!-- CREATE GRID -->
       <div id="results-grid">
-        {% for row in results %}
-          <div class="results-button" data-id="r{{row[0].rank}}"
-          style="background-image: url({{row[0].image}});">
+        {% for i in range(results|length) %}
+          <div class="results-button" data-id="r{{results[i][0].rank}}"
+          style="background-image: url({{results[i][0].image}});">
             <div class="results-button-caption">
-              <p class="caption-name">{{ row[0].name }}</p>
+              <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
               <p class="caption-info">Click for more info</p>
             </div>
           </div>
@@ -128,24 +134,24 @@
 
       <!-- CREATE RESULTS EXPLANATIONS -->
       {% if (results) and (state == 1) %}
-        {% for row in results %}
-        <div id="r{{row[0].rank}}" class="results-explanation">
+        {% for i in range(results|length) %}
+        <div id="r{{results[i][0].rank}}" class="results-explanation">
           <div class="return">
               <!-- <span class="shadow"></span> -->
               <img src="../static/images/return.png">
           </div>
           <div class="explanation">
             <div class="explanation-img">
-              <img src="{{ row[0].image }}" />
+              <img src="{{ results[i][0].image }}" />
             </div>
             <div class="explanation-text">
-              <h2>{{ row[0].name }}</h2>
-              <p>Similarity Score: {{ row[1] }} </p>
-              <p>Players: {{ row[0].min_players }}-{{ row[0].max_players }}</p>
-              <p>Complexity: {{ "%.2f" % row[0].complexity }} / 5</p>
-              <p>Average Time: {{ row[0].avg_time }} minutes</p>
-              <p>Average Rating: {{ row[0].avg_rating[0:4] }} / 10</p>
-              <a href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{row[0].name}}">Amazon Link</a>
+              <h2>{{ results[i][0].name }}</h2>
+              <p>Similarity Score: {{ results[i][1] }} </p>
+              <p>Players: {{ results[i][0].min_players }}-{{ results[i][0].max_players }}</p>
+              <p>Complexity: {{ "%.2f" % results[i][0].complexity }} / 5</p>
+              <p>Average Time: {{ results[i][0].avg_time }} minutes</p>
+              <p>Average Rating: {{ results[i][0].avg_rating[0:4] }} / 10</p>
+              <a href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}">Amazon Link</a>
             </div>
           </div>
         </div>
@@ -156,6 +162,10 @@
 
   <!-- STATE 2 CASE -->
   <div id="state2">
+      <div id="swap-switches-button2" onclick="stateHandler(1)">
+        <img src="../static/images/red.png"/>
+      </div>
+
       <div id="form">
           <div class='card' id='number-of-players'>
               <p> Number of Players </p>
@@ -511,7 +521,7 @@
 
         <!-- CREATE GRID -->
         <div id="results-grid2">
-        {% if results %}
+        {% if (results) and (state == 2) %}
           {% for row in results %}
             <div class="results-button" data-id="r{{row[0].rank}}"
             style="background-image: url({{row[0].image}});">
@@ -689,7 +699,8 @@
       var state0Div = d3.select("#state0");
       var state1Div = d3.select("#state1");
       var state2Div = d3.select("#state2");
-      var swapSwitchesButton = d3.select("#swap-switches-button");
+      var swapSwitchesButton1 = d3.select("#swap-switches-button");
+      var swapSwitchesButton2 = d3.select("#swap-switches-button2");
 
       if (state == 0) {
         currentState = 0;
@@ -697,8 +708,9 @@
         state1Div.style("display", "none");
         state2Div.style("display", "none");
 
-        //show swap switches button
-        swapSwitchesButton.style("display", "none");
+        //don't show swap switches button
+        swapSwitchesButton1.style("display", "none");
+        swapSwitchesButton2.style("display", "none");
       }
 
       if (state == 1) {
@@ -711,7 +723,7 @@
           state2Div.style("display", "none");
 
           //show swap switches button
-          swapSwitchesButton.style("display", "block");
+          swapSwitchesButton1.style("display", "block");
         }, 250);
       } // end of state 1
 
@@ -725,7 +737,7 @@
           state2Div.style("display", "block");
 
           //show swap switches button
-          swapSwitchesButton.style("display", "block");
+          swapSwitchesButton2.style("display", "block");
         }, 250);
       } // end of state 2
     };
