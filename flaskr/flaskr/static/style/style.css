@@ -254,6 +254,21 @@ input[type=range]::-moz-range-thumb {
 .example-queries {
   height: 150px;
   margin-bottom: 20px;
+  text-align: center;
+}
+.example-queries .example-query {
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.example-queries .example-query img {
+  max-height: 100%;
+  max-width: 100%;
+}
+.example-queries .example-query p {
+  margin-top: 5px;
 }
 
 .results h1 {
