@@ -43,7 +43,7 @@ def getResults():
         data = json.loads(d)
         related_games = getRelatedGames(dataset, data[1]["name"].upper())
 
-    top10_related_games = related_games[:15]
+    top10_related_games = related_games[:21]
 
     # Get the original vectors from the dataset for the most similar games
     related_games_info = []
@@ -56,4 +56,4 @@ def getResults():
 
 if __name__ == "__main__":
     print("Flask app running at http://0.0.0.0:5000")
-    socketio.run(app, host="0.0.0.0", port=5000)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
