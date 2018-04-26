@@ -43,7 +43,7 @@ def getResults():
         data = json.loads(d)
         related_games = getRelatedGames(dataset, data[1]["name"].upper())
 
-    top10_related_games = related_games[:21]
+    top10_related_games = related_games[:30]
 
     # Get the original vectors from the dataset for the most similar games
     related_games_info = []

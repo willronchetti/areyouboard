@@ -166,14 +166,16 @@
               <img src="{{ results[i][0].image }}" />
             </div>
             <div class="explanation-text">
-              <h2>{{ results[i][0].name }}</h2>
-              <p>Similarity Score: {{ results[i][1] }} </p>
-              <p>Players: {{ results[i][0].min_players }}-{{ results[i][0].max_players }}</p>
+              <h2>{{ results[i][0].name }}
+                <br />
+                <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px;">Click for more info</a>
+              </h2>
+              <p>Similarity Score: {{ "%.2f" % results[i][1] }} </p>
+              <p># of Players: {{ results[i][0].min_players }}-{{ results[i][0].max_players }}</p>
               <p>Complexity: {{ "%.2f" % results[i][0].complexity }} / 5</p>
-              <p>Average Time: {{ results[i][0].avg_time }} minutes</p>
+              <p>Average Playtime: {{ results[i][0].avg_time }} minutes</p>
               <p>Average Rating: {{ results[i][0].avg_rating[0:4] }} / 10</p>
-              <a href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}">More Info</a>
-              <a href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Amazon Link</a>
+              <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Amazon Link</a>
             </div>
           </div>
         </div>
