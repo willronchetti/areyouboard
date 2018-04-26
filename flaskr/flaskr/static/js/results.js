@@ -21,8 +21,8 @@ $('.results-button').click(function() {
   // $('html,body').animate({scrollTop:$('#' + $(this).data("id")).offset().top - 50}, 'slow');
 });
 
-$('.return').click(function() {
-  $(this).parent().slideUp();
+$('.return-btn').click(function() {
+  $('.return').parent().slideUp();
   $('#results-grid').slideDown();
   $('#results-grid2').slideDown();
   console.log("hi");
