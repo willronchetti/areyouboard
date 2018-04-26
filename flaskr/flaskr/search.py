@@ -83,7 +83,7 @@ class Dataset(object):
 
                 # Get the name, drop it if we already have it
                 name = str(row['names']).upper()
-                
+
                 if self.games.get(name) != None:
                     continue
 
@@ -117,8 +117,8 @@ class Dataset(object):
         # result1 = np.delete(result,0,0) ##delete first row
 
         # #use these lines to get the game map
-        # # df = pd.DataFrame.from_dict(game_map, orient="index")
-        # # df.to_csv("data/game_map.csv")
+        # df = pd.DataFrame.from_dict(game_map, orient="index")
+        # df.to_csv("data/game_map.csv")
 
         # ##creating the tfidf.npz
         # print 'result1'
