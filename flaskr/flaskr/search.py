@@ -9,6 +9,7 @@ from numpy.linalg import svd
 from scipy.sparse.linalg import svds
 import time
 import pandas as pd
+import cPickle as pickle
 
 class Game(object):
     """
@@ -66,16 +67,14 @@ class Dataset(object):
         map_file = os.path.join(script_dir, rel_path)
 
         # Pull in game map
-        start = time.time()
         reader = csv.reader(open(map_file, 'r'))
         game_map = {}
+        
         for k,v in reader:
             try:
                 game_map[int(k)] = v
             except:
                 continue
-        middle = time.time()
-        print 'game map done', middle - start
 
         # Open csv, iterate through data
         with open(data_file, 'rb') as f:
@@ -84,6 +83,7 @@ class Dataset(object):
 
                 # Get the name, drop it if we already have it
                 name = str(row['names']).upper()
+                
                 if self.games.get(name) != None:
                     continue
 
@@ -111,14 +111,38 @@ class Dataset(object):
                 max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank, current_tf_idf, svd_row)
 
             f.close()
-        middle2 = time.time()
-        print 'games loaded', middle2 - middle
 
-        rows = np.load(tfidf_np_file)['arr_0']
-        for row in rows:
-            self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
-        end = time.time()
-        print 'tf idfs loaded', end - middle2
+        #original tf-idf stuff
+        # result = np.array(list(csv.reader(open('data/tfidf.csv', "rb"), delimiter=",")))
+        # result1 = np.delete(result,0,0) ##delete first row
+
+        # #use these lines to get the game map
+        # # df = pd.DataFrame.from_dict(game_map, orient="index")
+        # # df.to_csv("data/game_map.csv")
+
+        # ##creating the tfidf.npz
+        # print 'result1'
+        # result2 = np.delete(result1,0,1) ## delete first column
+        # print 'result2'
+        # insertion = np.arange(0,4999)
+        # result3 = np.insert(result2,0,insertion,axis=1)
+        # result3 = result3.astype('float')
+        # print 'result3'
+        # split = np.array_split(result3,500)
+        # print len(split)
+
+        save1 = time.time()
+        # np.savez_compressed('data/mat.npz', *split)
+        container = np.load(script_dir + '/data/mat.npz')
+        save2 = time.time()
+        print save2 - save1, 'np savez time'
+ 
+        load1 = time.time()
+        for arr in container.keys(): #'arr_0'
+            for row in container[arr]: #rows in array
+                self.games[game_map[int(row[0])]].tf_idf_vector = row[1:]
+        load2 = time.time()
+        print 'tf idfs loaded', load2 - load1
 
     def exists(self, name):
         """
@@ -155,39 +179,40 @@ def score(dataset, vector):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name] += np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float))
+                scores[name] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
+                     np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 20
 
         # If categories shared award points
         if vector.categories != None:
             common = set(info.categories).intersection(vector.categories)
             if len(common) > 0:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 1:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 2:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 3:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 4:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 5:
-                scores[name] += 2
+                scores[name] += 1
 
         # If mechanic shared award points
         if vector.mechanic != None:
             common = set(info.mechanic).intersection(vector.mechanic)
             if len(common) > 0:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 1:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 2:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 3:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 4:
-                scores[name] += 2
+                scores[name] += 1
             if len(common) > 5:
-                scores[name] += 2
+                scores[name] += 1
 
         # If the complexity is within a certain range award points. If they're closer together
         # award more points
@@ -220,9 +245,9 @@ def score(dataset, vector):
         # Add weight to games that are owned by more than average
         # Add more if 1 std above average
         if info.owned >= 2700:
-            scores[name] += 2
+            scores[name] += 5
         if info.owned > 9000:
-            scores[name] += 2
+            scores[name] += 5
 
         # Remove weight from games that are not common
         # Remove more if significantly less common
@@ -234,11 +259,11 @@ def score(dataset, vector):
         # Add weight for games w more than average votes
         # Add more if significantly highly voted
         if info.num_votes >= 1773:
-            scores[name] += 2
+            scores[name] += 4
         if info.num_votes > 6000:
-            scores[name] += 2
+            scores[name] += 4
         if info.num_votes > 10000:
-            scores[name] += 2
+            scores[name] += 4
 
         # Lower weight for votes less than average
         # Lower even more if it has very few
@@ -249,23 +274,23 @@ def score(dataset, vector):
 
         # Add points if in top 50%, 25%, 10%, 5%
         if info.rank < (.5 * 5329):
-            scores[name] += 4
+            scores[name] += 2
         if info.rank < (.25 * 5329):
-            scores[name] += 4
+            scores[name] += 2
         if info.rank < (.1 * 5329):
-            scores[name] += 4
+            scores[name] += 2
         if info.rank < (.05 * 5329):
-            scores[name] += 4
+            scores[name] += 2
 
         # Lower weight for low rated games, bottom 50%, 25%, 10%, 5%
         if info.rank > (.5 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
         if info.rank > (.25 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
         if info.rank > (.1 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
         if info.rank > (.05 * 5329):
-            scores[name] -= 4
+            scores[name] -= 2
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_scores
