@@ -112,25 +112,6 @@ class Dataset(object):
 
             f.close()
 
-        #original tf-idf stuff
-        # result = np.array(list(csv.reader(open('data/tfidf.csv', "rb"), delimiter=",")))
-        # result1 = np.delete(result,0,0) ##delete first row
-
-        # #use these lines to get the game map
-        # df = pd.DataFrame.from_dict(game_map, orient="index")
-        # df.to_csv("data/game_map.csv")
-
-        # ##creating the tfidf.npz
-        # print 'result1'
-        # result2 = np.delete(result1,0,1) ## delete first column
-        # print 'result2'
-        # insertion = np.arange(0,4999)
-        # result3 = np.insert(result2,0,insertion,axis=1)
-        # result3 = result3.astype('float')
-        # print 'result3'
-        # split = np.array_split(result3,500)
-        # print len(split)
-
         save1 = time.time()
         # np.savez_compressed('data/mat.npz', *split)
         container = np.load(script_dir + '/data/mat.npz')
