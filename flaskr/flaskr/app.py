@@ -35,8 +35,15 @@ def getResults():
         originalState = 2
         d = request.form['advancedVal']
         data = json.loads(d)
+
+        # If no difficulty specified, give a medium difficulty
+        if data[1]["difficulty"] == []:
+            complexity = (2,3)
+        else:
+            complexity = data[1]["difficulty"]
+
         related_games = doAdvancedSearch(Dataset(), data[1]["players"], data[1]["age"], data[1]["time"],
-            data[1]["difficulty"], data[1]['mechanics'], data[1]["category"])[1]
+            complexity, data[1]['mechanics'], data[1]["category"])[1]
     else:
         originalState = 1
         d = request.form["jsonval"]
