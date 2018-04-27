@@ -502,6 +502,9 @@ input[type=range]::-moz-range-thumb {
   margin-right: auto;
   margin-bottom: 30px;
 }
+.explanation-text {
+  padding-bottom: 10px;
+}
 .results .results-explanation .explanation-text {
   margin-top: 15px;
   margin-left: 15px;
@@ -510,13 +513,43 @@ input[type=range]::-moz-range-thumb {
   width: 45%;
   display: inline-block;
   float: left;
-  text-align: left;
+  text-align: center;
 
   background: #F2E5B1;
-  color: #58585B;
 }
+
+.explanation-text {
+  border-style: double;
+  border-width: 4px;
+  border-color: black;
+}
+
+hr {
+  padding: 0;
+  color: #333;
+  width: 80%;
+  text-align: center;
+}
+
 .results .results-explanation .explanation-text h2 {
   font-size: 30px;
+  color: #070727;
+  padding: 0;
+}
+
+.explanation-text h3 {
+  font-size: 20px;
+  padding: 0;
+  color: #070727;
+}
+
+.explanation-text h3 a {
+  font-size: 20px;
+  padding: 0;
+}
+
+.explanation-text p {
+  color: #070727;
 }
 
 /* ============================================================
