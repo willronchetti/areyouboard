@@ -50,19 +50,20 @@ class Dataset(object):
 
         # Get absolute paths
         script_dir = os.path.dirname(__file__)
-        # rel_path = "data/2018_01.csv"
+
+        #all game data
         rel_path = "data/bgg_data.csv"
         data_file = os.path.join(script_dir, rel_path)
 
-        # rel_path = "data/tfidf.csv"
+        #tf idf original file (big)
         rel_path = "data/tfidf_new.csv"
         tfidf_file = os.path.join(script_dir, rel_path)
 
-        # rel_path = "data/tfidf.npz"
+        #svd numpy arrays
         rel_path = "data/svd.npz"
         tfidf_np_file = os.path.join(script_dir, rel_path)
 
-        # rel_path = "data/game_map.csv"
+        #dictionary for mapping indices to games
         rel_path = "data/game_names.csv"
         map_file = os.path.join(script_dir, rel_path)
 
@@ -111,6 +112,7 @@ class Dataset(object):
 
             f.close()
 
+        #load the SVD game matrix and populate tf-idf vectors
         load1 = time.time()
         container = np.load(tfidf_np_file)['idx_U']
         for row in container:
