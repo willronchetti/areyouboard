@@ -9,7 +9,7 @@ from numpy.linalg import svd
 from scipy.sparse.linalg import svds
 import time
 import pandas as pd
-import cPickle as pickle
+import h5py
 
 class Game(object):
     """
@@ -51,19 +51,20 @@ class Dataset(object):
 
         # Get absolute paths
         script_dir = os.path.dirname(__file__)
-        rel_path = "data/2018_01.csv"
+        # rel_path = "data/2018_01.csv"
+        rel_path = "data/bgg_data.csv"
         data_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/tfidf.csv"
+
+        # rel_path = "data/tfidf.csv"
+        rel_path = "data/tfidf_new.csv"
         tfidf_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/u.npy"
-        u_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/v.npy"
-        v_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/e.npy"
-        e_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/tfidf.npz"
+
+        # rel_path = "data/tfidf.npz"
+        rel_path = "data/svd.npz"
         tfidf_np_file = os.path.join(script_dir, rel_path)
-        rel_path = "data/game_map.csv"
+
+        # rel_path = "data/game_map.csv"
+        rel_path = "data/game_names.csv"
         map_file = os.path.join(script_dir, rel_path)
 
         # Pull in game map
@@ -80,7 +81,6 @@ class Dataset(object):
         with open(data_file, 'rb') as f:
             reader = csv.DictReader(f)
             for row in reader:
-
                 # Get the name, drop it if we already have it
                 name = str(row['names']).upper()
 
@@ -112,18 +112,12 @@ class Dataset(object):
 
             f.close()
 
-        save1 = time.time()
-        # np.savez_compressed('data/mat.npz', *split)
-        container = np.load(script_dir + '/data/mat.npz')
-        save2 = time.time()
-        print save2 - save1, 'np savez time'
- 
         load1 = time.time()
-        for arr in container.keys(): #'arr_0'
-            for row in container[arr]: #rows in array
-                self.games[game_map[int(row[0])]].tf_idf_vector = row[1:]
+        container = np.load(tfidf_np_file)['idx_U']
+        for row in container:
+            self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
         load2 = time.time()
-        print 'tf idfs loaded', load2 - load1
+        print 'svd loading', load2 - load1
 
     def exists(self, name):
         """
@@ -332,7 +326,6 @@ def getRelatedMultipleGames(dataset, games):
     new_game = Game(games, None, min_players, max_players, length, min_time,
             max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
     results = score(dataset, new_game)
-    print(results[0:10])
     return new_game, results
 
 def getRelatedGames(dataset, name):
@@ -341,7 +334,7 @@ def getRelatedGames(dataset, name):
     """
     if dataset.exists(name):
         results = score(dataset, dataset.games[name])
-        print(results[0:10])
+        print results[0:10]
         return results
     else:
         print("Could not locate game")

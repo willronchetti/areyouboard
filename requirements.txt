@@ -6,3 +6,4 @@ flask
 python-socketio
 flask-socketio
 pandas
+h5py
