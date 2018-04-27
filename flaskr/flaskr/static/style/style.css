@@ -486,6 +486,9 @@ input[type=range]::-moz-range-thumb {
   margin-right: auto;
   margin-bottom: 30px;
 }
+.explanation-text {
+  padding-bottom: 10px;
+}
 .results .results-explanation .explanation-text {
   margin-top: 10px;
   margin-left: 15px;
@@ -503,6 +506,20 @@ input[type=range]::-moz-range-thumb {
   border: 10px solid #F2E5B1;
   border-radius: 20px;
 }
+
+.explanation-text {
+  border-style: double;
+  border-width: 4px;
+  border-color: black;
+}
+
+hr {
+  padding: 0;
+  color: #333;
+  width: 80%;
+  text-align: center;
+}
+
 .results .results-explanation .explanation-text h2 {
   width: 95%;
   font-size: 30px;
