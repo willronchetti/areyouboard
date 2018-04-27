@@ -9,7 +9,6 @@ from numpy.linalg import svd
 from scipy.sparse.linalg import svds
 import time
 import pandas as pd
-import h5py
 
 class Game(object):
     """
