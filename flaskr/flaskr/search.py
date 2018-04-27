@@ -78,7 +78,7 @@ class Dataset(object):
                 continue
 
         # Open csv, iterate through data
-        with open('data/2018_01-copy.csv', 'rb') as f:
+        with open(data_file, 'rb') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 # Get the name, drop it if we already have it
@@ -112,31 +112,12 @@ class Dataset(object):
 
             f.close()
 
-        ##creating the tfidf.npz
-        # result = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))
-        # result1 = np.delete(result,0,0) ##delete first row
-        # result2 = np.delete(result1,0,1) ## delete first column
-        # result2 = result2.astype('float')
-        # print result2.shape
-        # U,E,V = svds(result2,k=200) #svd on tf-idfs
-        # print U.shape
-        # insertion = np.arange(0,4999)
-        # idx_U = np.insert(U,0,insertion,axis=1)
-        # idx_U = idx_U.astype('float')
-        # np.savez_compressed('data/svd.npz', U=U, E=E, V=V, idx_U=idx_U)
-
         load1 = time.time()
         container = np.load(tfidf_np_file)['idx_U']
         for row in container:
             self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
         load2 = time.time()
         print 'svd loading', load2 - load1
-
-        # result = np.array(list(csv.reader(open(tfidf_file, "rb"), delimiter=",")))[1:, 1:].astype('float')
-        # U,E,V = svds(result,k=200)
-        # V = np.transpose(V) #transpose the 3rd matrix, words
-        # for idx, row in enumerate(U):
-        #     self.games[game_map[idx]].tf_idf_vector = row
 
     def exists(self, name):
         """
