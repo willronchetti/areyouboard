@@ -7,14 +7,11 @@
 body {
     text-align: center;
     background-size: 500px;
-    font-family: StyleThief;
-<<<<<<< HEAD
+    font-family: StyleThief, 'Arapey', serif;
     /* background-color: #CB602C; */
     color: #F2E5B1;
     background-image: url("/static/images/pattern2.png");
-=======
-    background-image: url("/static/images/pattern.png");
->>>>>>> fc4f1023f8ec2d08af20ce26aa58399fef9a0c9c
+    /* background-image: url("/static/images/pattern.png"); */
     background-size: 200px;
     /* margin-bottom: 150px; */
 }
@@ -30,11 +27,8 @@ body {
 #blue:hover { width: 190px; cursor: pointer; transition: 0.35s }
 #red { width: 175px; order: 1; margin-right: 10px; transition: 0.35s}
 #red:hover { width: 190px; cursor: pointer; transition: 0.35s }
-<<<<<<< HEAD
 .Rtext, .Btext { font-size: 35px; }
-=======
 .text { font-size: 35px; }
->>>>>>> fc4f1023f8ec2d08af20ce26aa58399fef9a0c9c
 
 /* SEARCH BAR */
 #search-flex { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 100px; margin-left: auto; margin-right: auto; text-align: center;}
@@ -72,11 +66,8 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     width:100%;
     text-align:center;
     position:relative;
-<<<<<<< HEAD
     font-size:16px;
-=======
-    font-size:18px;
->>>>>>> fc4f1023f8ec2d08af20ce26aa58399fef9a0c9c
+    /* font-size:18px; */
     font-family: 'Arapey';
 }
 
@@ -176,13 +167,10 @@ input[type=range]::-moz-range-thumb {
     margin: 0 auto;
 }
 
-<<<<<<< HEAD
 .selectedAge {
     background:lightblue;
 }
 
-=======
->>>>>>> fc4f1023f8ec2d08af20ce26aa58399fef9a0c9c
 .difficulty-buttons {
     margin: 0 auto;
     display: block;
@@ -194,11 +182,8 @@ input[type=range]::-moz-range-thumb {
 }
 
 .diffClass {
-<<<<<<< HEAD
-    background:lightblue;
-=======
+    /* background:lightblue; */
     background:lightblue !important;
->>>>>>> fc4f1023f8ec2d08af20ce26aa58399fef9a0c9c
 }
 
 #categories, #mechanics {
@@ -233,7 +218,7 @@ input[type=range]::-moz-range-thumb {
 }
 #advancedSubmit button {
     cursor:pointer;
-    width:75%;
+    width: 75%;
     margin: 10px 12.5%;
     height:50px;
     font-family: 'Arapey';
@@ -282,12 +267,22 @@ input[type=range]::-moz-range-thumb {
   font-family: 'Arapey', serif;
 }
 .example-queries {
-  margin-left: 0;
-  margin-right: 13px;
   font-size: 1.5vw;
-  height: 150px;
-  margin-bottom: 20px;
+  height: 170px;
   text-align: center;
+  display: block;
+  background: #58585B;
+  margin-bottom: 20px;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  /* padding-right: 8px; */
+  /* cause it doesn't totally cover the next tile */
+}
+.example-queries h2 {
+  font-family: 'Arapey';
 }
 .example-queries .example-query {
   display: inline-block;
@@ -296,15 +291,19 @@ input[type=range]::-moz-range-thumb {
   margin-left: 5px;
   margin-right: 5px;
 }
-.results p,
-.results a {
-  font-size: 24px;
-  font-family: 'Arapey', serif;
+.example-queries .example-query img {
+  max-width: 100%;
+  max-height: 100%;
 }
 .example-queries .example-query p {
   margin-top: 5px;
 }
 
+.results p,
+.results a {
+  font-size: 24px;
+  font-family: 'Arapey', serif;
+}
 .results {
   display: block;
   margin-left: auto;
@@ -465,12 +464,15 @@ input[type=range]::-moz-range-thumb {
 .results .results-explanation .explanation-text {
   margin-top: 15px;
   margin-left: 15px;
+  margin-bottom: 30px;
   font-family: 'Arapey', serif;
   width: 45%;
   display: inline-block;
   float: left;
   text-align: left;
-  background: #58585B;
+  
+  background: #F2E5B1;
+  color: #58585B;
 }
 .results .results-explanation .explanation-text h2 {
   font-size: 30px;
