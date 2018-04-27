@@ -136,7 +136,7 @@
     <!-- Results -->
     <div class="results">
       {% if (results) and (state == 1) %}
-      <h1>Results</h1>
+      <h1 id="state1Anchor">Results</h1>
 
       <!-- CREATE GRID -->
       <div id="results-grid">
@@ -180,6 +180,12 @@
           </div>
         </div>
         {% endfor %}
+
+        <script>
+        $('html, body').animate({
+            scrollTop: $("#state1Anchor").offset().top - 20
+        }, 500); //second value is how long it takes to scroll
+        </script>
       {% endif %}
     </div>
   </div>
@@ -537,7 +543,7 @@
       <div class="results">
         <!-- PRINT THE RESULTS FROM SEARCH -->
         {% if (results) and (state == 2) %}
-        <h1 id="advancedSearchAnchor">Results</h1>
+        <h1 id="state2Anchor">Results</h1>
 
         <!-- CREATE GRID -->
         <div id="results-grid2">
@@ -584,8 +590,8 @@
 
         <script>
         $('html, body').animate({
-            scrollTop: $("#advancedSearchAnchor").offset().top - 320
-        }, 1500); //second value is how long it takes to scroll
+            scrollTop: $("#state2Anchor").offset().top - 320
+        }, 1000); //second value is how long it takes to scroll
         </script>
         {% endif %}
       </div>
