@@ -170,12 +170,12 @@
                 <br />
                 <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px;">Click for more info</a>
               </h2>
-              <p>Similarity Score: {{ "%.2f" % results[i][1] }} </p>
-              <p># of Players: {{ results[i][0].min_players }}-{{ results[i][0].max_players }}</p>
-              <p>Complexity: {{ "%.2f" % results[i][0].complexity }} / 5</p>
-              <p>Average Playtime: {{ results[i][0].avg_time }} minutes</p>
-              <p>Average Rating: {{ results[i][0].avg_rating[0:4] }} / 10</p>
-              <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Amazon Link</a>
+              <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1] }}</span></p>
+              <p># of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
+              <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
+              <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
+              <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
+              <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
             </div>
           </div>
         </div>
@@ -536,48 +536,57 @@
 
       <div class="results">
         <!-- PRINT THE RESULTS FROM SEARCH -->
-        <h1>Results</h1>
+        {% if (results) and (state == 2) %}
+        <h1 id="advancedSearchAnchor">Results</h1>
 
         <!-- CREATE GRID -->
         <div id="results-grid2">
-        {% if (results) and (state == 2) %}
-          {% for row in results %}
-            <div class="results-button" data-id="r{{row[0].rank}}"
-            style="background-image: url({{row[0].image}});">
+          {% for i in range(results|length) %}
+            <div class="results-button" data-id="r{{results[i][0].rank}}"
+            style="background-image: url({{results[i][0].image}});">
               <div class="results-button-caption">
-                <p class="caption-name">{{ row[0].name }}</p>
+                <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
                 <p class="caption-info">Click for more info</p>
               </div>
             </div>
           {% endfor %}
         {% else %}
-          <p>Search for a game!</p>
+          <!-- <p>Try searching for a game!</p> -->
         {% endif %}
         </div>
 
         <!-- CREATE RESULTS EXPLANATIONS -->
         {% if (results) and (state == 2) %}
-          {% for row in results %}
-          <div id="r{{row[0].rank}}" class="results-explanation">
+          {% for i in range(results|length) %}
+          <div id="r{{results[i][0].rank}}" class="results-explanation">
             <div class="return">
                 <img class="return-btn" src="../static/images/return2.png">
             </div>
             <div class="explanation">
               <div class="explanation-img">
-                <img src="{{ row[0].image }}" />
+                <img src="{{ results[i][0].image }}" />
               </div>
               <div class="explanation-text">
-                <h2>{{ row[0].name }}</h2>
-                <p>Similarity Score: {{ row[1] }} </p>
-                <p>Players: {{ row[0].min_players }}-{{ row[0].max_players }}</p>
-                <p>Complexity: {{ "%.2f" % row[0].complexity }} / 5</p>
-                <p>Average Time: {{ row[0].avg_time }} minutes</p>
-                <p>Average Rating: {{ row[0].avg_rating[0:4] }} / 10</p>
-                <a href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{row[0].name}}">Amazon Link</a>
+                <h2>{{ results[i][0].name }}
+                  <br />
+                  <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px;">Click for more info</a>
+                </h2>
+                <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1] }}</span></p>
+                <p># of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
+                <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
+                <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
+                <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
+                <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
               </div>
             </div>
           </div>
           {% endfor %}
+
+        <script>
+        $('html, body').animate({
+            scrollTop: $("#advancedSearchAnchor").offset().top - 320
+        }, 1500); //second value is how long it takes to scroll
+        </script>
         {% endif %}
       </div>
   </div>
