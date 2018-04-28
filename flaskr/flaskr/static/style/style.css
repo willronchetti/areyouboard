@@ -96,8 +96,9 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 #form .card {
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 100%;
-    /* border:1px solid grey; */
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     display: block;
 }
 #form .card h2 {
@@ -112,33 +113,45 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   /* font-size:18px; */
   font-family: 'Arapey';
 }
-
+#number-of-players .player-buttons {
+  text-align: center;
+}
 #number-of-players .player-buttons .player-button {
-  margin-left: 4px;
-  margin-right: 4px;
+  font-family: 'Arapey';
+  font-size: 24px;
+  background: rgb(255,255,255,0.5);
+  color: black;
+  /* color: #F2E5B1; */
+
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+
+  margin: 2px;
 }
 #number-of-players .player-buttons .selectedPlayer {
   background: #F2E5B1 !important;
   /* change this */
 }
 #playing-time .time-buttons .time-button {
-  /* margin-left: 2px;
-  margin-right: 2px; */
-}
-#playing-time .time-buttons .selectedTime {
-  background: #F2E5B1 !important;
-  /* change this */
-}
-#playing-time .time-buttons button {
-  width: 20%;
-  height: 90px;
-  margin-bottom: 5px;
+  font-family: 'Arapey';
+  font-size: 16px;
   background: rgb(255,255,255,0.5);
+  color: black;
+
+  width: 160px;
+  height: 90px;
+  border-radius: 8px;
+
+  margin: 5px;
 }
 #playing-time .time-buttons button img {
   display: block;
   margin: 0 auto;
   padding-bottom:5px;
+}
+#playing-time .time-buttons .selectedTime {
+  background: #F2E5B1 !important;
 }
 #difficulty #complexity-display {
   background-color: #58585B;
@@ -187,7 +200,9 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   font-size: 16px;
   font-family: 'Arapey';
   color: #F2E5B1;
+
   text-align: center;
+  width: 45%;
 
   background: #58585B;
   border: none;
@@ -197,9 +212,8 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 #mechanicSearch input:focus {
   outline-width: 0;
 }
-
 #myCategories, #myMechanics {
-    width: 50%;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
 
@@ -221,7 +235,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     color: white;
     font-size:20px;
     background: #58585B;
-    border: 1px solid #F2E5B1;
+    border: 2px solid #F2E5B1;
 }
 #advancedSubmit button:hover {
   color: #58585B;
@@ -270,63 +284,6 @@ input[type=range]::-moz-range-thumb {
     cursor: pointer; /* Cursor on hover */
 }
 
-
-
-.difficulty-buttons {
-    margin: 0 auto;
-    display: block;
-}
-
-.difficulty-buttons button {
-  background:none;
-  padding-top:10px;
-}
-
-.diffClass {
-    /* background:lightblue; */
-    background:lightblue !important;
-}
-
-/* ============================================================
-    .::[ Slider Shit ]::.
-============================================================= */
-
-.slidecontainer {
-    width: 100%; /* Width of the outside container */
-}
-
-/* The slider itself */
-.slider {
-    -webkit-appearance: none;  /* Override default CSS styles */
-    appearance: none;
-    width: 100%; /* Full-width */
-    height: 50px; /* Specified height */
-    background: #d3d3d3; /* Grey background */
-    outline: none; /* Remove outline */
-    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-    transition: opacity .2s;
-}
-/* Mouse-over effects */
-.slider:hover {
-    opacity: 1; /* Fully shown on mouse-over */
-}
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Override default look */
-    appearance: none;
-    width: 25px; /* Set a specific slider handle width */
-    height: 25px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
-    cursor: pointer; /* Cursor on hover */
-}
-.slider::-moz-range-thumb {
-    width: 25px; /* Set a specific slider handle width */
-    height: 25px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
-    cursor: pointer; /* Cursor on hover */
-}
-
 /* ============================================================
     .::[ Results ]::.
 ============================================================= */
@@ -338,10 +295,11 @@ input[type=range]::-moz-range-thumb {
   width: 70px;
   height: 100px;
   display: none;
-  position: absolute;
+  position: fixed;
+  z-index: 1000;
   cursor: pointer;
   top: 8%;
-  left: 4%;
+  left: 5%;
   margin: 0;
   padding: 0;
   transition: 0.35s;
