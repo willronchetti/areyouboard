@@ -32,6 +32,17 @@
   <div id="state1">
     <div id="swap-switches-button" onclick="stateHandler(2)">
     </div>
+    <script>
+    //Fade card out when hits certain threshold
+    $(window).scroll(function(){
+       if ($(window).scrollTop() >= 550) {  // change target to number
+         $("#swap-switches-button").css('opacity', '0');
+       }
+       else {
+         $("#swap-switches-button").css('opacity', '1');
+       }
+    });
+    </script>
 
     <div id="search-flex">
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
@@ -222,21 +233,31 @@
 
   <!-- STATE 2 CASE -->
   <div id="state2">
-      <div id="swap-switches-button2" onclick="stateHandler(1)">
-      </div>
+      <div id="swap-switches-button2" onclick="stateHandler(1)"></div>
+      <script>
+      //Fade card out when hits certain threshold
+      $(window).scroll(function(){
+         if ($(window).scrollTop() >= 800) {  // change target to number
+           $("#swap-switches-button2").css('opacity', '0');
+         }
+         else {
+           $("#swap-switches-button2").css('opacity', '1');
+         }
+      });
+      </script>
 
       <div id="form">
           <div class='card' id='number-of-players'>
               <h2> Number of Players </h2>
               <div class='player-buttons'>
-                  <button class="player-button" value="1"><img src='../static/images/30.png'> 1 </button>
-                  <button class="player-button" value="2"><img src='../static/images/60.png'> 2 </button>
-                  <button class="player-button" value="3"><img src='../static/images/90.png'> 3 </button>
-                  <button class="player-button" value="4"><img src='../static/images/120.png'> 4 </button>
-                  <button class="player-button" value="5"><img src='../static/images/30.png'> 5 </button>
-                  <button class="player-button" value="6"><img src='../static/images/60.png'> 6 </button>
-                  <button class="player-button" value="7"><img src='../static/images/90.png'> 7 </button>
-                  <button class="player-button" value="8"><img src='../static/images/120.png'> 8+ </button>
+                  <button class="player-button" value="1"> 1 </button>
+                  <button class="player-button" value="2"> 2 </button>
+                  <button class="player-button" value="3"> 3 </button>
+                  <button class="player-button" value="4"> 4 </button>
+                  <button class="player-button" value="5"> 5 </button>
+                  <button class="player-button" value="6"> 6 </button>
+                  <button class="player-button" value="7"> 7 </button>
+                  <button class="player-button" value="8"> 8+ </button>
               </div>
               <script>
                 var playerInput = [0,0];
@@ -468,34 +489,34 @@
             });
             </script>
           </div>
-        </div>
 
-        <div class = 'card' id='advancedSubmit'>
-            <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
-              <button id='resultInput'> See Results! </button>
-              <input type="hidden" name="advancedVal" value=""/>
-              <input type='hidden' name='state' value=''/>
-            </form>
+          <div class = 'card' id='advancedSubmit'>
+              <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
+                <button id='resultInput'> See Results! </button>
+                <input type="hidden" name="advancedVal" value=""/>
+                <input type='hidden' name='state' value=''/>
+              </form>
 
-            <script>
-              function jsonAdvanced() {
-                var resultComplex = [
-                   { "state": 2 },
-                  {
-                    "players": playerInput,
-                    "time": timeInput,
-                    "difficulty": diffInput,
-                    "category": categoryInput,
-                    "mechanics": mechanicInput
-                  }];
-                var state2 = JSON.stringify({'state': 2});
-                var json = JSON.stringify(resultComplex);
-                var formInfo2 = document.forms['advancedForm'];
-                formInfo2.advancedVal.value = json;
-                formInfo2.state.value = state2;
-                console.log(json);
-              };
-            </script>
+              <script>
+                function jsonAdvanced() {
+                  var resultComplex = [
+                     { "state": 2 },
+                    {
+                      "players": playerInput,
+                      "time": timeInput,
+                      "difficulty": diffInput,
+                      "category": categoryInput,
+                      "mechanics": mechanicInput
+                    }];
+                  var state2 = JSON.stringify({'state': 2});
+                  var json = JSON.stringify(resultComplex);
+                  var formInfo2 = document.forms['advancedForm'];
+                  formInfo2.advancedVal.value = json;
+                  formInfo2.state.value = state2;
+                  console.log(json);
+                };
+              </script>
+          </div>
         </div>
       </div>
 
