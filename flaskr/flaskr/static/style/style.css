@@ -33,11 +33,14 @@ body {
 /* SEARCH BAR */
 #search-flex {
   display: block; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 300px; margin-left: auto; margin-right: auto; text-align: center;
+  padding-right:10px;
 
   background: #58585B;
   color: #F2E5B1;
-  border: 10px solid #F2E5B1;
-  border-radius: 20px;
+}
+
+#search-bar-button {
+  float:right;
 }
 #send {
   display: block; margin-left: auto; margin-right: auto;
