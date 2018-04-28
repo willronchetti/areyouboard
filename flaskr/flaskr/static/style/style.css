@@ -401,40 +401,15 @@ input[type=range]::-moz-range-thumb {
   transition: 0.35s
 }
 
-#ex1:hover {
-  cursor: pointer;
-  animation: shake 0.5s;
-  transform: translate3d(0, 0, 0);
+@-webkit-keyframes wobble  {
+  0%  { -webkit-transform:  rotate(0deg); }
+  20%  { -webkit-transform:  rotate(5deg); }
+  50%  { -webkit-transform:  rotate(-5deg); }
+  100%  { -webkit-transform:  rotate(0deg); }
 }
-
-#ex2:hover {
+.wobble:hover {
+  -webkit-animation: wobble 0.5s;
   cursor: pointer;
-  animation: shake 0.5s;
-  transform: translate3d(0, 0, 0);
-}
-
-#ex3:hover {
-  cursor: pointer;
-  animation: shake 0.5s;
-  transform: translate3d(0, 0, 0);
-}
-
-@keyframes shake {
-  10%, 90% {
-    transform: translate3d(-0.5px, 0, 0);
-  }
-
-  20%, 80% {
-    transform: translate3d(1.5px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-2.5px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(2.5px, 0, 0);
-  }
 }
 
 .results {
