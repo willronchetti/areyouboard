@@ -16,7 +16,7 @@ class Game(object):
     """
 
     def __init__(self, name, bgg_url, min_players, max_players, avg_time, min_time, max_time, avg_rating,
-        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V):
+        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V, sent):
 
         self.name = name
         self.url = bgg_url
@@ -37,6 +37,7 @@ class Game(object):
         self.rank = rank
         self.tf_idf_vector = vector
         self.svd = V
+        self.sentiment = sent
 
 class Dataset(object):
     """
@@ -66,6 +67,10 @@ class Dataset(object):
         #dictionary for mapping indices to games
         rel_path = "data/game_names.csv"
         map_file = os.path.join(script_dir, rel_path)
+
+        #sentiments
+        rel_path = "data/game-sentiments.csv"
+        sent_file = os.path.join(script_dir, rel_path)
 
         # Pull in game map
         reader = csv.reader(open(map_file, 'r'))
@@ -108,17 +113,24 @@ class Dataset(object):
                 svd_row = None
 
                 self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
-                max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, rank, current_tf_idf, svd_row)
+                max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, 
+                rank, current_tf_idf, svd_row, False)
 
             f.close()
 
-        #load the SVD game matrix and populate tf-idf vectors
-        load1 = time.time()
+        # Load the SVD game matrix and populate tf-idf vectors
         container = np.load(tfidf_np_file)['idx_U']
         for row in container:
             self.games[game_map[int(row[0])].upper()].tf_idf_vector = row[1:]
-        load2 = time.time()
-        print 'svd loading', load2 - load1
+
+        # Do sentiment
+        with open(sent_file, 'rb') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if self.games.get(row['names']) != None:
+                    self.games.get(row['names']).sentiment = row['boolean']
+                else:
+                    continue
 
     def exists(self, name):
         """
@@ -165,6 +177,10 @@ def score(dataset, vector, advanced):
             if vector.tf_idf_vector.any() != None:
                 scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
                      np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 20
+
+        # Add sentiment
+        if info.sentiment == True:
+            scores[name] += 5
 
         # If categories shared award points
         cat_score = 0
@@ -383,7 +399,7 @@ def getRelatedMultipleGames(dataset, games):
         genres = set(genres.union(game.categories))
 
     new_game = Game(games, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
+            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False)
     results = score(dataset, new_game, False)
     print(results[0:30])
     return new_game, results
@@ -411,7 +427,7 @@ def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, gen
     if (length == 3):
         max_time = 1000;
     new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
-        None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
+        None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False)
 
     results = score(dataset, new_game, True)
     print(results[0:10])
