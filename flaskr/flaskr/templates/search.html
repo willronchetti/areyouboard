@@ -13,6 +13,8 @@
     <script src='../static/js/auto-complete.js'></script>
     <script src='../static/js/gamelist.js'></script>
     <link rel='stylesheet' href='../static/style/auto-complete.css'>
+    <script src="../static/scripts/jquery.tagthis.js"></script>
+    <link rel='stylesheet' href='../static/scripts/jquery-tag-this.css'>
 </head>
 
 <body>
@@ -47,20 +49,22 @@
     </script>
 
     <div id="search-flex">
+      <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
-        <input id="search-bar" type="text" type="submit" name='gameResult' placeholder="Enter a game..."/>
-        <button id='search-bar-button'><img src='../static/images/search.png'></button>
+        <button id='searchBarButton'><img src='../static/images/search.png'></button>
         <input type="hidden" name="jsonval" value=""/>
         <input type="hidden" name='state' value=""/>
       </form>
+    </div>
+    <div class='gameTags'></div>
 
       <script>
         //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
 
         //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         var gameInput = [];
-        $('#search-bar').bind("enterKey",function(e){
-            value = $('#search-bar').val();
+        $('#searchBar').bind("enterKey",function(e){
+            value = $('#searchBar').val();
             if ($.inArray(value, gameInput)==-1 && gameList.indexOf(value) != -1) {
               //add it to the data
               gameInput.push(value);
@@ -84,13 +88,16 @@
                 .append('text')
                 .text(value);
             }
+            $('#searchBar').val('');
           });
 
-        $("#gameResult").keyup(function(e){
+        $("#searchBar").keyup(function(e){
           if(e.keyCode == 13) {
             $(this).trigger("enterKey");
           }
         });
+
+        // $('#searchBar').tagThis();
 
         var autoCompleteGame = new autoComplete({
           selector: 'input[name="gameResult"]',
@@ -114,6 +121,21 @@
               suggest(matches);
           }
         });
+
+        function getJSON(){
+            var query = gameInput;
+            var resultSimple = [
+                {"state": currentState },
+                { "name": query }
+                ];
+            var json = JSON.stringify(resultSimple);
+            var state1 = JSON.stringify({"state": 1});
+            var formInfo = document.forms['send'];
+            formInfo.jsonval.value = json;
+            formInfo.state.value = state1;
+            console.log("json sent");
+            console.log(json);
+        }
       </script>
 
 
@@ -143,7 +165,6 @@
           });
       });
       </script>
-    </div>
 
     <!-- Results -->
     <div class="results">
@@ -721,20 +742,20 @@
     // state 1 -> red card was selected (query search)
     // state 2 -> blue card was selected (advanced search)
 
-      function getJSON(){
-        var query = document.getElementById("search-bar").value
-        var resultSimple = [
-            {"state": currentState },
-            { "name": query }
-            ];
-        var json = JSON.stringify(resultSimple);
-        var state1 = JSON.stringify({"state": 1});
-        var formInfo = document.forms['send'];
-        formInfo.jsonval.value = json;
-        formInfo.state.value = state1;
-        console.log("json sent");
-        console.log(json);
-    }
+    //   function getJSON(){
+    //     var query = document.getElementById("search-bar").value
+    //     var resultSimple = [
+    //         {"state": currentState },
+    //         { "name": query }
+    //         ];
+    //     var json = JSON.stringify(resultSimple);
+    //     var state1 = JSON.stringify({"state": 1});
+    //     var formInfo = document.forms['send'];
+    //     formInfo.jsonval.value = json;
+    //     formInfo.state.value = state1;
+    //     console.log("json sent");
+    //     console.log(json);
+    // }
 
     function enterSearch(event) {
       if (event.keyCode == 13) {

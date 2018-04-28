@@ -32,37 +32,36 @@ body {
 
 /* SEARCH BAR */
 #search-flex {
-  display: block; flex-direction: row; justify-content: space-between; align-items: center; width: 36vw; height: 300px; margin-left: auto; margin-right: auto; text-align: center;
+  display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 36vw; height: 50px; margin-left: auto; margin-right: auto; text-align: center;
   padding-right:10px;
 
   background: #58585B;
   color: #F2E5B1;
 }
 
-#search-bar-button {
-  order: 2;
+#searchBarButton {
   border:2px solid #F2E5B1;
   background-color: transparent;
   outline:0 !important;
 }
 #send {
-  display: block; margin-left: auto; margin-right: auto;
-  padding-top:10px;
+  display: block; order: 2; margin-left: auto; margin-right: auto;
 }
 
 ::placeholder {
   color: #F2E5B1;
   opacity: 0.5;
 }
-#search-bar {
-  font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; 
+
+#searchBar {
+  font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 0; margin-left: auto; margin-right: auto; 
 
   color: #F2E5B1;
   background: #58585B;
   border: 2px solid #F2E5B1;
   padding-left: 10px;
 }
-#search-bar:focus {
+#searchBar:focus {
   outline-width: 0;
 }
 #search-button { font-family: StyleThief; font-size: 22px; border-radius: 4px; width: 60px; height: 35px; margin-left: 5px; order: 2; }
@@ -333,7 +332,7 @@ input[type=range]::-moz-range-thumb {
   margin-left: 0px;
   font-size: 1.5vw;
   width: 340px;
-  height: 180px;
+  height: 220px;
   text-align: center;
   display: block;
   background: #58585B;
@@ -346,6 +345,7 @@ input[type=range]::-moz-range-thumb {
 }
 .example-queries h2 {
   font-family: 'Arapey';
+  font-weight:400px;
 }
 .example-queries .example-query {
   display: inline-block;
