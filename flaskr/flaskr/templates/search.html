@@ -35,7 +35,7 @@
 
     <div id="search-flex">
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
-        <input id="search-bar" type="text" type="submit" name='gameResult' placeholder="Search a game..."/>
+        <input id="search-bar" type="text" type="submit" name='gameResult' placeholder="Enter a game..."/>
         <input type="hidden" name="jsonval" value=""/>
         <input type="hidden" name='state' value=""/>
       </form>
@@ -169,7 +169,7 @@
               <h2>{{ results[i][0].name }}</h2>
               <hr />
               <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1] }}</span></p>
-              <p># of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
+              <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
               <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
               <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
               <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
@@ -217,267 +217,125 @@
 
       <div id="form">
           <div class='card' id='number-of-players'>
-              <p> Number of Players </p>
-              <div id='playerSlider'></div>
-              <p id='player-output'></p>
-
-              <!-- adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+              <h2> Number of Players </h2>
+              <div class='player-buttons'>
+                  <button class="player-button" value="1"><img src='../static/images/30.png'> 1 </button>
+                  <button class="player-button" value="2"><img src='../static/images/60.png'> 2 </button>
+                  <button class="player-button" value="3"><img src='../static/images/90.png'> 3 </button>
+                  <button class="player-button" value="4"><img src='../static/images/120.png'> 4 </button>
+                  <button class="player-button" value="5"><img src='../static/images/30.png'> 5 </button>
+                  <button class="player-button" value="6"><img src='../static/images/60.png'> 6 </button>
+                  <button class="player-button" value="7"><img src='../static/images/90.png'> 7 </button>
+                  <button class="player-button" value="8"><img src='../static/images/120.png'> 8+ </button>
+              </div>
               <script>
-                  var playerInput;
+                var playerInput = [0,0];
 
-                  $(function() {
-                      $("#playerSlider").slider({
-                          range: true,
-                          min: 1,
-                          max: 15,
-                          values: [4, 6],
-                          slide: function( event, input ) {
-                            if (input.values[1] == 15) {
-                              $( "#player-output" ).text(input.values[0] + " - " + input.values[1] + '+');
-                            } else {
-                              $( "#player-output" ).text(input.values[0] + " - " + input.values[1]);
-                            }
-                            playerInput = [input.values[0], input.values[1]]
-                            console.log(playerInput);
-                          }
-                      });
-                      $("#player-output").text($( "#playerSlider" ).slider( "values", 0) +
-                      " - " + $("#playerSlider").slider( "values",1) );
-                      playerInput = [$( "#playerSlider" ).slider( "values", 0), $("#playerSlider").slider( "values",1)];
-                  });
+                $(".player-button").click(function() { //select by class
+                  var clicked = $(this);
+
+                  if (clicked.hasClass('selectedPlayer')) {
+                    $('.player-button').removeClass('disabled'); //enable all again
+                    clicked.removeClass('selectedPlayer');
+                    playerInput = [0,0];
+                  } else {
+                    $('.player-button').removeClass('selectedPlayer');
+                    clicked.addClass('selectedPlayer');
+                    clicked.removeClass('disabled');
+                    var val = parseInt(clicked.attr("value"));
+                    playerInput = [val, val];
+                    $('.player-button').not(clicked).addClass('disabled'); //disable everything except clicked element
+                  }
+                });
               </script>
           </div>
 
           <div class='card' id='playing-time'>
-              <p> Playing Time </p>
+              <h2> Playing Time </h2>
               <div class='time-buttons'>
-                  <button id='0-30min'><img src='../static/images/30.png'> 0-30 min </button>
-                  <button id='30-60min'><img src='../static/images/60.png'> 30-60 min </button>
-                  <button id='60-120min'><img src='../static/images/90.png'> 60-120 min </button>
-                  <button id='120min'><img src='../static/images/120.png'> 120+ min </button>
+                  <button class="time-button" value='1'><img src='../static/images/30.png'> 0-30 min </button>
+                  <button class="time-button" value='2'><img src='../static/images/60.png'> 30-60 min </button>
+                  <button class="time-button" value='3'><img src='../static/images/90.png'> 60-120 min </button>
+                  <button class="time-button" value='4'><img src='../static/images/120.png'> 120+ min </button>
               </div>
 
               <script>
-                var time0Button = $('#0-30min');
-                var time1Button = $('#30-60min');
-                var time2Button = $('#60-120min');
-                var time3Button = $('#120min');
                 var timeInput = 0;
-                time0Button.on('click',function() {
-                  timeInput = 1;
-                  time0Button.addClass('selectedTime');
-                  time1Button.removeClass('selectedTime');
-                  time2Button.removeClass('selectedTime');
-                  time3Button.removeClass('selectedTime');
-                });
-                time1Button.on('click',function() {
-                  timeInput = 2;
-                  time0Button.removeClass('selectedTime');
-                  time1Button.addClass('selectedTime');
-                  time2Button.removeClass('selectedTime');
-                  time3Button.removeClass('selectedTime');
-                });
-                time2Button.on('click',function() {
-                  timeInput = 3;
-                  time0Button.removeClass('selectedTime');
-                  time1Button.removeClass('selectedTime');
-                  time2Button.addClass('selectedTime');
-                  time3Button.removeClass('selectedTime');
-                });
-                time3Button.on('click',function() {
-                  timeInput = 4;
-                  time0Button.removeClass('selectedTime');
-                  time1Button.removeClass('selectedTime');
-                  time2Button.removeClass('selectedTime');
-                  time3Button.addClass('selectedTime');
-                });
-              </script>
-          </div>
 
-          <div class='card' id='age'>
-              <p> Age Range </p>
-              <div class='age-buttons'>
-                  <button id='baby-button'><img src='../static/images/baby.png'> 0-6 years </button>
-                  <button id='kid-button'><img src='../static/images/kid.png'> 6-12 years </button>
-                  <button id='adult-button'><img src='../static/images/adult.png'> 12+ years </button>
-              </div>
+                $(".time-button").click(function() { //select by class
+                  var clicked = $(this);
 
-              <script>
-                  var babyButton = $('#baby-button');
-                  var kidButton = $('#kid-button');
-                  var adultButton = $('#adult-button');
-                  var ageInput = 0;
-                  babyButton.on('click',function() {
-                      babyButton.addClass('selectedAge');
-                      kidButton.removeClass('selectedAge');
-                      adultButton.removeClass('selectedAge');
-                      ageInput = 1;
-                  });
-                  kidButton.on('click',function() {
-                      babyButton.removeClass('selectedAge');
-                      kidButton.addClass('selectedAge');
-                      adultButton.removeClass('selectedAge');
-                      ageInput = 2;
-                  });
-                  adultButton.on('click',function() {
-                      babyButton.removeClass('selectedAge');
-                      kidButton.removeClass('selectedAge');
-                      adultButton.addClass('selectedAge');
-                      ageInput = 3;
-                  });
+                  if (clicked.hasClass('selectedTime')) {
+                    $(".time-button").removeClass('disabled'); //enable all again
+                    clicked.removeClass('selectedTime');
+                    timeInput = 0;
+                  } else {
+                    $(".time-button").removeClass('selectedTime');
+                    clicked.addClass('selectedTime');
+                    clicked.removeClass('disabled');
+                    var val = parseInt(clicked.attr("value"));
+                    timeInput = val;
+                    $(".time-button").not(clicked).addClass('disabled'); //disable everything except clicked element
+                  }
+                  console.log(timeInput);
+                });
               </script>
           </div>
 
           <div class='card' id='difficulty'>
-              <p> Difficulty </p>
-              <div class='difficulty-buttons'>
-                <button id='diff-1'><img src='../static/images/difficulty1.png'></button>
-                <button id='diff-2'><img src='../static/images/difficulty2.png'></button>
-                <button id='diff-3'><img src='../static/images/difficulty3.png'></button>
-                <button id='diff-4'><img src='../static/images/difficulty4.png'></button>
-                <button id='diff-5'><img src='../static/images/difficulty5.png'></button>
-                <button id='diff-6'><img src='../static/images/difficulty6.png'></button>
-                <button id='diff-7'><img src='../static/images/difficulty7.png'></button>
-              </div>
+            <h2> Complexity </h2>
+            <p>
+              <label for="complexity-display">Complexity Range:</label>
+              <input type="text" id="complexity-display" readonly>
+              <!-- <output for="complexity-display" onforminput="value = input.valueAsNumber;"></output> -->
+            </p>
+            <div id="slider-range"></div>
 
-              <script>
-                var diff1 = $('#diff-1')
-                var diff2 = $('#diff-2')
-                var diff3 = $('#diff-3')
-                var diff4 = $('#diff-4')
-                var diff5 = $('#diff-5')
-                var diff6 = $('#diff-6')
-                var diff7 = $('#diff-7')
-                var allDiff = [diff1, diff2, diff3, diff4, diff5, diff6,diff7];
-                var diffInput = [];
+            <script>
+            var diffInput = [3,4];
 
-                allDiff.forEach(function(d,i) {
-                    d.on('click',function() {
-                          d.toggleClass('diffClass');
-                          if (d.hasClass('diffClass')) {
-                              diffInput.push(i);
-                          } else {
-                              var remove = diffInput.indexOf(i);
-                              diffInput.splice(remove,1);
-                          }
-                    });
-                    d.on('hover',function() {
-                      //show the tooltip
-                    });
-                });
-              </script>
+            $( function() {
+              $( "#slider-range" ).slider({
+                range: true,
+                min: 1,
+                max: 7,
+                values: [3, 4],
+                slide: function( event, ui ) {
+                  $( "#complexity-display" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  diffInput = [ui.values[ 0 ], ui.values[ 1 ]];
+                  console.log(diffInput);
+                }
+              });
+              //Give default range on screen
+              $( "#complexity-display" ).val($( "#slider-range" ).slider( "values", 0 ) + " - " + $( "#slider-range" ).slider( "values", 1 ) );
+            } );
+            </script>
           </div>
 
-          <div id='dropdownAdvanced'>
-            <button id='dropdownButton'>Click for Advanced Options</button>
-          </div>
-
-          <script>
-            $("#dropdownAdvanced").click(function(){
-                $("#advancedOptions").slideToggle("slow");
-                document.getElementById('resultInput').scrollIntoView();
-            });
-          </script>
-
-          <div id='advancedOptions' style='display:none'>
-
-            <div class='card' id='categories'>
-              <div id='categorySearch'>
-                <p> Search by Category </p>
-                <input type='text' name='categoryResult' id='categoryResult'>
-              </div>
-              <div id='myCategories'>
-                <p>My Categories</p>
-                <div class='categoryTags'></div>
-              </div>
-
-                <script>
-                  //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
-
-                  //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-                  var categoryInput = [];
-                  $('#categoryResult').bind("enterKey",function(e){
-                      value = $('#categoryResult').val();
-                      if ($.inArray(value, categoryInput)==-1 && categoryList.indexOf(value) != -1) {
-                        //add it to the data
-                        categoryInput.push(value);
-                        //remove non-alphabetical chars
-                        var val = value.replace(/[^a-zA-Z]+/g, '');
-                        //show it as a tag
-                        d3.select('.categoryTags')
-                          .append('div')
-                          .attr('id',val)
-                          .style('display','inline-flex')
-                          .append('button')
-                          .attr('type','button')
-                          .attr('class','X')
-                          .text('X')
-                          .on('click',function() {
-                            this.remove();
-                            d3.select("#"+val).remove();
-                            categoryInput.splice(categoryInput.indexOf(val),1);
-                          });
-                        d3.select("#"+val)
-                          .append('text')
-                          .text(value);
-                      }
-                    });
-
-                  $("#categoryResult").keyup(function(e){
-                    if(e.keyCode == 13) {
-                      $(this).trigger("enterKey");
-                    }
-                  });
-
-                  var autoCompleteCategory = new autoComplete({
-                    selector: 'input[name="categoryResult"]',
-                    minChars: 1,
-                    source: function(term, suggest){
-                        term = term.toLowerCase();
-                        var choices = categoryList;
-                        var matches = [];
-                        for (i=0; i<choices.length; i++) {
-                            // var choice = choices[i].toLowerCase();
-                            // console.log(choice);
-                            for (j=1;j<choices[i].length; j++) {
-                              if (choices[i].toLowerCase().substring(0,j) == term) {
-                                matches.push(choices[i]);
-                              };
-                            };
-                        }
-                        for (k=0; k<choices.length; k++) {
-                            if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
-                              matches.push(choices[k]);
-                            };
-                        }
-                        suggest(matches);
-                  }
-                });
-
-                </script>
+          <div class='card' id='categories'>
+            <div id='categorySearch'>
+              <h2> Category </h2>
+              <input type='text' name='categoryResult' id='categoryResult'>
             </div>
-
-            <div class='card' id='mechanics'>
-              <div id='mechanicSearch'>
-                <p> Search by Mechanic </p>
-                <input type='text' name="mechanicResult" id='mechanicResult'>
-              </div>
-              <div id='myMechanics'>
-                <p>My Mechanics</p>
-                <div class='mechanicTags'></div>
-              </div>
+            <div id='myCategories'>
+              <br />
+              <div class='categoryTags'></div>
+            </div>
 
               <script>
                 //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
-                mechanicInput = [];
-                $('#mechanicResult').bind("enterKey",function(e){
-                    value = $('#mechanicResult').val();
-                    if ($.inArray(value, mechanicInput)==-1 && mechanicList.indexOf(value) != -1) {
-                      mechanicInput.push(value);
+
+                //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                var categoryInput = [];
+                $('#categoryResult').bind("enterKey",function(e){
+                    value = $('#categoryResult').val();
+                    if ($.inArray(value, categoryInput)==-1 && categoryList.indexOf(value) != -1) {
+                      //add it to the data
+                      categoryInput.push(value);
                       //remove non-alphabetical chars
                       var val = value.replace(/[^a-zA-Z]+/g, '');
                       //show it as a tag
-                      d3.select('.mechanicTags')
+                      d3.select('.categoryTags')
                         .append('div')
                         .attr('id',val)
                         .style('display','inline-flex')
@@ -488,26 +346,26 @@
                         .on('click',function() {
                           this.remove();
                           d3.select("#"+val).remove();
-                          mechanicInput.splice(mechanicInput.indexOf(val),1);
+                          categoryInput.splice(categoryInput.indexOf(val),1);
                         });
                       d3.select("#"+val)
                         .append('text')
                         .text(value);
                     }
-                });
+                  });
 
-                $("#mechanicResult").keyup(function(e){
+                $("#categoryResult").keyup(function(e){
                   if(e.keyCode == 13) {
                     $(this).trigger("enterKey");
                   }
-              });
+                });
 
-              var autoCompleteMechanic = new autoComplete({
-                  selector: 'input[name="mechanicResult"]',
+                var autoCompleteCategory = new autoComplete({
+                  selector: 'input[name="categoryResult"]',
                   minChars: 1,
                   source: function(term, suggest){
                       term = term.toLowerCase();
-                      var choices = mechanicList;
+                      var choices = categoryList;
                       var matches = [];
                       for (i=0; i<choices.length; i++) {
                           // var choice = choices[i].toLowerCase();
@@ -527,37 +385,108 @@
                 }
               });
               </script>
+          </div>
+
+          <div class='card' id='mechanics'>
+            <div id='mechanicSearch'>
+              <h2> Mechanics </h2>
+              <input type='text' name="mechanicResult" id='mechanicResult'>
             </div>
-          </div>
+            <div id='myMechanics'>
+              <br />
+              <div class='mechanicTags'></div>
+            </div>
 
-          <div class = 'card' id='advancedSubmit'>
-              <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
-                <button id='resultInput'> See Results! </button>
-                <input type="hidden" name="advancedVal" value=""/>
-                <input type='hidden' name='state' value=''/>
-              </form>
+            <script>
+              //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+              mechanicInput = [];
+              $('#mechanicResult').bind("enterKey",function(e){
+                  value = $('#mechanicResult').val();
+                  if ($.inArray(value, mechanicInput)==-1 && mechanicList.indexOf(value) != -1) {
+                    mechanicInput.push(value);
+                    //remove non-alphabetical chars
+                    var val = value.replace(/[^a-zA-Z]+/g, '');
+                    //show it as a tag
+                    d3.select('.mechanicTags')
+                      .append('div')
+                      .attr('id',val)
+                      .style('display','inline-flex')
+                      .append('button')
+                      .attr('type','button')
+                      .attr('class','X')
+                      .text('X')
+                      .on('click',function() {
+                        this.remove();
+                        d3.select("#"+val).remove();
+                        mechanicInput.splice(mechanicInput.indexOf(val),1);
+                      });
+                    d3.select("#"+val)
+                      .append('text')
+                      .text(value);
+                  }
+              });
 
-              <script>
-                function jsonAdvanced() {
-                  var resultComplex = [
-                     { "state": 2 },
-                    {
-                      "players": playerInput,
-                      "time": timeInput,
-                      "age": ageInput,
-                      "difficulty": diffInput,
-                      "category": categoryInput,
-                      "mechanics": mechanicInput
-                    }];
-                  var state2 = JSON.stringify({'state': 2});
-                  var json = JSON.stringify(resultComplex);
-                  var formInfo2 = document.forms['advancedForm'];
-                  formInfo2.advancedVal.value = json;
-                  formInfo2.state.value = state2;
-                  console.log(json);
-                };
-              </script>
+              $("#mechanicResult").keyup(function(e){
+                if(e.keyCode == 13) {
+                  $(this).trigger("enterKey");
+                }
+            });
+
+            var autoCompleteMechanic = new autoComplete({
+                selector: 'input[name="mechanicResult"]',
+                minChars: 1,
+                source: function(term, suggest){
+                    term = term.toLowerCase();
+                    var choices = mechanicList;
+                    var matches = [];
+                    for (i=0; i<choices.length; i++) {
+                        // var choice = choices[i].toLowerCase();
+                        // console.log(choice);
+                        for (j=1;j<choices[i].length; j++) {
+                          if (choices[i].toLowerCase().substring(0,j) == term) {
+                            matches.push(choices[i]);
+                          };
+                        };
+                    }
+                    for (k=0; k<choices.length; k++) {
+                        if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                          matches.push(choices[k]);
+                        };
+                    }
+                    suggest(matches);
+              }
+            });
+            </script>
           </div>
+        </div>
+
+        <div class = 'card' id='advancedSubmit'>
+            <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
+              <button id='resultInput'> See Results! </button>
+              <input type="hidden" name="advancedVal" value=""/>
+              <input type='hidden' name='state' value=''/>
+            </form>
+
+            <script>
+              function jsonAdvanced() {
+                var resultComplex = [
+                   { "state": 2 },
+                  {
+                    "players": playerInput,
+                    "time": timeInput,
+                    "difficulty": diffInput,
+                    "category": categoryInput,
+                    "mechanics": mechanicInput
+                  }];
+                var state2 = JSON.stringify({'state': 2});
+                var json = JSON.stringify(resultComplex);
+                var formInfo2 = document.forms['advancedForm'];
+                formInfo2.advancedVal.value = json;
+                formInfo2.state.value = state2;
+                console.log(json);
+              };
+            </script>
+        </div>
       </div>
 
       <div class="results">
@@ -598,7 +527,7 @@
                   <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px; text-shadow: none;">Click for more info</a>
                 </h2>
                 <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1] }}</span></p>
-                <p># of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
+                <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
                 <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
                 <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
                 <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>

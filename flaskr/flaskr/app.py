@@ -35,6 +35,7 @@ def getResults():
         originalState = 2
         d = request.form['advancedVal']
         data = json.loads(d)
+        print(data)
 
         # If no difficulty specified, give a medium difficulty
         if data[1]["difficulty"] == []:

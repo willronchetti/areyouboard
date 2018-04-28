@@ -41,8 +41,8 @@ body {
 
 /* FONT */
 @font-face {
-font-family: "StyleThief";
-src: url("fonts/StyleThief.otf") format("opentype");
+  font-family: "StyleThief";
+  src: url("fonts/StyleThief.otf") format("opentype");
 }
 
 /************************STYLING FOR FORM*******************/
@@ -54,58 +54,188 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     outline:0 !important;
 }
 
-.card {
-    width:75%;
-    margin: 0 12.5%;
+#form {
+  /* background-color: rgba(255, 255, 255, 0.4); */
+  background: #58585B;
+  color: #F2E5B1;
+  border: 10px solid #F2E5B1;
+  border-radius: 20px;
+
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding-bottom: 20px;
+}
+
+#form .card {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
     /* border:1px solid grey; */
-    background-color: rgba(255, 255, 255, 0.4);
-    display:inline-block;
+    display: block;
+}
+#form .card h2 {
+  font-family: 'Arapey';
+  font-weight: normal;
+}
+#form .card p {
+  width:100%;
+  text-align:center;
+  position:relative;
+  font-size:16px;
+  /* font-size:18px; */
+  font-family: 'Arapey';
 }
 
-.card p {
-    width:100%;
-    text-align:center;
-    position:relative;
-    font-size:16px;
-    /* font-size:18px; */
+#number-of-players .player-buttons .player-button {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+#number-of-players .player-buttons .selectedPlayer {
+  background: #F2E5B1 !important;
+  /* change this */
+}
+#playing-time .time-buttons .time-button {
+  /* margin-left: 2px;
+  margin-right: 2px; */
+}
+#playing-time .time-buttons .selectedTime {
+  background: #F2E5B1 !important;
+  /* change this */
+}
+#playing-time .time-buttons button {
+  width: 20%;
+  height: 90px;
+  margin-bottom: 5px;
+  background: rgb(255,255,255,0.5);
+}
+#playing-time .time-buttons button img {
+  display: block;
+  margin: 0 auto;
+  padding-bottom:5px;
+}
+#difficulty #complexity-display {
+  background-color: #58585B;
+  color: #F2E5B1;
+
+  border: 0;
+  font-family: 'Arapey';
+  font-size: 16px;
+  width: 30px;
+}
+
+#difficulty #slider-range {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background: none;
+}
+#difficulty #slider-range .ui-widget-header {
+  background: #F2E5B1;
+}
+
+#categories, #mechanics {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 150px;
+  text-align: center;
+}
+#categories input,
+#mechanics input {
+  width: 80%;
+}
+#categorySearch, #mechanicSearch {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+
+  font-family: 'Arapey';
+  font-weight:800;
+  font-size: 16px;
+}
+#categorySearch input,
+#mechanicSearch input {
+  height: 16px;
+  font-size: 16px;
+  font-family: 'Arapey';
+  color: #F2E5B1;
+  text-align: center;
+
+  background: #58585B;
+  border: none;
+  border-bottom: 2px solid #F2E5B1;
+}
+#categorySearch input:focus,
+#mechanicSearch input:focus {
+  outline-width: 0;
+}
+
+#myCategories, #myMechanics {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+
     font-family: 'Arapey';
+    font-weight:800;
+    font-size: 16px;
+    /*float:right;*/
+    /*margin-right: 15%;*/
+}
+#advancedSubmit {
+    border: none;
+}
+#advancedSubmit button {
+    cursor:pointer;
+    width: 75%;
+    margin: 10px 12.5%;
+    height: 50px;
+    font-family: 'Arapey';
+    color: white;
+    font-size:20px;
+    background: #58585B;
+    border: 1px solid #F2E5B1;
+}
+#advancedSubmit button:hover {
+  color: #58585B;
+  background-color: #F2E5B1;
+  transition: 0.5s;
 }
 
-#playerSlider {
+
+
+/**INSERTED SLIDER SHIT **/
+#form #playerSlider {
     margin-bottom: 20px;
     border:none;
     background: #c8e8ff;
 }
-
 input[type=range] {
     -webkit-appearance: none;
     width:75%;
     margin: 0 12.5%;
 
 }
-
 input[type=range]::-webkit-slider-runnable-track {
     background:grey;
     height:5px;
     border:none;
 }
-
-/*adapted from https://www.w3schools.com/howto/howto_js_rangeslider.asp*/
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
         /*appearance: none;*/
-    width: 50px; /* Set a specific slider handle width */
-    height: 50px; /* Slider handle height */
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
     background-image:  url('../images/loading-dice.png'); /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
-
 input[type=range]::-moz-range-track {
     background:grey;
     height:5px;
     border:none;
 }
-
 input[type=range]::-moz-range-thumb {
     width: 50px; /* Set a specific slider handle width */
     height: 50px; /* Slider handle height */
@@ -115,61 +245,7 @@ input[type=range]::-moz-range-thumb {
     cursor: pointer; /* Cursor on hover */
 }
 
-/*#playing-time, #age, #difficulty, #categories {
-    width:37.35%;
-    height:250px;
-}*/
 
-/*#playing-time, #difficulty {
-    float:left;
-    margin-right:0;
-}*/
-.time-buttons, .age-buttons {
-    margin: 0 12.5%;
-}
-
-.time-buttons button {
-    width: 24.5%;
-    height:90px;
-    margin-bottom:5px;
-    background: rgb(255,255,255,0.5);
-}
-
-.time-buttons button img {
-    display: block;
-    margin: 0 auto;
-    padding-bottom:5px;
-}
-
-.selectedTime {
-  background: lightblue !important;
-}
-
-#age, #categories {
-    float:right;
-    margin-left:0%;
-    margin-right:12.35%;
-}
-
-.selectedAge {
-    background:lightblue !important;
-}
-
-.age-buttons button {
-    width:20%;
-    height:150px;
-    background:rgb(255,255,255,0.5);
-    margin-bottom:5px;
-}
-
-.age-buttons button img {
-    display: block;
-    margin: 0 auto;
-}
-
-.selectedAge {
-    background:lightblue;
-}
 
 .difficulty-buttons {
     margin: 0 auto;
@@ -186,48 +262,45 @@ input[type=range]::-moz-range-thumb {
     background:lightblue !important;
 }
 
-#categories, #mechanics {
-    padding-bottom:20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    height:200px;
+/* ============================================================
+    .::[ Slider Shit ]::.
+============================================================= */
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
 }
 
-#categorySearch, #mechanicSearch {
-    width: 50%;
-    font-family: 'Arapey';
-    font-weight:800;
-    font-size: 16px;
-    /*float:left;*/
-    /*margin-left: 15%;*/
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 50px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
 }
-
-#myCategories, #myMechanics {
-    width: 50%;
-    font-family: 'Arapey';
-    font-weight:800;
-    font-size: 16px;
-    /*float:right;*/
-    /*margin-right: 15%;*/
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
 }
-
-/* Can we rename this since it's not actually the results */
-#advancedSubmit {
-    border:none;
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
 }
-#advancedSubmit button {
-    cursor:pointer;
-    width: 75%;
-    margin: 10px 12.5%;
-    height:50px;
-    font-family: 'Arapey';
-    color:white;
-    font-size:20px;
-    background:#01539E;
-    border:1px solid grey;
+.slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
 }
-
 
 /* ============================================================
     .::[ Results ]::.
@@ -504,7 +577,6 @@ input[type=range]::-moz-range-thumb {
 
   background: #58585B;
   color: #F2E5B1;
-
   border: 10px solid #F2E5B1;
   border-radius: 20px;
 
@@ -525,7 +597,7 @@ input[type=range]::-moz-range-thumb {
 .results .results-explanation .explanation-text hr {
   margin-bottom: 20px;
   padding: 0;
-  color: #333;
+  color: #F2E5B1;
   width: 80%;
   text-align: center;
 }
@@ -548,6 +620,9 @@ input[type=range]::-moz-range-thumb {
 }
 .results .results-explanation .explanation-text a {
   color: white;
+}
+.results .results-explanation .explanation-text a:hover {
+  color: #F2E5B1;
 }
 
 /* ============================================================
