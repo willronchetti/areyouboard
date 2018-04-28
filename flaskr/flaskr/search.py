@@ -163,7 +163,7 @@ def score(dataset, vector, advanced):
 
         # Heavily weight games that are in the same player range
         if advanced:
-            if (info.min_players <= vector.min_players) or (info.max_players >= vector.max_players):
+            if (info.min_players <= vector.min_players) and (info.max_players >= vector.max_players):
                 scores[name][0] += 10
             else:
                 del scores[name]
@@ -416,7 +416,7 @@ def getRelatedGames(dataset, name):
         print("Could not locate game")
         return []
 
-def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, genres):
+def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres):
     """
         Does an advanced search based on parameters given.
     """
@@ -427,7 +427,7 @@ def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, gen
     if (length == 3):
         max_time = 1000;
     new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
-        None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False)
+        None, None, None, None, mechanics, None, genres, complexity[0], None, None, None, False)
 
     results = score(dataset, new_game, True)
     print(results[0:10])

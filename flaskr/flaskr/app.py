@@ -44,7 +44,7 @@ def getResults():
         else:
             complexity = data[1]["difficulty"]
 
-        related_games = doAdvancedSearch(Dataset(), data[1]["players"], data[1]["age"], data[1]["time"],
+        related_games = doAdvancedSearch(Dataset(), data[1]["players"], data[1]["time"],
             complexity, data[1]['mechanics'], data[1]["category"])[1]
     else:
         originalState = 1
