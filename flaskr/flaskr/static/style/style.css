@@ -18,7 +18,7 @@ body {
 
 /* svg { border: solid #ccc 1px; } */
 
-#title { display: inline-block; font-family: StyleThief; font-size: 8vw; padding: 0px; margin: 0px; margin-top: 3vw; margin-bottom: 2vw; transition: 0.25s; color: #F2E5B1; text-shadow: -5.5px 5.5px #070727; }
+#title { display: inline-block; font-family: StyleThief; font-size: 8vw; padding: 0px; margin: 0px; margin-top: 3vw; margin-bottom: 1.5vw; transition: 0.25s; color: #F2E5B1; text-shadow: -5.5px 5.5px #070727; }
 #title:hover { cursor: pointer; text-shadow: 5.5px 5.5px #070727;  transition: 0.25s; }
 
 /* CARDS */
@@ -32,7 +32,7 @@ body {
 
 /* SEARCH BAR */
 #search-flex {
-  display: block; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 300px; margin-left: auto; margin-right: auto; text-align: center;
+  display: block; flex-direction: row; justify-content: space-between; align-items: center; width: 36vw; height: 300px; margin-left: auto; margin-right: auto; text-align: center;
   padding-right:10px;
 
   background: #58585B;
@@ -40,24 +40,27 @@ body {
 }
 
 #search-bar-button {
-  float:right;
+  order: 2;
+  border:2px solid #F2E5B1;
+  background-color: transparent;
+  outline:0 !important;
 }
 #send {
   display: block; margin-left: auto; margin-right: auto;
-  padding-top: 30px;
+  padding-top:10px;
 }
+
 ::placeholder {
   color: #F2E5B1;
   opacity: 0.5;
 }
 #search-bar {
-  font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; display: block;
+  font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; 
 
-  display: block;
   color: #F2E5B1;
   background: #58585B;
-  border: none;
-  border-bottom: 2px solid #F2E5B1;
+  border: 2px solid #F2E5B1;
+  padding-left: 10px;
 }
 #search-bar:focus {
   outline-width: 0;
