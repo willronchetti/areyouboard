@@ -394,7 +394,9 @@ input[type=range]::-moz-range-thumb {
   /* RED BLUE MIX */
   background: #3a6186;
   background: -webkit-linear-gradient(to left bottom, #58585b, #f2e5b1);
-   background-image: linear-gradient(to left bottom, #58585b, #f2e5b1);
+  background-image: linear-gradient(to left bottom, #58585b, #f2e5b1);
+
+  /* background-color: rgba(255, 255, 255, 0.4); */
 
   position: absolute;
   top: 0;
@@ -510,23 +512,22 @@ input[type=range]::-moz-range-thumb {
   border-width: 4px;
   border-color: black; */
 }
-
-hr {
-  padding: 0;
-  color: #333;
-  width: 80%;
-  text-align: center;
-}
-
 .results .results-explanation .explanation-text h2 {
   width: 95%;
   font-size: 30px;
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 25px;
+  margin-bottom: 4px;
   display: block;
   text-shadow: -1.5px 1.5px #070727;
+}
+.results .results-explanation .explanation-text hr {
+  margin-bottom: 20px;
+  padding: 0;
+  color: #333;
+  width: 80%;
+  text-align: center;
 }
 .results .results-explanation .explanation-text p {
   width: 95%;
@@ -534,6 +535,13 @@ hr {
   margin-right: auto;
   margin-top: 12px;
   margin-bottom: 12px;
+}
+.results .results-explanation .explanation-text .category-list {
+  margin-bottom: 12px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 .results .results-explanation .explanation-text .whitetext {
   color: white;
