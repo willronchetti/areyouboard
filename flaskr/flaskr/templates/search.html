@@ -170,11 +170,32 @@
                 <br />
                 <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px; text-shadow: none;">Click for more info</a>
               </h2>
+              <hr />
               <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1] }}</span></p>
               <p># of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
               <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
               <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
               <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
+              <p style="display: inline;">Mechanics:
+                <span class="whitetext">
+                  {% for j in range(results[i][0].mechanic|length) %}
+                    {% if j == 0 %}
+                      <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }}</p>
+                    {% else %}
+                      <p style="display: inline; color: white;">, {{ results[i][0].mechanic[j] }}</p>
+                    {% endif %}
+                  {% endfor %}
+                </span>
+              </p>
+              <p style="display: inline;">Categories:
+                  {% for j in range(results[i][0].categories|length) %}
+                    {% if j == 0 %}
+                      <p style="display: inline; color: white;">{{ results[i][0].categories[j] }}</p>
+                    {% else %}
+                      <p style="display: inline; color: white;">, {{ results[i][0].categories[j] }}</p>
+                    {% endif %}
+                  {% endfor %}
+              </p>
               <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
             </div>
           </div>
@@ -582,6 +603,9 @@
                 <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
                 <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
                 <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
+                <p>Mechanics: <span class="whitetext">{{ results[i][0].mechanic }}</span></p>
+                <p>Themes: <span class="whitetext">{{ results[i][0].categories }}</span></p>
+
                 <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
               </div>
             </div>
@@ -695,7 +719,7 @@
       .attr("height", h)
       svg.select(".Btext")
       .attr("fill", "#F2E5B1")
-      .text("Advanced Search")
+      .text("Custom Search")
       .attr("x", "82%")
       .attr("opacity", 0)
       .transition()

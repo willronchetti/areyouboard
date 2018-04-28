@@ -444,7 +444,7 @@ input[type=range]::-moz-range-thumb {
 /* RESULTS EXPLANATIONS */
 .results .results-explanation {
   display: none;
-  width: 70%;
+  width: 85%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -480,7 +480,7 @@ input[type=range]::-moz-range-thumb {
 }
 .results .results-explanation .explanation-img img {
   max-width: 100%;
-  max-height: 400px;
+  max-height: 550px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -505,12 +505,10 @@ input[type=range]::-moz-range-thumb {
 
   border: 10px solid #F2E5B1;
   border-radius: 20px;
-}
 
-.explanation-text {
-  border-style: double;
+  /* border-style: double;
   border-width: 4px;
-  border-color: black;
+  border-color: black; */
 }
 
 hr {
@@ -529,6 +527,13 @@ hr {
   margin-bottom: 25px;
   display: block;
   text-shadow: -1.5px 1.5px #070727;
+}
+.results .results-explanation .explanation-text p {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 .results .results-explanation .explanation-text .whitetext {
   color: white;
