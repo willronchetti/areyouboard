@@ -53,11 +53,11 @@ class Dataset(object):
         script_dir = os.path.dirname(__file__)
 
         #all game data
-        rel_path = "data/bgg_data.csv"
+        rel_path = "data/bgg_data_v3.csv"
         data_file = os.path.join(script_dir, rel_path)
 
         #tf idf original file (big)
-        rel_path = "data/tfidf_new.csv"
+        rel_path = "data/tfidf_v3.csv"
         tfidf_file = os.path.join(script_dir, rel_path)
 
         #svd numpy arrays
@@ -65,11 +65,11 @@ class Dataset(object):
         tfidf_np_file = os.path.join(script_dir, rel_path)
 
         #dictionary for mapping indices to games
-        rel_path = "data/game_names.csv"
+        rel_path = "data/game_names_v3.csv"
         map_file = os.path.join(script_dir, rel_path)
 
         #sentiments
-        rel_path = "data/game-sentiments.csv"
+        rel_path = "data/game_sentiments_v3.csv"
         sent_file = os.path.join(script_dir, rel_path)
 
         # Pull in game map
