@@ -295,8 +295,9 @@ input[type=range]::-moz-range-thumb {
   width: 70px;
   height: 100px;
   display: none;
-  position: fixed;
-  z-index: 1000;
+  position: absolute;
+  /* position: fixed;
+  z-index: 5; */
   cursor: pointer;
   top: 8%;
   left: 5%;

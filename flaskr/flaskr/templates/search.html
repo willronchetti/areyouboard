@@ -35,11 +35,13 @@
     <script>
     //Fade card out when hits certain threshold
     $(window).scroll(function(){
-       if ($(window).scrollTop() >= 550) {  // change target to number
+       if ($(window).scrollTop() >= 500) {  // change target to number
          $("#swap-switches-button").css('opacity', '0');
+         // $("#swap-switches-button").css('display', 'none');
        }
        else {
          $("#swap-switches-button").css('opacity', '1');
+         // $("#swap-switches-button").css('display', 'block');
        }
     });
     </script>
@@ -238,6 +240,7 @@
       //Fade card out when hits certain threshold
       $(window).scroll(function(){
          if ($(window).scrollTop() >= 800) {  // change target to number
+           $("#swap-switches-button2").css('display', 'none');
            $("#swap-switches-button2").css('opacity', '0');
          }
          else {
