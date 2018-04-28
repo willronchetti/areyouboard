@@ -131,7 +131,7 @@ class Dataset(object):
     def getGames(self):
         return self.games
 
-def score(dataset, vector):
+def score(dataset, vector, advanced):
     """
         Scoring function for the dataset
         Takes in vector of characteristics
@@ -143,11 +143,19 @@ def score(dataset, vector):
     for name, info in all_games.items():
 
         # Start at 0
-        scores[name] = 0
+        scores[name] = [0, []]
 
         # Ignore same game
         if (name == vector.name) or (name in vector.name):
             continue
+
+        # Heavily weight games that are in the same player range
+        if advanced:
+            if (info.min_players <= vector.min_players) or (info.max_players >= vector.max_players):
+                scores[name][0] += 10
+            else:
+                del scores[name]
+                continue
 
         # Only do this if we have a vector
         try:
@@ -155,118 +163,168 @@ def score(dataset, vector):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
+                scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
                      np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 20
 
         # If categories shared award points
+        cat_score = 0
         if vector.categories != None:
             common = set(info.categories).intersection(vector.categories)
             if len(common) > 0:
-                scores[name] += 1
+                scores[name][0] += 1
+                cat_score += 1
             if len(common) > 1:
-                scores[name] += 1
+                scores[name][0] += 1
+                cat_score += 1
             if len(common) > 2:
-                scores[name] += 1
+                scores[name][0] += 1
+                cat_score += 1
             if len(common) > 3:
-                scores[name] += 1
+                scores[name][0] += 1
+                cat_score += 1
             if len(common) > 4:
-                scores[name] += 1
+                scores[name][0] += 1
+                cat_score += 1
             if len(common) > 5:
-                scores[name] += 1
+                scores[name][0] += 1
+                cat_score += 1
 
         # If mechanic shared award points
+        mech_score = 0
         if vector.mechanic != None:
             common = set(info.mechanic).intersection(vector.mechanic)
             if len(common) > 0:
-                scores[name] += 1
+                scores[name][0] += 1
+                mech_score += 1
             if len(common) > 1:
-                scores[name] += 1
+                scores[name][0] += 1
+                mech_score += 1
             if len(common) > 2:
-                scores[name] += 1
+                scores[name][0] += 1
+                mech_score += 1
             if len(common) > 3:
-                scores[name] += 1
+                scores[name][0] += 1
+                mech_score += 1
             if len(common) > 4:
-                scores[name] += 1
+                scores[name][0] += 1
+                mech_score += 1
             if len(common) > 5:
-                scores[name] += 1
+                scores[name][0] += 1
+                mech_score += 1
 
         # If the complexity is within a certain range award points. If they're closer together
         # award more points
+        comp_score = 0
         if (info.complexity <= vector.complexity + 1) and (info.complexity >= vector.complexity - 1):
-            scores[name] += 2
+            scores[name][0] += 2
+            comp_score += 2
         if (info.complexity <= vector.complexity + .8) and (info.complexity >= vector.complexity - .8):
-            scores[name] += 2
+            scores[name][0] += 2
+            comp_score += 2
         if (info.complexity <= vector.complexity + .5) and (info.complexity >= vector.complexity - .5):
-            scores[name] += 2
+            scores[name][0] += 2
+            comp_score += 2
         if (info.complexity <= vector.complexity + .3) and (info.complexity >= vector.complexity - .3):
-            scores[name] += 2
+            scores[name][0] += 2
+            comp_score += 2
         if (info.complexity <= vector.complexity + .1) and (info.complexity >= vector.complexity - .1):
-            scores[name] += 2
+            scores[name][0] += 2
+            comp_score += 2
 
 
         # Average time is within a certain range, awared points
+        time_score = 0
         if (info.avg_time + 90 < vector.avg_time) and (info.avg_time - 90 > vector.avg_time):
-            scores[name] += 2
+            scores[name][0] += 2
+            time_score += 2
         if (info.avg_time + 60 < vector.avg_time) and (info.avg_time - 60 > vector.avg_time):
-            scores[name] += 2
+            scores[name][0] += 2
+            time_score += 2
         if (info.avg_time + 30 < vector.avg_time) and (info.avg_time - 30 > vector.avg_time):
-            scores[name] += 2
+            scores[name][0] += 2
+            time_score += 2
 
         # Lower weight for lower than average rated games
+        popularity_score = 0
         if info.avg_rating < 7:
-            scores[name] -= 3
+            scores[name][0] -= 3
+            popularity_score -= 3
         if info.avg_time < 6:
-            scores[name] -= 3
-
+            scores[name][0] -= 3
+            popularity_score -= 3
+        
         # Add weight to games that are owned by more than average
         # Add more if 1 std above average
         if info.owned >= 2700:
-            scores[name] += 5
+            scores[name][0] += 5
+            popularity_score += 5
         if info.owned > 9000:
-            scores[name] += 5
+            scores[name][0] += 5
+            popularity_score += 5
 
         # Remove weight from games that are not common
         # Remove more if significantly less common
         if info.owned < 2700:
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
         if info.owned < 500:
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
 
         # Add weight for games w more than average votes
         # Add more if significantly highly voted
         if info.num_votes >= 1773:
-            scores[name] += 4
+            scores[name][0] += 4
+            popularity_score += 4
         if info.num_votes > 6000:
-            scores[name] += 4
+            scores[name][0] += 4
+            popularity_score += 4
         if info.num_votes > 10000:
-            scores[name] += 4
+            scores[name][0] += 4
+            popularity_score += 4
 
         # Lower weight for votes less than average
         # Lower even more if it has very few
         if info.num_votes < 1773:
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
         if info.num_votes < 500:
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
 
         # Add points if in top 50%, 25%, 10%, 5%
         if info.rank < (.5 * 5329):
-            scores[name] += 2
+            scores[name][0] += 2
+            popularity_score += 2
         if info.rank < (.25 * 5329):
-            scores[name] += 2
+            scores[name][0] += 2
+            popularity_score += 2
         if info.rank < (.1 * 5329):
-            scores[name] += 2
+            scores[name][0] += 2
+            popularity_score += 2
         if info.rank < (.05 * 5329):
-            scores[name] += 2
+            scores[name][0] += 2
+            popularity_score += 2
 
         # Lower weight for low rated games, bottom 50%, 25%, 10%, 5%
         if info.rank > (.5 * 5329):
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
         if info.rank > (.25 * 5329):
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
         if info.rank > (.1 * 5329):
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
         if info.rank > (.05 * 5329):
-            scores[name] -= 2
+            scores[name][0] -= 2
+            popularity_score -= 2
+
+        scores[name][1] = sorted({'Popularity' : popularity_score / 30,
+            'Time' : time_score / 6,
+            'Complexity' : comp_score / 10,
+            'Mechanics' : mech_score / 6, 
+            'Categories' : cat_score / 6}, key=operator.itemgetter(1), reverse=True)
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_scores
@@ -326,7 +384,8 @@ def getRelatedMultipleGames(dataset, games):
 
     new_game = Game(games, None, min_players, max_players, length, min_time,
             max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
-    results = score(dataset, new_game)
+    results = score(dataset, new_game, False)
+    print(results[0:30])
     return new_game, results
 
 def getRelatedGames(dataset, name):
@@ -334,7 +393,7 @@ def getRelatedGames(dataset, name):
         Takes in a name of a game and returns an array of 10 games similar to that game.
     """
     if dataset.exists(name):
-        results = score(dataset, dataset.games[name])
+        results = score(dataset, dataset.games[name], False)
         print results[0:10]
         return results
     else:
@@ -354,7 +413,7 @@ def doAdvancedSearch(dataset, n_players, age, length, complexity, mechanics, gen
     new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
         None, None, None, age, mechanics, None, genres, complexity[0], None, None, None)
 
-    results = score(dataset, new_game)
+    results = score(dataset, new_game, True)
     print(results[0:10])
     return new_game, results
 
@@ -365,4 +424,4 @@ if __name__ == "__main__":
         getRelatedGames(d, 'CATAN')
     else:
         # doAdvancedSearch(d, 4, 14, 120, 3, ["strategy","Co-operative Play"])
-        getRelatedMultipleGames(d, ['CATAN'])
+        getRelatedMultipleGames(d, ['CATAN', 'PANDEMIC'])
