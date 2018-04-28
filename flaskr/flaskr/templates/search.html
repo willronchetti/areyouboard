@@ -102,41 +102,41 @@
         });
       </script>
 
-      <!-- <input id="search-bar" type="text" onkeypress="enterSearch(event)" placeholder="Search a game you like to find similar ones..."/>
-      <button id="search-button" onclick="querySearch()">Search</button> -->
-    </div>
 
-    <!-- Example Queries -->
-    <div class="example-queries">
-      <!-- <svg id="ex-q" width="470" height="60"></svg> -->
-      <h2>Try some examples!</h2>
-      <div class="example-query">
-        <img id="ex1" src="../static/images/example-catan.jpg" />
-        <p>Catan</p>
+      <!-- Example Queries -->
+      <div class="example-queries">
+        <!-- <svg id="ex-q" width="470" height="60"></svg> -->
+        <h2>Try some examples!</h2>
+        <div class="example-query">
+          <img id="ex1" src="../static/images/example-catan.jpg" />
+          <p>Catan</p>
+        </div>
+        <div class="example-query">
+          <img id="ex2" src="../static/images/example-pandemic.jpg" />
+          <p>Pandemic</p>
+        </div>
+        <div class="example-query">
+          <img id="ex3" src="../static/images/example-codenames.jpg" />
+          <p>Codenames</p>
+        </div>
       </div>
-      <div class="example-query">
-        <img id="ex2" src="../static/images/example-pandemic.jpg" />
-        <p>Pandemic</p>
-      </div>
-      <div class="example-query">
-        <img id="ex3" src="../static/images/example-codenames.jpg" />
-        <p>Codenames</p>
-      </div>
+      <script>
+      $(function () {
+          $('.example-query').on('click', function () {
+              var example_query = this.children[1].innerText;
+              var search_text = $('#search-bar');
+              search_text.val(example_query);
+          });
+      });
+      </script>
     </div>
-    <script>
-    $(function () {
-        $('.example-query').on('click', function () {
-            var example_query = this.children[1].innerText;
-            var search_text = $('#search-bar');
-            search_text.val(example_query);
-        });
-    });
-    </script>
 
     <!-- Results -->
     <div class="results">
       {% if (results) and (state == 1) %}
       <h1 id="state1Anchor">Results</h1>
+
+      <p class="showing-results-text">Showing results for <span style="color: white;">{{ query }}</span></p>
 
       <!-- CREATE GRID -->
       <div id="results-grid">
@@ -168,7 +168,17 @@
             <div class="explanation-text">
               <h2>{{ results[i][0].name }}</h2>
               <hr />
-              <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
+              <!-- <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p> -->
+              <div class="category-list">
+                <p style="display: inline;">Similar Aspects:</p>
+                {% for j in range(results[i][1][1]|length) %}
+                  {% if j != ((results[i][1][1]|length)-1) %}
+                    <p style="display: inline; color: white;">{{ results[i][1][1][j] }},</p>
+                  {% else %}
+                    <p style="display: inline; color: white;">{{ results[i][1][1][j] }}</p>
+                  {% endif %}
+                {% endfor %}
+              </div>
               <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
               <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
               <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>

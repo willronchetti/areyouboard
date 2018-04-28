@@ -31,9 +31,34 @@ body {
 .text { font-size: 35px; }
 
 /* SEARCH BAR */
-#search-flex { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 100px; margin-left: auto; margin-right: auto; text-align: center;}
-#send {display: block; margin-left: auto; margin-right: auto;}
-#search-bar { font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; display: block;}
+#search-flex {
+  display: block; flex-direction: row; justify-content: space-between; align-items: center; width: 35vw; height: 300px; margin-left: auto; margin-right: auto; text-align: center;
+
+  background: #58585B;
+  color: #F2E5B1;
+  border: 10px solid #F2E5B1;
+  border-radius: 20px;
+}
+#send {
+  display: block; margin-left: auto; margin-right: auto;
+  padding-top: 30px;
+}
+::placeholder {
+  color: #F2E5B1;
+  opacity: 0.5;
+}
+#search-bar {
+  font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 1; margin-left: auto; margin-right: auto; display: block;
+
+  display: block;
+  color: #F2E5B1;
+  background: #58585B;
+  border: none;
+  border-bottom: 2px solid #F2E5B1;
+}
+#search-bar:focus {
+  outline-width: 0;
+}
 #search-button { font-family: StyleThief; font-size: 22px; border-radius: 4px; width: 60px; height: 35px; margin-left: 5px; order: 2; }
 
 /* FORM */
@@ -348,14 +373,11 @@ input[type=range]::-moz-range-thumb {
   display: block;
   background: #58585B;
   margin-bottom: 20px;
-  padding-bottom: 60px;
   padding-top: 10px;
 
   display: block;
   margin-left: auto;
   margin-right: auto;
-  /* padding-right: 8px; */
-  /* cause it doesn't totally cover the next tile */
 }
 .example-queries h2 {
   font-family: 'Arapey';
@@ -414,11 +436,7 @@ input[type=range]::-moz-range-thumb {
     transform: translate3d(2.5px, 0, 0);
   }
 }
-.results p,
-.results a {
-  font-size: 24px;
-  font-family: 'Arapey', serif;
-}
+
 .results {
   display: block;
   margin-left: auto;
@@ -438,6 +456,9 @@ input[type=range]::-moz-range-thumb {
   font-size: 24px;
   font-family: 'Arapey', serif;
   text-decoration: none;
+}
+.results .showing-results-text {
+  background: #58585b;
 }
 /* RESULTS GRID */
 .results #result-grid {
