@@ -122,7 +122,11 @@
         });
 
         function getJSON(){
+            if (gameInput.length == 0) {
+                gameInput.push(document.getElementById('searchBar').value); 
+            }
             var query = gameInput;
+            console.log(query);
             var resultSimple = [
                 {"state": currentState },
                 { "name": query }
@@ -132,8 +136,7 @@
             var formInfo = document.forms['send'];
             formInfo.jsonval.value = json;
             formInfo.state.value = state1;
-            console.log("json sent");
-            console.log(json);
+            console.log(json)
         }
       </script>
 
@@ -159,7 +162,7 @@
       $(function () {
           $('.example-query').on('click', function () {
               var example_query = this.children[1].innerText;
-              var search_text = $('#search-bar');
+              var search_text = $('#searchBar');
               search_text.val(example_query);
           });
       });
