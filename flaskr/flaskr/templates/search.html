@@ -51,7 +51,7 @@
     <div id="search-flex">
       <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
       <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
-        <button id='searchBarButton'><img src='../static/images/search.png'></button>
+        <button id='searchBarButton'>Search</button>
         <input type="hidden" name="jsonval" value=""/>
         <input type="hidden" name='state' value=""/>
       </form>
@@ -74,6 +74,7 @@
               d3.select('.gameTags')
                 .append('div')
                 .attr('id',val)
+                .attr('class','gameTag')
                 .style('display','inline-flex')
                 .append('button')
                 .attr('type','button')
@@ -96,8 +97,6 @@
             $(this).trigger("enterKey");
           }
         });
-
-        // $('#searchBar').tagThis();
 
         var autoCompleteGame = new autoComplete({
           selector: 'input[name="gameResult"]',
@@ -142,7 +141,7 @@
       <!-- Example Queries -->
       <div class="example-queries">
         <!-- <svg id="ex-q" width="470" height="60"></svg> -->
-        <h2>Try some examples!</h2>
+        <p id='try-examples'>Try some examples!</p>
         <div class="example-query">
           <img id="ex1" class="wobble" src="../static/images/example-catan.jpg" />
           <p>Catan</p>

@@ -34,7 +34,7 @@ body {
 #search-flex {
   display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 36vw; height: 50px; margin-left: auto; margin-right: auto; text-align: center;
   padding-right:10px;
-
+  font-family: 'Arapey';
   background: #58585B;
   color: #F2E5B1;
 }
@@ -44,10 +44,35 @@ body {
   background-color: transparent;
   outline:0 !important;
   cursor: pointer;
+  font-size: 22px;
+  height:30px;
+  color: #F2E5B1;
+  font-family: 'Arapey';
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: 0.35s;
+}
+
+#searchBarButton:hover {
+  border:2px solid #F2E5B1;
+  background-color: #F2E5B1;
+  outline:0 !important;
+  cursor: pointer;
+  font-size: 22px;
+  color: #58585B;
+  font-family: 'Arapey';
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: 0.35s;
 }
 
 #send {
-  display: block; order: 2; margin-left: auto; margin-right: auto;
+  display: block; 
+  order: 2; 
+  margin-left: auto; 
+  margin-right: auto;
+  padding-top: 1px;
+  height:30px;
 }
 
 ::placeholder {
@@ -56,10 +81,17 @@ body {
 }
 
 #searchBar {
-  font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 0; margin-left: auto; margin-right: auto; 
-
+  border-top-left-radius: 4px; 
+  border-bottom-left-radius: 4px;
+  width: 28vw; 
+  height: auto; 
+  font-size: 22px; 
+  order: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  font-family: 'Arapey';
   color: #F2E5B1;
-  background: #97979E;
+  background: #9397A1;
   border: 2px solid #F2E5B1;
   padding-left: 10px;
 }
@@ -79,6 +111,13 @@ body {
   margin-right: auto;
 }
 
+.gameTag {
+  border: 1px solid;
+  border-radius:4px;
+  padding:3px;
+  padding-right:7px;
+  margin: 2px;
+}
 .X {
   border:0;
   background-color:transparent;
@@ -363,9 +402,9 @@ input[type=range]::-moz-range-thumb {
   margin-left: auto;
   margin-right: auto;
 }
-.example-queries h2 {
+#try-examples {
   font-family: 'Arapey';
-  font-weight:400px;
+  font-size:24px;
 }
 .example-queries .example-query {
   display: inline-block;
@@ -380,6 +419,7 @@ input[type=range]::-moz-range-thumb {
 }
 .example-queries .example-query p {
   margin-top: 5px;
+  font-size:18px;
 }
 
 #ex1, #ex2, #ex3 {
