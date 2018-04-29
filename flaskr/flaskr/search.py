@@ -163,7 +163,7 @@ def score(dataset, vector, advanced):
 
         # Heavily weight games that are in the same player range
         if advanced:
-            if info.max_players >= vector.max_players:
+            if int(info.max_players) >= int(vector.max_players):
                 scores[name][0] += 10
             else:
                 del scores[name]
