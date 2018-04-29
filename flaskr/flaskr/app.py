@@ -50,8 +50,14 @@ def getResults():
         originalState = 1
         d = request.form["jsonval"]
         data = json.loads(d)
-        queryName = data[1]["name"]
-        related_games = getRelatedGames(dataset, data[1]["name"].upper())
+        if len(data[1]['name']) == 1:
+            queryName = data[1]["name"]
+            related_games = getRelatedGames(dataset, data[1]["name"][0].upper())
+        else:
+            games = []
+            for game in data[1]["name"]:
+                games.append(game.upper())
+            related_games = getRelatedMultipleGames(dataset, games)[1]
 
     top10_related_games = related_games[:30]
 
