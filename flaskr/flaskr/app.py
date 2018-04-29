@@ -29,7 +29,7 @@ def getResults():
     dataset = Dataset()
 
     originalState = 0
-    queryName = ""
+    queryName = []
 
     # State variable is 2
     if (json.loads(request.form['state'])['state'] == 2):
@@ -50,8 +50,8 @@ def getResults():
         originalState = 1
         d = request.form["jsonval"]
         data = json.loads(d)
+        queryName = data[1]["name"]
         if len(data[1]['name']) == 1:
-            queryName = data[1]["name"]
             related_games = getRelatedGames(dataset, data[1]["name"][0].upper())
         else:
             games = []

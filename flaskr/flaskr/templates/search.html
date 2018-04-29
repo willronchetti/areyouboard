@@ -8,17 +8,35 @@
     <link href="https://fonts.googleapis.com/css?family=Arapey" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='../static/style/style.css'>
     <link rel='stylesheet' href='../static/style/external/jquery-ui.css'>
+    <link rel='stylesheet' href='../static/style/external/auto-complete.css'>
     <script src='../static/scripts/external/jquery-3.3.1.min.js'></script>
     <script src='../static/scripts/external/jquery-ui.js'></script>
     <script src='../static/scripts/external/auto-complete.js'></script>
     <script src='../static/scripts/gamelist.js'></script>
-    <script src="../static/scripts/results.js"></script>
-    <link rel='stylesheet' href='../static/style/external/auto-complete.css'>
 </head>
 
 <body>
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
+
+  <div class="credits">
+    <!-- Mockup: Maybe put this in the footer instead -->
+
+    <!-- <p class="credits-text">
+      Data collected for this application is for academic purposes only.
+    </p> -->
+    <!-- <p class="credits-text">
+      Built at Cornell University by Eliot Huang, Tiffany Wang, Ziyad Duron, Will Ronchetti, and Jake Jermanok.
+    </p> -->
+    <p class="credits-text">
+      Built at Cornell University by <br />
+      Eliot Huang <br />
+      Tiffany Wang<br />
+      Ziyad Duron<br />
+      Will Ronchetti<br />
+      Jake Jermanok<br />
+    </p>
+  </div>
 
   <!-- STATE 0 CASE -->
   <div id="state0" style="display: none">
@@ -172,7 +190,16 @@
       {% if (results) and (state == 1) %}
       <h1 id="state1Anchor">Results</h1>
 
-      <p class="showing-results-text">Showing results for <span style="color: white;">{{ query }}</span></p>
+      <div class = "showing-results-text">
+        <p style="display: inline;">Showing results for: </p>
+        {% for i in range(query|length) %}
+          {% if i != ((query|length)-1) %}
+          <p style="display: inline; color: white;">{{ query[i] }}, </p>
+          {% else %}
+          <p style="display: inline; color: white;">{{ query[i] }}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
 
       <!-- CREATE GRID -->
       <div id="results-grid">
@@ -608,341 +635,339 @@
         </script>
         {% endif %}
       </div>
-  </div>
+    </div>
 
-  <div id="footer">
-    <!-- No text can actually go here because this is what is giving explanation blocks some margin-bottom lol, call this something else in the future -->
-  </div>
+    <div id="footer">
+    </div>
 
-  <!-- JAVASCRIPT -->
-  <script>
+    <!-- JAVASCRIPT -->
+    <script>
+      // ********************************** ex queries
+      var svgEx = d3.select("#ex-q");
+      var exH = 60;
+      var exW = 470;
 
-    // ********************************** ex queries
+      svgEx.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", exW)
+      .attr("height", exH)
+      .attr("fill", "#58585B");
 
-    var svgEx = d3.select("#ex-q");
-    var exH = 60;
-    var exW = 470;
+      svgEx.append("text")
+      .attr("x", exW/2)
+      .attr("y", exH/2+12)
+      .attr("fill", "#F2E5B1")
+      .attr("font-family", "Arapey")
+      .attr("font-size", "1.65vw")
+      .text("Try some examples: Catan, Pandemic, Codenames, etc.")
+      .attr("text-anchor", "middle");
 
-    svgEx.append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", exW)
-    .attr("height", exH)
-    .attr("fill", "#58585B");
+      // *************************************** hover
 
-    svgEx.append("text")
-    .attr("x", exW/2)
-    .attr("y", exH/2+12)
-    .attr("fill", "#F2E5B1")
-    .attr("font-family", "Arapey")
-    .attr("font-size", "1.65vw")
-    .text("Try some examples: Catan, Pandemic, Codenames, etc.")
-    .attr("text-anchor", "middle");
+      var red = d3.select("#red");
+      var blue = d3.select("#blue");
+      var svg = d3.select("#card-desc");
+      var h = 50;
+      var w = 400;
+      var bool = true;
 
-    // *************************************** hover
+      svg.append("rect")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", 0)
+      .attr("height", 0)
+      .attr("class", "textBack")
+      .attr("fill", "#58585B")
 
-    var red = d3.select("#red");
-    var blue = d3.select("#blue");
-    var svg = d3.select("#card-desc");
-    var h = 50;
-    var w = 400;
-    var bool = true;
+      svg.append("text")
+      .attr("opacity", 0)
+      .attr("x", 0)
+      .attr("y", h/2)
+      .attr("class", "Rtext")
+      .text("")
+      .attr("text-anchor", "middle")
 
-    svg.append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", 0)
-    .attr("height", 0)
-    .attr("class", "textBack")
-    .attr("fill", "#58585B")
+      svg.append("text")
+      .attr("opacity", 0)
+      .attr("x", 0)
+      .attr("y", h/2)
+      .attr("class", "Btext")
+      .text("")
+      .attr("text-anchor", "middle")
 
-    svg.append("text")
-    .attr("opacity", 0)
-    .attr("x", 0)
-    .attr("y", h/2)
-    .attr("class", "Rtext")
-    .text("")
-    .attr("text-anchor", "middle")
-
-    svg.append("text")
-    .attr("opacity", 0)
-    .attr("x", 0)
-    .attr("y", h/2)
-    .attr("class", "Btext")
-    .text("")
-    .attr("text-anchor", "middle")
-
-    red.on("mouseover", function() {
-      if (bool == true) {
+      red.on("mouseover", function() {
+        if (bool == true) {
+          svg.select(".textBack")
+          .attr("x", 20)
+          .attr("y", 0)
+          .attr("width", 145)
+          .attr("height", h)
+          svg.select(".Rtext")
+          .attr("fill", "#F2E5B1")
+          .text("Search A Game")
+          .attr("x", "17.5%")
+          .attr("opacity", 0)
+          .transition()
+          .attr("x", "25.5%")
+          .attr("opacity", 1)
+        }
+      })
+      .on("mouseout", function() {
         svg.select(".textBack")
-        .attr("x", 20)
+        .attr("x", 0)
         .attr("y", 0)
-        .attr("width", 145)
-        .attr("height", h)
+        .attr("width", 0)
+        .attr("height", 0)
         svg.select(".Rtext")
-        .attr("fill", "#F2E5B1")
-        .text("Search A Game")
-        .attr("x", "17.5%")
-        .attr("opacity", 0)
-        .transition()
         .attr("x", "25.5%")
         .attr("opacity", 1)
-      }
-    })
-    .on("mouseout", function() {
-      svg.select(".textBack")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", 0)
-      .attr("height", 0)
-      svg.select(".Rtext")
-      .attr("x", "25.5%")
-      .attr("opacity", 1)
-      .transition()
-      .attr("x", "17.5%")
-      .attr("opacity", 0)
-    });
-
-    blue.on("mouseover", function() {
-      if (bool == true) {
-        svg.select(".textBack")
-        .attr("x", w-170)
-        .attr("y", 0)
-        .attr("width", 145)
-        .attr("height", h)
-        svg.select(".Btext")
-        .attr("fill", "#F2E5B1")
-        .text("Custom Search")
-        .attr("x", "82%")
-        .attr("opacity", 0)
         .transition()
+        .attr("x", "17.5%")
+        .attr("opacity", 0)
+      });
+
+      blue.on("mouseover", function() {
+        if (bool == true) {
+          svg.select(".textBack")
+          .attr("x", w-170)
+          .attr("y", 0)
+          .attr("width", 145)
+          .attr("height", h)
+          svg.select(".Btext")
+          .attr("fill", "#F2E5B1")
+          .text("Custom Search")
+          .attr("x", "82%")
+          .attr("opacity", 0)
+          .transition()
+          .attr("x", "74%")
+          .attr("opacity", 1)
+        }
+      })
+      .on("mouseout", function() {
+        svg.select(".textBack")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 0)
+        .attr("height", 0)
+        svg.select(".Btext")
         .attr("x", "74%")
         .attr("opacity", 1)
-      }
-    })
-    .on("mouseout", function() {
-      svg.select(".textBack")
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", 0)
-      .attr("height", 0)
-      svg.select(".Btext")
-      .attr("x", "74%")
-      .attr("opacity", 1)
-      .transition()
-      .attr("x", "82%")
-      .attr("opacity", 0)
-    });
+        .transition()
+        .attr("x", "82%")
+        .attr("opacity", 0)
+      });
 
-  // *************************************** state handling
+    // *************************************** state handling
 
-    var currentState = 0;
-    {% if (state == 1) %}
-      //change this to check if search was from state1
-      currentState = 1;
-    {% endif %}
-    {% if (state == 2) %}
-      //change this to check if search was from state2
-      currentState = 2;
-    {% endif %}
-
-    stateHandler(currentState);
-    // state 0 -> initial state (both cards on the screen)
-    // state 1 -> red card was selected (query search)
-    // state 2 -> blue card was selected (advanced search)
-
-    function redSelect() {
-
-      console.log("red card selected", currentState);
-
-      var red = d3.select("#red");
-      var blue = d3.select("#blue");
-      var text = d3.select(".Rtext");
-      var textBack = d3.select(".textBack");
-      var cardFlex = d3.select("#card-flex");
-
-      bool = false;
-
-      text.style("opacity", 0);
-      textBack.style("opacity", 0);
-      blue.style("opacity", 0);
-      blue.style("cursor", "default");
-      red.style("margin-left", "125px");
-      setTimeout(function() {
-        red.style("margin-top", "300px")
-        red.style("opacity", 0);
-        stateHandler(1);
-      }, 800);
-    };
-
-    function blueSelect() {
-
-      console.log("blue card selected");
-
-      var red = d3.select("#red");
-      var blue = d3.select("#blue");
-      var text = d3.select(".Btext");
-      var textBack = d3.select(".textBack");
-      var cardFlex = d3.select("#card-flex");
-
-      bool = false;
-
-      text.style("opacity", 0);
-      textBack.style("opacity", 0);
-      red.style("opacity", 0);
-      red.style("cursor", "default");
-      blue.style("margin-right", "125px");
-      setTimeout(function() {
-        blue.style("margin-top", "300px")
-        blue.style("opacity", 0);
-        stateHandler(2);
-      }, 800);
-    };
-
-    function stateHandler(state) {
-
-      var state0Div = d3.select("#state0");
-      var state1Div = d3.select("#state1");
-      var state2Div = d3.select("#state2");
-      var swapSwitchesButton1 = d3.select("#swap-switches-button");
-      var swapSwitchesButton2 = d3.select("#swap-switches-button2");
-
-      if (state == 0) {
-        currentState = 0;
-        state0Div.style("display", "block");
-        state1Div.style("display", "none");
-        state2Div.style("display", "none");
-
-        //don't show swap switches button
-        swapSwitchesButton1.style("display", "none");
-        swapSwitchesButton2.style("display", "none");
-      }
-
-      if (state == 1) {
+      var currentState = 0;
+      {% if (state == 1) %}
+        //change this to check if search was from state1
         currentState = 1;
-        console.log("entering red-card-selected state", currentState)
+      {% endif %}
+      {% if (state == 2) %}
+        //change this to check if search was from state2
+        currentState = 2;
+      {% endif %}
+
+      stateHandler(currentState);
+      // state 0 -> initial state (both cards on the screen)
+      // state 1 -> red card was selected (query search)
+      // state 2 -> blue card was selected (advanced search)
+
+      function redSelect() {
+
+        console.log("red card selected", currentState);
+
+        var red = d3.select("#red");
+        var blue = d3.select("#blue");
+        var text = d3.select(".Rtext");
+        var textBack = d3.select(".textBack");
+        var cardFlex = d3.select("#card-flex");
+
+        bool = false;
+
+        text.style("opacity", 0);
+        textBack.style("opacity", 0);
+        blue.style("opacity", 0);
+        blue.style("cursor", "default");
+        red.style("margin-left", "125px");
         setTimeout(function() {
-          intiialState = false;
-          state0Div.style("display", "none");
-          state1Div.style("display", "block");
+          red.style("margin-top", "300px")
+          red.style("opacity", 0);
+          stateHandler(1);
+        }, 800);
+      };
+
+      function blueSelect() {
+
+        console.log("blue card selected");
+
+        var red = d3.select("#red");
+        var blue = d3.select("#blue");
+        var text = d3.select(".Btext");
+        var textBack = d3.select(".textBack");
+        var cardFlex = d3.select("#card-flex");
+
+        bool = false;
+
+        text.style("opacity", 0);
+        textBack.style("opacity", 0);
+        red.style("opacity", 0);
+        red.style("cursor", "default");
+        blue.style("margin-right", "125px");
+        setTimeout(function() {
+          blue.style("margin-top", "300px")
+          blue.style("opacity", 0);
+          stateHandler(2);
+        }, 800);
+      };
+
+      function stateHandler(state) {
+
+        var state0Div = d3.select("#state0");
+        var state1Div = d3.select("#state1");
+        var state2Div = d3.select("#state2");
+        var swapSwitchesButton1 = d3.select("#swap-switches-button");
+        var swapSwitchesButton2 = d3.select("#swap-switches-button2");
+
+        if (state == 0) {
+          currentState = 0;
+          state0Div.style("display", "block");
+          state1Div.style("display", "none");
           state2Div.style("display", "none");
 
-          //show swap switches button
-          swapSwitchesButton1.style("display", "block");
-        }, 250);
-      } // end of state 1
+          //don't show swap switches button
+          swapSwitchesButton1.style("display", "none");
+          swapSwitchesButton2.style("display", "none");
+        }
 
-      if (state == 2) {
-        currentState = 2;
-        console.log("entering blue-card-selected state", currentState)
-        setTimeout(function() {
-          intiialState = false;
-          state0Div.style("display", "none");
-          state1Div.style("display", "none");
-          state2Div.style("display", "block");
+        if (state == 1) {
+          currentState = 1;
+          console.log("entering red-card-selected state", currentState)
+          setTimeout(function() {
+            intiialState = false;
+            state0Div.style("display", "none");
+            state1Div.style("display", "block");
+            state2Div.style("display", "none");
 
-          //show swap switches button
-          swapSwitchesButton2.style("display", "block");
-        }, 250);
-      } // end of state 2
-    };
-  </script>
+            //show swap switches button
+            swapSwitchesButton1.style("display", "block");
+          }, 250);
+        } // end of state 1
 
-  <script>
-    // *************************************************data processing
+        if (state == 2) {
+          currentState = 2;
+          console.log("entering blue-card-selected state", currentState)
+          setTimeout(function() {
+            intiialState = false;
+            state0Div.style("display", "none");
+            state1Div.style("display", "none");
+            state2Div.style("display", "block");
 
-    var allGames = new Object;
+            //show swap switches button
+            swapSwitchesButton2.style("display", "block");
+          }, 250);
+        } // end of state 2
+      };
+    </script>
 
-    d3.queue()
-    .defer(d3.csv, "/static/data/2017_04.csv") // f1
-    .defer(d3.csv, "/static/data/2018_01.csv") // f2
-    .await(function(error, f1, f2) {
-      if (error) {
-        console.log("ERROR: " + error)
-      } else {
+    <script>
+      // *************************************************data processing
 
-        f1.forEach(function(d) {
-          allGames[d.names] = {
-            ID: d.bgg_url,
-            MinPlayers: Number(d.min_players),
-            MaxPlayers: Number(d.max_players),
-            AvgTime: Number(d.avg_time),
-            MinTime: Number(d.min_time),
-            MaxTime: Number(d.max_time),
-            Year: Number(d.year),
-            AvgRating: Number(d.avg_rating),
-            GeekRating: Number(d.geek_rating),
-            Votes: Number(d.num_votes),
-            Image: d.image_url,
-            Age: Number(d.age),
-            Mechanic: d.mechanic,
-            Owned: Number(d.owned),
-            Genre: d.category,
-            Weight: Number(d.weight)
-          }
-        }); // end of forEach for f1
+      var allGames = new Object;
 
-        f2.forEach(function(d) {
-          allGames[d.names] = {
-            ID: d.bgg_url,
-            MinPlayers: Number(d.min_players),
-            MaxPlayers: Number(d.max_players),
-            AvgTime: Number(d.avg_time),
-            MinTime: Number(d.min_time),
-            MaxTime: Number(d.max_time),
-            Year: Number(d.year),
-            AvgRating: Number(d.avg_rating),
-            GeekRating: Number(d.geek_rating),
-            Votes: Number(d.num_votes),
-            Image: d.image_url,
-            Age: Number(d.age),
-            Mechanic: d.mechanic,
-            Owned: Number(d.owned),
-            Genre: d.category,
-            Weight: Number(d.weight)
-          }
-        });
+      d3.queue()
+      .defer(d3.csv, "/static/data/2017_04.csv") // f1
+      .defer(d3.csv, "/static/data/2018_01.csv") // f2
+      .await(function(error, f1, f2) {
+        if (error) {
+          console.log("ERROR: " + error)
+        } else {
 
-        var allMechanics = [];
-        Object.keys(allGames).forEach(function(key) {
-          m = allGames[key].Mechanic.split(", ")
-          m.forEach(function(i) {
-            allMechanics.push(i);
+          f1.forEach(function(d) {
+            allGames[d.names] = {
+              ID: d.bgg_url,
+              MinPlayers: Number(d.min_players),
+              MaxPlayers: Number(d.max_players),
+              AvgTime: Number(d.avg_time),
+              MinTime: Number(d.min_time),
+              MaxTime: Number(d.max_time),
+              Year: Number(d.year),
+              AvgRating: Number(d.avg_rating),
+              GeekRating: Number(d.geek_rating),
+              Votes: Number(d.num_votes),
+              Image: d.image_url,
+              Age: Number(d.age),
+              Mechanic: d.mechanic,
+              Owned: Number(d.owned),
+              Genre: d.category,
+              Weight: Number(d.weight)
+            }
+          }); // end of forEach for f1
+
+          f2.forEach(function(d) {
+            allGames[d.names] = {
+              ID: d.bgg_url,
+              MinPlayers: Number(d.min_players),
+              MaxPlayers: Number(d.max_players),
+              AvgTime: Number(d.avg_time),
+              MinTime: Number(d.min_time),
+              MaxTime: Number(d.max_time),
+              Year: Number(d.year),
+              AvgRating: Number(d.avg_rating),
+              GeekRating: Number(d.geek_rating),
+              Votes: Number(d.num_votes),
+              Image: d.image_url,
+              Age: Number(d.age),
+              Mechanic: d.mechanic,
+              Owned: Number(d.owned),
+              Genre: d.category,
+              Weight: Number(d.weight)
+            }
+          });
+
+          var allMechanics = [];
+          Object.keys(allGames).forEach(function(key) {
+            m = allGames[key].Mechanic.split(", ")
+            m.forEach(function(i) {
+              allMechanics.push(i);
+            })
+          });
+
+          //https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+          uniqueMechanics = allMechanics.filter(function(d,i,self) {
+            return self.indexOf(d) == i;
           })
-        });
 
-        //https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
-        uniqueMechanics = allMechanics.filter(function(d,i,self) {
-          return self.indexOf(d) == i;
-        })
+          uniqueMechanics.splice(49,1);
+          var mechanicString = '['
+          uniqueMechanics.forEach(function(d,i) {
+            mechanicString+='"' + d + '", '
+          }) //51 in total
 
-        uniqueMechanics.splice(49,1);
-        var mechanicString = '['
-        uniqueMechanics.forEach(function(d,i) {
-          mechanicString+='"' + d + '", '
-        }) //51 in total
+          var allGenres = [];
+          Object.keys(allGames).forEach(function(key) {
+            m = allGames[key].Genre.split(", ")
+            m.forEach(function(i) {
+              allGenres.push(i);
+            })
+          });
 
-        var allGenres = [];
-        Object.keys(allGames).forEach(function(key) {
-          m = allGames[key].Genre.split(", ")
-          m.forEach(function(i) {
-            allGenres.push(i);
+          //https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+          uniqueGenres = allGenres.filter(function(d,i,self) {
+            return self.indexOf(d) == i;
           })
-        });
 
-        //https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
-        uniqueGenres = allGenres.filter(function(d,i,self) {
-          return self.indexOf(d) == i;
-        })
+          var genreString = '['
+          uniqueGenres.forEach(function(d,i) {
+            genreString +='"' + d + '", '
+          }) //84 in total
 
-        var genreString = '['
-        uniqueGenres.forEach(function(d,i) {
-          genreString +='"' + d + '", '
-        }) //84 in total
-
-    };
-  });
-  </script>
-  <!-- <script src="../static/scripts/results.js"></script> -->
+      };
+    });
+    </script>
+    <!-- HTML Dependent Scripts-->
+    <script src="../static/scripts/results.js"></script>
   </body>
 </html>
