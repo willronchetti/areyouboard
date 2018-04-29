@@ -275,8 +275,9 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     margin-right: auto;
     font-family: 'Arapey';
     font-size: 16px;
-
+    display:inline;
 }
+
 #advancedSubmit {
     border: none;
 }
@@ -292,6 +293,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     border: 2px solid #F2E5B1;
     border-radius:8px;
     transition: 0.35s;
+    display:block;
 }
 #advancedSubmit button:hover {
   color: #58585B;
