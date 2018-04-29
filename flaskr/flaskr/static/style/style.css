@@ -43,7 +43,9 @@ body {
   border:2px solid #F2E5B1;
   background-color: transparent;
   outline:0 !important;
+  cursor: pointer;
 }
+
 #send {
   display: block; order: 2; margin-left: auto; margin-right: auto;
 }
@@ -57,7 +59,7 @@ body {
   font-family: 'Arapey', serif; border-radius: 4px; width: 30vw; height: auto; font-size: 25px; order: 0; margin-left: auto; margin-right: auto; 
 
   color: #F2E5B1;
-  background: #58585B;
+  background: #97979E;
   border: 2px solid #F2E5B1;
   padding-left: 10px;
 }
@@ -65,6 +67,25 @@ body {
   outline-width: 0;
 }
 #search-button { font-family: StyleThief; font-size: 22px; border-radius: 4px; width: 60px; height: 35px; margin-left: 5px; order: 2; }
+
+/* TAGS *************************************/
+.gameTags {
+  font-family: 'Arapey';
+  font-size:20px;
+  background: #58585B;
+  width:27%;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.X {
+  border:0;
+  background-color:transparent;
+  cursor: pointer;
+  color: white;
+}
+
 
 /* FORM */
 /*#form { font-size: 30px; width: 150px; height: 100px; background-color: black; margin-left: auto; margin-right: auto; color: white; }*/
@@ -339,7 +360,6 @@ input[type=range]::-moz-range-thumb {
   margin-bottom: 20px;
   padding-top: 10px;
 
-  display: block;
   margin-left: auto;
   margin-right: auto;
 }
