@@ -136,22 +136,17 @@ body {
 }
 
 /************************STYLING FOR FORM*******************/
-button {
-    /*font-family: 'PT Sans';*/
-}
 
 button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch {
     outline:0 !important;
 }
 
 #form {
-  /* background-color: rgba(255, 255, 255, 0.4); */
   background: #58585B;
   color: #F2E5B1;
-  border: 10px solid #F2E5B1;
-  border-radius: 20px;
-
-  width: 75%;
+  border: 4px solid #F2E5B1;
+  border-radius: 10px;
+  width: 56.5%;
   margin-left: auto;
   margin-right: auto;
   display: block;
