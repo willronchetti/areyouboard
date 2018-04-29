@@ -106,7 +106,7 @@
                 .append('text')
                 .text(value);
             }
-            $('#searchBar').val('');
+            $('#searchBar').val("");
           });
 
         $("#searchBar").keyup(function(e){
@@ -369,30 +369,53 @@
           <div class='card' id='difficulty'>
             <h2> Complexity </h2>
             <p>
-              <label for="complexity-display">Complexity Range:</label>
+              <!-- <label for="complexity-display">Complexity Range:</label> -->
               <input type="text" id="complexity-display" readonly>
               <!-- <output for="complexity-display" onforminput="value = input.valueAsNumber;"></output> -->
             </p>
+            <input style="display: inline; width: 45%;" type="text" id="complexity-game-display1" readonly>
+            <p style="display: inline">
+              --
+            </p>
+            <input style="display: inline; width: 45%;" type="text" id="complexity-game-display2" readonly>
+
             <div id="slider-range"></div>
 
             <script>
-            var diffInput = [3,4];
+            var diffInput = [1,4]; //initial values
+            var complexityExamples = ["Codenames", "Ticket to Ride, Resistance", "Catan", "Pandemic Legacy", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium", "Advanced Squad Leader"];
 
             $( function() {
               $( "#slider-range" ).slider({
                 range: true,
                 min: 1,
                 max: 7,
-                values: [3, 4],
+                values: diffInput,
                 slide: function( event, ui ) {
-                  $( "#complexity-display" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#complexity-display" ).val(
+                    ui.values[ 0 ] + "   --   " + ui.values[ 1 ]
+                  );
                   diffInput = [ui.values[ 0 ], ui.values[ 1 ]];
-                  console.log(diffInput);
+                  // console.log(diffInput);
+                  $( "#complexity-game-display1" ).val(
+                    complexityExamples[ui.values[ 0 ] - 1]
+                  );
+                  $( "#complexity-game-display2" ).val(
+                    complexityExamples[ui.values[ 1 ] - 1]
+                  );
                 }
               });
               //Give default range on screen
-              $( "#complexity-display" ).val($( "#slider-range" ).slider( "values", 0 ) + " - " + $( "#slider-range" ).slider( "values", 1 ) );
-            } );
+              $( "#complexity-display" ).val(
+                $( "#slider-range" ).slider( "values", 0 ) + "   --   " + $( "#slider-range" ).slider( "values", 1 )
+              );
+              $( "#complexity-game-display1" ).val(
+                complexityExamples[$( "#slider-range" ).slider( "values", 0 ) - 1]
+              );
+              $( "#complexity-game-display2" ).val(
+                complexityExamples[$( "#slider-range" ).slider( "values", 1 ) - 1]
+              );
+            });
             </script>
           </div>
 

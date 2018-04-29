@@ -122,6 +122,7 @@ body {
   background: #58585B;
   /* width: 27%; */
   width: 36vw;
+  height: 34px;
   display:block;
   margin-left: auto;
   margin-right: auto;
@@ -235,7 +236,27 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   border: 0;
   font-family: 'Arapey';
   font-size: 16px;
-  width: 30px;
+  width: 50px;
+}
+#difficulty #complexity-game-display1,
+#difficulty #complexity-game-display2 {
+  background-color: #58585B;
+  color: #F2E5B1;
+  text-align: center;
+  width: 45%;
+  border: 0;
+  font-family: 'Arapey';
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#difficulty #complexity-game-display1 {
+  margin-right: 5px;
+  text-align: right;
+}
+#difficulty #complexity-game-display2 {
+  margin-left: 5px;
+  text-align: left;
 }
 
 #difficulty #slider-range {
@@ -405,7 +426,7 @@ input[type=range]::-moz-range-thumb {
   display: block;
   background: #58585B;
   margin-bottom: 20px;
-  padding-top: 10px;
+  padding-top: 2px;
 
   margin-left: auto;
   margin-right: auto;
