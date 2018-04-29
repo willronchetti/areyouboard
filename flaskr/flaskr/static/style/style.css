@@ -111,7 +111,7 @@ body {
   margin-right: auto;
 }
 
-.gameTag {
+.gameTag, .categoryTag, .mechanicTag {
   border: 1px solid;
   border-radius:4px;
   padding:3px;
@@ -156,7 +156,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 #form .card {
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 80%;
+    width: 85%;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -179,12 +179,12 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 #number-of-players .player-buttons .player-button {
   font-family: 'Arapey';
   font-size: 24px;
-  background: rgb(255,255,255,0.5);
+  background: #9296A1;
   color: black;
   /* color: #F2E5B1; */
 
-  width: 80px;
-  height: 80px;
+  width: 11.5%;
+  height: 70px;
   border-radius: 8px;
 
   margin: 2px;
@@ -196,14 +196,13 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 #playing-time .time-buttons .time-button {
   font-family: 'Arapey';
   font-size: 16px;
-  background: rgb(255,255,255,0.5);
+  background: #9296A1;
   color: black;
 
-  width: 160px;
+  width:23%;
   height: 90px;
   border-radius: 8px;
-
-  margin: 5px;
+  margin: 2px;
 }
 #playing-time .time-buttons button img {
   display: block;
@@ -224,11 +223,13 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 }
 
 #difficulty #slider-range {
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   display: block;
   background: none;
+  border:1px solid #F2E5B1;
+  border-radius:8px;
 }
 #difficulty #slider-range .ui-widget-header {
   background: #F2E5B1;
@@ -249,10 +250,6 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-
-  font-family: 'Arapey';
-  font-weight:800;
-  font-size: 16px;
 }
 #categorySearch input,
 #mechanicSearch input {
@@ -276,12 +273,9 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     width: 70%;
     margin-left: auto;
     margin-right: auto;
-
     font-family: 'Arapey';
-    font-weight:800;
     font-size: 16px;
-    /*float:right;*/
-    /*margin-right: 15%;*/
+
 }
 #advancedSubmit {
     border: none;
@@ -296,14 +290,14 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     font-size:20px;
     background: #58585B;
     border: 2px solid #F2E5B1;
+    border-radius:8px;
+    transition: 0.35s;
 }
 #advancedSubmit button:hover {
   color: #58585B;
   background-color: #F2E5B1;
-  transition: 0.5s;
+  transition: 0.35s;
 }
-
-
 
 /**INSERTED SLIDER SHIT **/
 #form #playerSlider {
