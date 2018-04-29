@@ -335,7 +335,7 @@ input[type=range]::-moz-range-thumb {
     width: 50px; /* Set a specific slider handle width */
     height: 50px; /* Slider handle height */
     background:none; /*make background of slider transparent*/
-    background-image: url('images/loading-dice.png'); /* set image as background */
+    background-image: url('../images/loading-dice.png'); /* set image as background */
     border:0;
     cursor: pointer; /* Cursor on hover */
 }
