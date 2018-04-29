@@ -7,14 +7,13 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Arapey" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='../static/style/style.css'>
-    <link rel='stylesheet' href='../static/scripts/jquery-ui-1.12.1.custom/jquery-ui.css'>
-    <script src='../static/scripts/jquery-3.3.1.min.js'></script>
-    <script src='../static/scripts/jquery-ui-1.12.1.custom/jquery-ui.js'></script>
-    <script src='../static/js/auto-complete.js'></script>
-    <script src='../static/js/gamelist.js'></script>
+    <link rel='stylesheet' href='../static/style/external/jquery-ui.css'>
+    <script src='../static/scripts/external/jquery-3.3.1.min.js'></script>
+    <script src='../static/scripts/external/jquery-ui.js'></script>
+    <script src='../static/scripts/external/auto-complete.js'></script>
+    <script src='../static/scripts/gamelist.js'></script>
+    <script src="../static/scripts/results.js"></script>
     <link rel='stylesheet' href='../static/style/auto-complete.css'>
-    <script src="../static/scripts/jquery.tagthis.js"></script>
-    <link rel='stylesheet' href='../static/scripts/jquery-tag-this.css'>
 </head>
 
 <body>
@@ -746,84 +745,11 @@
       //change this to check if search was from state2
       currentState = 2;
     {% endif %}
-    console.log(currentState);
 
     stateHandler(currentState);
     // state 0 -> initial state (both cards on the screen)
     // state 1 -> red card was selected (query search)
     // state 2 -> blue card was selected (advanced search)
-
-    //   function getJSON(){
-    //     var query = document.getElementById("search-bar").value
-    //     var resultSimple = [
-    //         {"state": currentState },
-    //         { "name": query }
-    //         ];
-    //     var json = JSON.stringify(resultSimple);
-    //     var state1 = JSON.stringify({"state": 1});
-    //     var formInfo = document.forms['send'];
-    //     formInfo.jsonval.value = json;
-    //     formInfo.state.value = state1;
-    //     console.log("json sent");
-    //     console.log(json);
-    // }
-
-    function enterSearch(event) {
-      if (event.keyCode == 13) {
-        var query = document.getElementById("search-bar").value
-        console.log("QUERY:", query);
-        var resultSimple = [
-              {"state": currentState },
-              { "name": query }
-              ];
-        console.log(resultSimple);
-
-        $.ajax({
-            url: '/receiveData',
-            data: JSON.stringify(resultSimple),
-            type: 'POST',
-            contentType: 'application/json',
-            success: function(response) {
-              console.log('this is a success');
-              console.log(response);
-
-              //rewrite the whole webpage with new html code
-              //that has retrieved results
-              document.write(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-      }
-    }
-
-    function querySearch() {
-      var query = document.getElementById("search-bar").value
-      console.log("QUERY:", query);
-      var resultSimple = [
-              {"state": currentState },
-              { "name": query }
-              ];
-      console.log(resultSimple);
-
-      var results = [];
-      $.ajax({
-          url: '/receiveData',
-          data: JSON.stringify(resultSimple),
-          type: 'POST',
-          contentType: 'application/json',
-          success: function(response) {
-            console.log('this is a success');
-            results = response
-            console.log(response);
-            console.log("hello");
-          },
-          error: function(error) {
-              console.log(error);
-          }
-      });
-    }
 
     function redSelect() {
 
@@ -994,8 +920,7 @@
         var mechanicString = '['
         uniqueMechanics.forEach(function(d,i) {
           mechanicString+='"' + d + '", '
-        })
-        console.log(mechanicString); //51 in total
+        }) //51 in total
 
         var allGenres = [];
         Object.keys(allGames).forEach(function(key) {
@@ -1013,15 +938,11 @@
         var genreString = '['
         uniqueGenres.forEach(function(d,i) {
           genreString +='"' + d + '", '
-        })
-        console.log(genreString); //84 in total
+        }) //84 in total
 
     };
   });
   </script>
-
-  <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> -->
-  <!-- <script src="scripts/vendor/animate-number.min.js"></script> -->
-  <script src="/static/js/results.js"></script>
+  <!-- <script src="../static/scripts/results.js"></script> -->
   </body>
 </html>
