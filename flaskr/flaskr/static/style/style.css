@@ -123,7 +123,7 @@ body {
   border: 2px #F2E5B1 solid;
   border-radius: 4px;
   background-color: #58585B;
-  width: 443px;
+  width: 34.5vw;
   margin-top:10px;
 }
 
@@ -430,7 +430,7 @@ input[type=range]::-moz-range-thumb {
   margin-left: 0px;
   font-size: 1.5vw;
   /* width: 340px; */
-  width: 35vw;
+  width: 34.5vw;
   height: 220px;
   text-align: center;
   display: block;
