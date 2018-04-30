@@ -34,7 +34,6 @@ body {
   background: #58585B;
   color: #F2E5B1;
   /* width: 100%; */
-
   font-family: 'Arapey';
   border: 2px solid #F2E5B1;
 }
@@ -42,7 +41,12 @@ body {
   cursor: pointer;
   /* box-shadow: 2px 2px 5px 0 #070727; */
 }
+
 #credits {
+  /* height: 130px; */
+  /* position: absolute;
+  right: 4%;
+  top: 8%; */
   width: 196px;
   margin-left: auto;
   margin-right: auto;
@@ -51,9 +55,9 @@ body {
   text-align: center;
 }
 #credits .credits-text {
+  width: 100%;
   font-family: 'Arapey';
   font-size: 16px;
-  width: 100%;
 }
 
 /* CARDS */
@@ -140,7 +144,7 @@ body {
   border: 2px #F2E5B1 solid;
   border-radius: 4px;
   background-color: #58585B;
-  width: 34.5vw;
+  width: 443px;
   margin-top:10px;
 }
 
@@ -149,8 +153,7 @@ body {
   font-family: 'Arapey';
   font-size:18px;
   background: #58585B;
-  height: 18px;
-  margin-top: 5px;
+  height: auto;
   display:block;
   margin-left: auto;
   margin-right: auto;
@@ -278,11 +281,11 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 }
 #difficulty #complexity-game-display1 {
   margin-right: 5px;
-  text-align: right;
+  text-align: left;
 }
 #difficulty #complexity-game-display2 {
   margin-left: 5px;
-  text-align: left;
+  text-align: right;
 }
 
 #complexity-flex {
@@ -421,7 +424,7 @@ input[type=range]::-moz-range-thumb {
   z-index: 5; */
   cursor: pointer;
   top: 8%;
-  left: 10%;
+  left: 5%;
   margin: 0;
   padding: 0;
   transition: 0.35s;
@@ -448,7 +451,7 @@ input[type=range]::-moz-range-thumb {
   margin-left: 0px;
   font-size: 1.5vw;
   /* width: 340px; */
-  width: 34.5vw;
+  width: 35vw;
   height: 220px;
   text-align: center;
   display: block;
@@ -618,7 +621,6 @@ input[type=range]::-moz-range-thumb {
   transition: 0.35s;
   cursor: pointer;
   margin: 0px;
-  height: 100%;
   background: #57575B;
 }
 
@@ -703,12 +705,12 @@ input[type=range]::-moz-range-thumb {
 }
 .results .results-explanation .explanation-text a {
   transition: 0.35s;
-  color: #A9A9A9;
+  color: #5895DD;
   font-size: 20px;
 }
 .results .results-explanation .explanation-text a:hover {
   transition: 0.35s;
-  color: #DCDCDC;
+  color: white;
   font-size: 20px;
 }
 
