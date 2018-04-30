@@ -192,7 +192,7 @@ def score(dataset, vector, advanced):
                 cat_score += 10
             if len(common) > 1:
                 scores[name][0] += 10
-                cat_score += 5
+                cat_score += 10
             if len(common) > 2:
                 scores[name][0] += 5
                 cat_score += 5
@@ -228,7 +228,7 @@ def score(dataset, vector, advanced):
                 mech_score += 10
             if len(common) > 1:
                 scores[name][0] += 10
-                mech_score += 5
+                mech_score += 10
             if len(common) > 2:
                 scores[name][0] += 5
                 mech_score += 5
