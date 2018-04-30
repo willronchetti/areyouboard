@@ -175,8 +175,8 @@ def score(dataset, vector, advanced):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
-                     np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 20
+                scores[name][0] += (
+                    np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) / np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 7
 
         # Add sentiment
         if info.sentiment == True:
@@ -260,7 +260,6 @@ def score(dataset, vector, advanced):
 
         if advanced:
             if (info.complexity >= vector.complexity[0]) and (info.complexity <= vector.complexity[1]):
-                print(vector.complexity[0], vector.complexity[1])
                 scores[name][0] += 10
                 comp_score += 10
         else:
@@ -401,6 +400,9 @@ def score(dataset, vector, advanced):
                 'Complexity' : comp_score / 10,
                 'Mechanics' : mech_score / 6,
                 'Categories' : cat_score / 6}, key=operator.itemgetter(1), reverse=True)
+            if name == "CODENAMES DUET":
+                print(popularity_score, time_score, comp_score, mech_score, cat_score)
+                print(scores["CODENAMES DUET"])
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_scores

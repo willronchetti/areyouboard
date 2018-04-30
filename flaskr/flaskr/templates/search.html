@@ -19,25 +19,6 @@
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
-  <div class="credits">
-    <!-- Mockup: Maybe put this in the footer instead -->
-
-    <!-- <p class="credits-text">
-      Data collected for this application is for academic purposes only.
-    </p> -->
-    <!-- <p class="credits-text">
-      Built at Cornell University by Eliot Huang, Tiffany Wang, Ziyad Duron, Will Ronchetti, and Jake Jermanok.
-    </p> -->
-    <p class="credits-text">
-      Built at Cornell University by <br />
-      Eliot Huang <br />
-      Tiffany Wang<br />
-      Ziyad Duron<br />
-      Will Ronchetti<br />
-      Jake Jermanok<br />
-    </p>
-  </div>
-
   <!-- STATE 0 CASE -->
   <div id="state0" style="display: none">
     <div id="card-flex">
@@ -65,15 +46,16 @@
     });
     </script> -->
 
-    <div id="search-flex">
-      <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
-      <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
-        <button id='searchBarButton'>Search</button>
-        <input type="hidden" name="jsonval" value=""/>
-        <input type="hidden" name='state' value=""/>
-      </form>
-    </div>
-    <div class='gameTags'></div>
+    <div class="search-container">
+      <div id="search-flex">
+        <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
+        <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
+          <button id='searchBarButton'>Search</button>
+          <input type="hidden" name="jsonval" value=""/>
+          <input type="hidden" name='state' value=""/>
+        </form>
+      </div>
+      <div class='gameTags'></div>
 
       <script>
         //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
@@ -157,7 +139,6 @@
         }
       </script>
 
-
       <!-- Example Queries -->
       <div class="example-queries">
         <!-- <svg id="ex-q" width="470" height="60"></svg> -->
@@ -184,6 +165,7 @@
           });
       });
       </script>
+    </div>
 
     <!-- Results -->
     <div class="results">
@@ -383,7 +365,7 @@
 
             <script>
             var diffInput = [1,4]; //initial values
-            var complexityExamples = ["Codenames", "Ticket to Ride, Resistance", "Catan", "Pandemic Legacy", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium", "Advanced Squad Leader"];
+            var complexityExamples = ["Codenames, Werewolf", "Ticket to Ride, Resistance", "Catan, Dominion", "Pandemic Legacy, Cosmic Encounter", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium"];
 
             $( function() {
               $( "#slider-range" ).slider({
@@ -419,33 +401,34 @@
             </script>
           </div>
 
-          <div class='card' id='categories'>
-            <div id='categorySearch'>
-              <h2> Category </h2>
-              <input type='text' name='categoryResult' id='categoryResult' placeholder='Ex: Card Game'>
+          <div class='card' id='misc'>
+            <!-- Categories and Mechanics -->
+            <div id='miscSearch'>
+              <h2> Anything else? </h2>
+              <input type='text' name='miscResult' id='miscResult' placeholder="Try 'Bluffing', 'Mythology', or 'Science Fiction'">
             </div>
-            <div id='myCategories'>
+            <div id='myMisc'>
               <br />
-              <div class='categoryTags'></div>
+              <div class='miscTags'></div>
             </div>
 
               <script>
                 //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
 
                 //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-                var categoryInput = [];
-                $('#categoryResult').bind("enterKey",function(e){
-                    value = $('#categoryResult').val();
-                    if ($.inArray(value, categoryInput)==-1 && categoryList.indexOf(value) != -1) {
+                var miscInput = [];
+                $('#miscResult').bind("enterKey",function(e){
+                    value = $('#miscResult').val();
+                    if ($.inArray(value, miscInput)==-1 && comboList.indexOf(value) != -1) {
                       //add it to the data
-                      categoryInput.push(value);
+                      miscInput.push(value);
                       //remove non-alphabetical chars
                       var val = value.replace(/[^a-zA-Z]+/g, '');
                       //show it as a tag
-                      d3.select('.categoryTags')
+                      d3.select('.miscTags')
                         .append('div')
                         .attr('id',val)
-                        .attr('class','categoryTag')
+                        .attr('class','miscTag')
                         .style('display','inline-flex')
                         .append('button')
                         .attr('type','button')
@@ -454,27 +437,27 @@
                         .on('click',function() {
                           this.remove();
                           d3.select("#"+val).remove();
-                          categoryInput.splice(categoryInput.indexOf(val),1);
+                          miscInput.splice(miscInput.indexOf(val),1);
                         });
                       d3.select("#"+val)
                         .append('text')
                         .text(value);
                     }
-                    $('#categoryResult').val('');
+                    $('#miscResult').val('');
                   });
 
-                $("#categoryResult").keyup(function(e){
+                $("#miscResult").keyup(function(e){
                   if(e.keyCode == 13) {
                     $(this).trigger("enterKey");
                   }
                 });
 
-                var autoCompleteCategory = new autoComplete({
-                  selector: 'input[name="categoryResult"]',
+                var autoCompleteMisc = new autoComplete({
+                  selector: 'input[name="miscResult"]',
                   minChars: 1,
                   source: function(term, suggest){
                       term = term.toLowerCase();
-                      var choices = categoryList;
+                      var choices = comboList; //categories and mechanics
                       var matches = [];
                       for (i=0; i<choices.length; i++) {
                           // var choice = choices[i].toLowerCase();
@@ -496,7 +479,7 @@
               </script>
           </div>
 
-          <div class='card' id='mechanics'>
+          <!-- <div class='card' id='mechanics'>
             <div id='mechanicSearch'>
               <h2> Mechanics </h2>
               <input type='text' name="mechanicResult" id='mechanicResult' placeholder='Ex: Dice Rolling'>
@@ -568,7 +551,7 @@
               }
             });
             </script>
-          </div>
+          </div> -->
 
           <div class = 'card' id='advancedSubmit'>
               <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
@@ -579,6 +562,19 @@
 
               <script>
                 function jsonAdvanced() {
+                  //seperate out miscInput
+                  categoryInput = []
+                  mechanicInput = []
+                  for (var z = 0; z < miscInput.length; z++) {
+                    var value = miscInput[z]
+                    if (mechanicList.includes(value)) {
+                      mechanicInput.push(value);
+                    }
+                    else if (categoryList.includes(value)) {
+                      categoryInput.push(value);
+                    }
+                  }
+
                   var resultComplex = [
                      { "state": 2 },
                     {
@@ -685,6 +681,13 @@
     </div>
 
     <div id="footer">
+      <div id="credits">
+        <p class="credits-text">
+          Built at Cornell University by: <br /> <br />
+          Eliot Huang (keh228), Tiffany Wang (tyw6), Ziyad Duron (zad22), <br />
+          Will Ronchetti (wrr33), and Jake Jermanok (jaj224).
+        </p>
+      </div>
     </div>
 
     <!-- JAVASCRIPT -->
@@ -877,6 +880,7 @@
         var state2Div = d3.select("#state2");
         var swapSwitchesButton1 = d3.select("#swap-switches-button");
         var swapSwitchesButton2 = d3.select("#swap-switches-button2");
+        var credits = d3.select("#credits");
 
         if (state == 0) {
           currentState = 0;
@@ -887,6 +891,8 @@
           //don't show swap switches button
           swapSwitchesButton1.style("display", "none");
           swapSwitchesButton2.style("display", "none");
+          //show credits
+          credits.style("display", "block");
         }
 
         if (state == 1) {
@@ -900,6 +906,8 @@
 
             //show swap switches button
             swapSwitchesButton1.style("display", "block");
+            //hide credits
+            credits.style("display", "none");
           }, 250);
         } // end of state 1
 
@@ -914,6 +922,8 @@
 
             //show swap switches button
             swapSwitchesButton2.style("display", "block");
+            //hide credits
+            credits.style("display", "none");
           }, 250);
         } // end of state 2
       };
