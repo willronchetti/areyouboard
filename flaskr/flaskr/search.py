@@ -175,8 +175,8 @@ def score(dataset, vector, advanced):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name][0] += (
-                    np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) / np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 7
+                scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) / 
+                    np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 7
 
         # Add sentiment
         if info.sentiment == True:
@@ -189,13 +189,13 @@ def score(dataset, vector, advanced):
             #if a user entered in a category, they really want that
             if len(common) > 0:
                 scores[name][0] += 10
-                mech_score += 10
+                cat_score += 10
             if len(common) > 1:
                 scores[name][0] += 5
-                mech_score += 5
+                cat_score += 5
             if len(common) > 2:
                 scores[name][0] += 5
-                mech_score += 5
+                cat_score += 5
         else:
             if vector.categories != None:
                 common = set(info.categories).intersection(vector.categories)
@@ -400,9 +400,6 @@ def score(dataset, vector, advanced):
                 'Complexity' : comp_score / 10,
                 'Mechanics' : mech_score / 6,
                 'Categories' : cat_score / 6}, key=operator.itemgetter(1), reverse=True)
-            if name == "CODENAMES DUET":
-                print(popularity_score, time_score, comp_score, mech_score, cat_score)
-                print(scores["CODENAMES DUET"])
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_scores
@@ -472,7 +469,6 @@ def getRelatedGames(dataset, name):
     """
     if dataset.exists(name):
         results = score(dataset, dataset.games[name], False)
-        print results[0:10]
         return results
     else:
         print("Could not locate game")
@@ -498,7 +494,6 @@ def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres):
         None, None, None, None, mechanics, None, genres, adjusted_complexity, None, None, None, False)
 
     results = score(dataset, new_game, True)
-    print(results[0:10])
     return new_game, results
 
 if __name__ == "__main__":
