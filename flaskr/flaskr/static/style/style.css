@@ -26,8 +26,7 @@ body {
   /* position: absolute;
   right: 4%;
   top: 8%; */
-  margin-top: 15px;
-  width: 40%;
+  width: 59%;
   margin-left: auto;
   margin-right: auto;
   background-color: #58585B;
@@ -116,6 +115,16 @@ body {
 }
 #search-button { font-family: StyleThief; font-size: 22px; border-radius: 4px; width: 60px; height: 35px; margin-left: 5px; order: 2; }
 
+#border-container {
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px #F2E5B1 solid;
+  border-radius: 4px;
+  background-color: #58585B;
+  width: 465px;
+}
+
 /* TAGS *************************************/
 .gameTags {
   font-family: 'Arapey';
@@ -123,7 +132,7 @@ body {
   background: #58585B;
   /* width: 27%; */
   width: 36vw;
-  height: 34px;
+  height: auto;
   display:block;
   margin-left: auto;
   margin-right: auto;
@@ -132,7 +141,7 @@ body {
 .gameTag, .categoryTag, .mechanicTag {
   border: 1px solid;
   border-radius:4px;
-  padding:3px;
+  padding: 3px;
   padding-right:7px;
   margin: 2px;
 }
@@ -416,7 +425,7 @@ input[type=range]::-moz-range-thumb {
   margin-left: 0px;
   font-size: 1.5vw;
   /* width: 340px; */
-  width: 36vw;
+  width: 35vw;
   height: 220px;
   text-align: center;
   display: block;
@@ -669,10 +678,14 @@ input[type=range]::-moz-range-thumb {
   color: white;
 }
 .results .results-explanation .explanation-text a {
-  color: #F2E5B1;
+  transition: 0.35s;
+  color: #A9A9A9;
+  font-size: 20px;
 }
 .results .results-explanation .explanation-text a:hover {
-  color: white;
+  transition: 0.35s;
+  color: #DCDCDC;
+  font-size: 20px;
 }
 
 /* ============================================================

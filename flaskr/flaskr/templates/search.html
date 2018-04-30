@@ -56,117 +56,118 @@
           <input type="hidden" name='state' value=""/>
         </form>
       </div>
-      <div class='gameTags'></div>
+      <div id="border-container">
+        <div class='gameTags'></div>
 
-      <script>
-        //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+        <script>
+          //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
 
-        //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-        var gameInput = [];
-        $('#searchBar').bind("enterKey",function(e){
-            value = $('#searchBar').val();
-            if ($.inArray(value, gameInput)==-1 && gameList.indexOf(value) != -1) {
-              //add it to the data
-              gameInput.push(value);
-              //remove non-alphabetical chars
-              var val = value.replace(/[^a-zA-Z]+/g, '');
-              //show it as a tag
-              d3.select('.gameTags')
-                .append('div')
-                .attr('id',val)
-                .attr('class','gameTag')
-                .style('display','inline-flex')
-                .append('button')
-                .attr('type','button')
-                .attr('class','X')
-                .text('X')
-                .on('click',function() {
-                  this.remove();
-                  d3.select("#"+val).remove();
-                  gameInput.splice(gameInput.indexOf(val),1);
-                });
-              d3.select("#"+val)
-                .append('text')
-                .text(value);
+          //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+          var gameInput = [];
+          $('#searchBar').bind("enterKey",function(e){
+              value = $('#searchBar').val();
+              if ($.inArray(value, gameInput)==-1 && gameList.indexOf(value) != -1) {
+                //add it to the data
+                gameInput.push(value);
+                //remove non-alphabetical chars
+                var val = value.replace(/[^a-zA-Z]+/g, '');
+                //show it as a tag
+                d3.select('.gameTags')
+                  .append('div')
+                  .attr('id',val)
+                  .attr('class','gameTag')
+                  .style('display','inline-flex')
+                  .append('button')
+                  .attr('type','button')
+                  .attr('class','X')
+                  .text('X')
+                  .on('click',function() {
+                    this.remove();
+                    d3.select("#"+val).remove();
+                    gameInput.splice(gameInput.indexOf(val),1);
+                  });
+                d3.select("#"+val)
+                  .append('text')
+                  .text(value);
+              }
+              $('#searchBar').val("");
+            });
+
+          $("#searchBar").keyup(function(e){
+            if(e.keyCode == 13) {
+              $(this).trigger("enterKey");
             }
-            $('#searchBar').val("");
           });
 
-        $("#searchBar").keyup(function(e){
-          if(e.keyCode == 13) {
-            $(this).trigger("enterKey");
-          }
-        });
-
-        var autoCompleteGame = new autoComplete({
-          selector: 'input[name="gameResult"]',
-          minChars: 1,
-          source: function(term, suggest){
-              term = term.toLowerCase();
-              var choices = gameList;
-              var matches = [];
-              for (i=0; i<choices.length; i++) {
-                  for (j=1;j<choices[i].length; j++) {
-                    if (choices[i].toLowerCase().substring(0,j) == term) {
-                      matches.push(choices[i]);
+          var autoCompleteGame = new autoComplete({
+            selector: 'input[name="gameResult"]',
+            minChars: 1,
+            source: function(term, suggest){
+                term = term.toLowerCase();
+                var choices = gameList;
+                var matches = [];
+                for (i=0; i<choices.length; i++) {
+                    for (j=1;j<choices[i].length; j++) {
+                      if (choices[i].toLowerCase().substring(0,j) == term) {
+                        matches.push(choices[i]);
+                      };
                     };
-                  };
-              }
-              for (k=0; k<choices.length; k++) {
-                  if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
-                    matches.push(choices[k]);
-                  };
-              }
-              suggest(matches);
-          }
-        });
-
-        function getJSON(){
-            if (gameInput.length == 0) {
-                gameInput.push(document.getElementById('searchBar').value);
+                }
+                for (k=0; k<choices.length; k++) {
+                    if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                      matches.push(choices[k]);
+                    };
+                }
+                suggest(matches);
             }
-            var query = gameInput;
-            console.log(query);
-            var resultSimple = [
-                {"state": currentState },
-                { "name": query }
-                ];
-            var json = JSON.stringify(resultSimple);
-            var state1 = JSON.stringify({"state": 1});
-            var formInfo = document.forms['send'];
-            formInfo.jsonval.value = json;
-            formInfo.state.value = state1;
-            console.log(json)
-        }
-      </script>
-
-      <!-- Example Queries -->
-      <div class="example-queries">
-        <!-- <svg id="ex-q" width="470" height="60"></svg> -->
-        <p id='try-examples'>Try some examples!</p>
-        <div class="example-query">
-          <img id="ex1" class="wobble" src="../static/images/example-catan.jpg" />
-          <p>Catan</p>
-        </div>
-        <div class="example-query">
-          <img id="ex2" class="wobble" src="../static/images/example-pandemic.jpg" />
-          <p>Pandemic</p>
-        </div>
-        <div class="example-query">
-          <img id="ex3" class="wobble" src="../static/images/example-codenames.jpg" />
-          <p>Codenames</p>
-        </div>
-      </div>
-      <script>
-      $(function () {
-          $('.example-query').on('click', function () {
-              var example_query = this.children[1].innerText;
-              var search_text = $('#searchBar');
-              search_text.val(example_query);
           });
-      });
-      </script>
-    </div>
+
+          function getJSON(){
+              if (gameInput.length == 0) {
+                  gameInput.push(document.getElementById('searchBar').value);
+              }
+              var query = gameInput;
+              console.log(query);
+              var resultSimple = [
+                  {"state": currentState },
+                  { "name": query }
+                  ];
+              var json = JSON.stringify(resultSimple);
+              var state1 = JSON.stringify({"state": 1});
+              var formInfo = document.forms['send'];
+              formInfo.jsonval.value = json;
+              formInfo.state.value = state1;
+              console.log(json)
+          }
+        </script>
+
+        <!-- Example Queries -->
+        <div class="example-queries">
+          <!-- <svg id="ex-q" width="470" height="60"></svg> -->
+          <p id='try-examples'>Try some examples!</p>
+          <div class="example-query">
+            <img id="ex1" class="wobble" src="../static/images/example-catan.jpg" />
+            <p>Catan</p>
+          </div>
+          <div class="example-query">
+            <img id="ex2" class="wobble" src="../static/images/example-pandemic.jpg" />
+            <p>Pandemic</p>
+          </div>
+          <div class="example-query">
+            <img id="ex3" class="wobble" src="../static/images/example-codenames.jpg" />
+            <p>Codenames</p>
+          </div>
+        </div>
+        <script>
+        $(function () {
+            $('.example-query').on('click', function () {
+                var example_query = this.children[1].innerText;
+                var search_text = $('#searchBar');
+                search_text.val(example_query);
+            });
+        });
+        </script>
+      </div>
 
     <!-- Results -->
     <div class="results">
@@ -684,9 +685,7 @@
     <div id="footer">
       <div id="credits">
         <p class="credits-text">
-          Built at Cornell University by: <br /> <br />
-          Eliot Huang (keh228), Tiffany Wang (tyw6), Ziyad Duron (zad22), <br />
-          Will Ronchetti (wrr33), and Jake Jermanok (jaj224).
+          Eliot Huang (keh228), Jake Jermanok (jaj224), Tiffany Wang (tw292), Will Ronchetti (wrr33), and Ziyad Duron (zad22)
         </p>
       </div>
     </div>
