@@ -274,7 +274,7 @@
                 {% endfor %}
               </div> -->
               <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
-              <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
+              <p>Complexity: <span class="whitetext">{{ "%.2f" % (results[i][0].complexity * (1.4)) }} / 7</span></p>
               <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
               <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
               <div class="category-list">
@@ -623,7 +623,7 @@
                     {% endfor %}
                   </div> -->
                   <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
-                  <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
+                  <p>Complexity: <span class="whitetext">{{ "%.2f" % (results[i][0].complexity * (1.4)) }} / 7</span></p>
                   <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
                   <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
                   <div class="category-list">

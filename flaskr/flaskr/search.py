@@ -257,7 +257,6 @@ def score(dataset, vector, advanced):
         # If the complexity is within a certain range award points. If they're closer together
         # award more points
         comp_score = 0
-
         if advanced:
             if (info.complexity >= vector.complexity[0]) and (info.complexity <= vector.complexity[1]):
                 scores[name][0] += 10
