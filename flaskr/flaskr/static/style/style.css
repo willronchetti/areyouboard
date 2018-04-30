@@ -27,18 +27,23 @@ body {
   left: 5%;
   width: 200px;
 }
+
 #about .about-button {
   height: 60px;
-  width: 200px;
-  font-size: 16px;
+  width: 60px;
+  font-size: 26px;
   background: #58585B;
   color: #F2E5B1;
   /* width: 100%; */
   font-family: 'Arapey';
   border: 2px solid #F2E5B1;
+  transition: 0.35s;
 }
 #about .about-button:hover {
+  font-size: 16px;
   cursor: pointer;
+  width: 200px;
+  transition: 0.35s;
   /* box-shadow: 2px 2px 5px 0 #070727; */
 }
 

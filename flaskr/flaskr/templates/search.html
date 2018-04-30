@@ -21,7 +21,7 @@
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
   <div id="about">
-    <button class="about-button" onclick="revealCredits()">About This App</button>
+    <button id="about-btn" class="about-button" onclick="revealCredits()" onmouseover="textChange(0)" onmouseout="textChange(1)">?</button>
     <div id="credits" style="opacity: 0; transition: 0.25s;">
       <p class="credits-text">
         Made at Cornell University
@@ -35,6 +35,27 @@
       </p>
     </div>
     <script>
+    var hidden = true;
+
+    function textChange(val) {
+      var x = document.getElementById("about-btn");
+      var y = document.getElementById("credits");
+      if (val == 0) {
+        setTimeout(function() {
+          x.innerHTML = "About This App"
+        }, 150);
+      } else {
+        x.innerHTML = "?"
+      }
+
+      if (hidden == true) {
+        y.style.opacity = 0;
+      } else {
+        y.style.opacity = 1;
+      }
+
+    }
+
     function revealCredits() {
         var x = document.getElementById("credits");
         if (x.style.opacity == 0) {
