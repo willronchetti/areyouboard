@@ -384,17 +384,22 @@
               <input type="text" id="complexity-display" readonly>
               <!-- <output for="complexity-display" onforminput="value = input.valueAsNumber;"></output> -->
             </p>
-            <input style="display: inline; width: 46%;" type="text" id="complexity-game-display1" readonly>
-            <p style="display: inline">
-              --
-            </p>
-            <input style="display: inline; width: 46%;" type="text" id="complexity-game-display2" readonly>
+            <div class="complexity-display1-container">
+              <label for="complexity-display1">Ex:</label>
+              <input style="display: inline; width: 170px;" type="text" id="complexity-game-display1" readonly>
+            </div>
+            <p style="display: inline">&#8212;</p>
+            <div class="complexity-display2-container">
+              <label for="complexity-display2">Ex:</label>
+              <input style="display: inline; width: 170px;" type="text" id="complexity-game-display2" readonly>
+            </div>
+
 
             <div id="slider-range"></div>
 
             <script>
             var diffInput = [1,4]; //initial values
-            var complexityExamples = ["Ex: Codenames, Werewolf", "Ex: Ticket to Ride, Resistance", "Ex: Catan, Dominion", "Ex: Pandemic Legacy", "Ex: Puerto Rico, Scythe", "Ex: Agricola, Gloomhaven", "Ex: Through The Ages"];
+            var complexityExamples = ["Codenames, Werewolf", "Ticket to Ride, Resistance", "Catan, Dominion", "Pandemic Legacy", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages"];
 
             $( function() {
               $( "#slider-range" ).slider({
@@ -404,7 +409,7 @@
                 values: diffInput,
                 slide: function( event, ui ) {
                   $( "#complexity-display" ).val(
-                    ui.values[ 0 ] + "   --   " + ui.values[ 1 ]
+                    ui.values[ 0 ] + "   \u2014   " + ui.values[ 1 ]
                   );
                   diffInput = [ui.values[ 0 ], ui.values[ 1 ]];
                   // console.log(diffInput);
@@ -418,7 +423,7 @@
               });
               //Give default range on screen
               $( "#complexity-display" ).val(
-                $( "#slider-range" ).slider( "values", 0 ) + "   --   " + $( "#slider-range" ).slider( "values", 1 )
+                $( "#slider-range" ).slider( "values", 0 ) + "   \u2014   " + $( "#slider-range" ).slider( "values", 1 )
               );
               $( "#complexity-game-display1" ).val(
                 complexityExamples[$( "#slider-range" ).slider( "values", 0 ) - 1]

@@ -267,25 +267,41 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   font-size: 16px;
   width: 50px;
 }
-#difficulty #complexity-game-display1,
-#difficulty #complexity-game-display2 {
+#difficulty label {
+  font-family: 'Arapey';
+  font-size: 16px;
+  text-align: left;
+}
+#difficulty .complexity-display1-container,
+#difficulty .complexity-display2-container {
+  display: inline;
+  width: 200px;
+  text-align: left;
+  margin: 0;
+}
+#difficulty .complexity-display1-container #complexity-game-display1,
+#difficulty .complexity-display2-container #complexity-game-display2 {
   background-color: #58585B;
   color: #F2E5B1;
   text-align: center;
-  width: 45%;
+  /* width: 100%; */
   border: 0;
   font-family: 'Arapey';
   font-size: 16px;
   width: 100%;
   margin-bottom: 20px;
-}
-#difficulty #complexity-game-display1 {
-  margin-right: 5px;
   text-align: left;
 }
-#difficulty #complexity-game-display2 {
-  margin-left: 5px;
-  text-align: right;
+/* #difficulty #complexity-game-display1 {
+  margin-right: 5px;
+  text-align: left;
+} */
+#difficulty .complexity-display1-container label {
+  margin-left: 35px;
+}
+#difficulty .complexity-display2-container label {
+  margin-left: 35px;
+  /* padding-left: 5px; */
 }
 
 #complexity-flex {
