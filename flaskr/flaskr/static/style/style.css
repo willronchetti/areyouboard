@@ -441,7 +441,7 @@ input[type=range]::-moz-range-thumb {
   z-index: 5; */
   cursor: pointer;
   top: 8%;
-  left: 5%;
+  left: 10%;
   margin: 0;
   padding: 0;
   transition: 0.35s;
