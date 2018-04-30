@@ -51,7 +51,7 @@
   <div id="state1">
     <div id="swap-switches-button" onclick="stateHandler(2)">
     </div>
-    <script>
+    <!-- <script>
     //Fade card out when hits certain threshold
     $(window).scroll(function(){
        if ($(window).scrollTop() >= 500) {  // change target to number
@@ -63,7 +63,7 @@
          // $("#swap-switches-button").css('display', 'block');
        }
     });
-    </script>
+    </script> -->
 
     <div id="search-flex">
       <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
@@ -231,8 +231,8 @@
             <div class="explanation-text">
               <h2>{{ results[i][0].name }}</h2>
               <hr />
-              <!-- <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p> -->
-              <div class="category-list">
+              <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
+              <!-- <div class="category-list">
                 <p style="display: inline;">Similar Aspects:</p>
                 {% for j in range(results[i][1][1]|length) %}
                   {% if j != ((results[i][1][1]|length)-1) %}
@@ -241,21 +241,11 @@
                     <p style="display: inline; color: white;">{{ results[i][1][1][j] }}</p>
                   {% endif %}
                 {% endfor %}
-              </div>
+              </div> -->
               <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
               <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
               <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
               <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
-              <div class="category-list">
-                <p style="display: inline;">Mechanics:</p>
-                {% for j in range(results[i][0].mechanic|length) %}
-                  {% if j != ((results[i][0].mechanic|length)-1) %}
-                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }},</p>
-                  {% else %}
-                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j]}}</p>
-                  {% endif %}
-                {% endfor %}
-              </div>
               <div class="category-list">
                 <p style="display: inline;">Categories:</p>
                 {% for j in range(results[i][0].categories|length) %}
@@ -263,6 +253,16 @@
                     <p style="display: inline; color: white;">{{ results[i][0].categories[j] }},</p>
                   {% else %}
                     <p style="display: inline; color: white;">{{ results[i][0].categories[j]}}</p>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="category-list">
+                <p style="display: inline;">Mechanics:</p>
+                {% for j in range(results[i][0].mechanic|length) %}
+                  {% if j != ((results[i][0].mechanic|length)-1) %}
+                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }},</p>
+                  {% else %}
+                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j]}}</p>
                   {% endif %}
                 {% endfor %}
               </div>
@@ -286,7 +286,7 @@
   <!-- STATE 2 CASE -->
   <div id="state2">
       <div id="swap-switches-button2" onclick="stateHandler(1)"></div>
-      <script>
+      <!-- <script>
       //Fade card out when hits certain threshold
       $(window).scroll(function(){
          if ($(window).scrollTop() >= 800) {  // change target to number
@@ -297,7 +297,7 @@
            $("#swap-switches-button2").css('opacity', '1');
          }
       });
-      </script>
+      </script> -->
 
       <div id="form">
           <div class='card' id='number-of-players'>
@@ -313,7 +313,7 @@
                   <button class="player-button" value="8"> 8+ </button>
               </div>
               <script>
-                var playerInput = [0,0];
+                var playerInput = [4,4]; //default value
 
                 $(".player-button").click(function() { //select by class
                   var clicked = $(this);
@@ -321,7 +321,7 @@
                   if (clicked.hasClass('selectedPlayer')) {
                     $('.player-button').removeClass('disabled'); //enable all again
                     clicked.removeClass('selectedPlayer');
-                    playerInput = [0,0];
+                    playerInput = [4,4];
                   } else {
                     $('.player-button').removeClass('selectedPlayer');
                     clicked.addClass('selectedPlayer');
@@ -344,7 +344,7 @@
               </div>
 
               <script>
-                var timeInput = 0;
+                var timeInput = 2;
 
                 $(".time-button").click(function() { //select by class
                   var clicked = $(this);
@@ -352,7 +352,7 @@
                   if (clicked.hasClass('selectedTime')) {
                     $(".time-button").removeClass('disabled'); //enable all again
                     clicked.removeClass('selectedTime');
-                    timeInput = 0;
+                    timeInput = 2;
                   } else {
                     $(".time-button").removeClass('selectedTime');
                     clicked.addClass('selectedTime');
@@ -367,7 +367,7 @@
           </div>
 
           <div class='card' id='difficulty'>
-            <h2> Complexity </h2>
+            <h2> Relative Complexity </h2>
             <p>
               <!-- <label for="complexity-display">Complexity Range:</label> -->
               <input type="text" id="complexity-display" readonly>
@@ -598,66 +598,90 @@
               </script>
           </div>
         </div>
-      </div>
+        <div class="results">
+          <!-- PRINT THE RESULTS FROM SEARCH -->
+          {% if (results) and (state == 2) %}
+          <h1 id="state2Anchor">Results</h1>
 
-      <div class="results">
-        <!-- PRINT THE RESULTS FROM SEARCH -->
-        {% if (results) and (state == 2) %}
-        <h1 id="state2Anchor">Results</h1>
-
-        <!-- CREATE GRID -->
-        <div id="results-grid2">
-          {% for i in range(results|length) %}
-            <div class="results-button" data-id="r{{results[i][0].rank}}"
-            style="background-image: url({{results[i][0].image}});">
-              <div class="results-button-caption">
-                <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
-                <p class="caption-info">Click for more info</p>
+          <!-- CREATE GRID -->
+          <div id="results-grid2">
+            {% for i in range(results|length) %}
+              <div class="results-button" data-id="r{{results[i][0].rank}}"
+              style="background-image: url({{results[i][0].image}});">
+                <div class="results-button-caption">
+                  <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
+                  <p class="caption-info">Click for more info</p>
+                </div>
               </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <!-- <p>Try searching for a game!</p> -->
-        {% endif %}
-        </div>
-
-        <!-- CREATE RESULTS EXPLANATIONS -->
-        {% if (results) and (state == 2) %}
-          {% for i in range(results|length) %}
-          <div id="r{{results[i][0].rank}}" class="results-explanation">
-            <div class="return">
-                <img class="return-btn" src="../static/images/return2.png">
-            </div>
-            <div class="explanation">
-              <div class="explanation-img">
-                <img src="{{ results[i][0].image }}" />
-              </div>
-              <div class="explanation-text">
-                <h2>{{ results[i][0].name }}
-                  <br />
-                  <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px; text-shadow: none;">Click for more info</a>
-                </h2>
-                <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
-                <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
-                <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
-                <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
-                <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
-                <p>Mechanics: <span class="whitetext">{{ results[i][0].mechanic }}</span></p>
-                <p>Themes: <span class="whitetext">{{ results[i][0].categories }}</span></p>
-
-                <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
-              </div>
-            </div>
+            {% endfor %}
+          {% else %}
+            <!-- <p>Try searching for a game!</p> -->
+          {% endif %}
           </div>
-          {% endfor %}
 
-        <script>
-        $('html, body').animate({
-            scrollTop: $("#state2Anchor").offset().top - 320
-        }, 1000); //second value is how long it takes to scroll
-        </script>
-        {% endif %}
-      </div>
+          <!-- CREATE RESULTS EXPLANATIONS -->
+          {% if (results) and (state == 2) %}
+            {% for i in range(results|length) %}
+            <div id="r{{results[i][0].rank}}" class="results-explanation">
+              <div class="return">
+                  <img class="return-btn" src="../static/images/return2.png">
+              </div>
+              <div class="explanation">
+                <div class="explanation-img">
+                  <img src="{{ results[i][0].image }}" />
+                </div>
+                <div class="explanation-text">
+                  <h2>{{ results[i][0].name }}</h2>
+                  <hr />
+                  <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
+                  <!-- <div class="category-list">
+                    <p style="display: inline;">Similar Aspects:</p>
+                    {% for j in range(results[i][1][1]|length) %}
+                      {% if j != ((results[i][1][1]|length)-1) %}
+                        <p style="display: inline; color: white;">{{ results[i][1][1][j] }},</p>
+                      {% else %}
+                        <p style="display: inline; color: white;">{{ results[i][1][1][j] }}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div> -->
+                  <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
+                  <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
+                  <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
+                  <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
+                  <div class="category-list">
+                    <p style="display: inline;">Categories:</p>
+                    {% for j in range(results[i][0].categories|length) %}
+                      {% if j != ((results[i][0].categories|length)-1) %}
+                        <p style="display: inline; color: white;">{{ results[i][0].categories[j] }},</p>
+                      {% else %}
+                        <p style="display: inline; color: white;">{{ results[i][0].categories[j]}}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <div class="category-list">
+                    <p style="display: inline;">Mechanics:</p>
+                    {% for j in range(results[i][0].mechanic|length) %}
+                      {% if j != ((results[i][0].mechanic|length)-1) %}
+                        <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }},</p>
+                      {% else %}
+                        <p style="display: inline; color: white;">{{ results[i][0].mechanic[j]}}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}">Learn More</a>
+                  <p style="display: inline;"> | </p>
+                  <a target="_blank" style="display: inline;" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            <script>
+            $('html, body').animate({
+                scrollTop: $("#state2Anchor").offset().top - 320
+            }, 1000); //second value is how long it takes to scroll
+            </script>
+            {% endif %}
+        </div>
     </div>
 
     <div id="footer">

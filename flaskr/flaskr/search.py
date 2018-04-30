@@ -75,7 +75,7 @@ class Dataset(object):
         # Pull in game map
         reader = csv.reader(open(map_file, 'r'))
         game_map = {}
-        
+
         for k,v in reader:
             try:
                 game_map[int(k)] = v
@@ -113,7 +113,7 @@ class Dataset(object):
                 svd_row = None
 
                 self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
-                max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity, 
+                max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity,
                 rank, current_tf_idf, svd_row, False)
 
             f.close()
@@ -180,112 +180,163 @@ def score(dataset, vector, advanced):
 
         # Add sentiment
         if info.sentiment == True:
-            scores[name] += 5
+            scores[name] += 10
 
         # If categories shared award points
         cat_score = 0
-        if vector.categories != None:
+        if advanced:
             common = set(info.categories).intersection(vector.categories)
+            #if a user entered in a category, they really want that
             if len(common) > 0:
-                scores[name][0] += 1
-                cat_score += 1
+                scores[name][0] += 10
+                mech_score += 10
             if len(common) > 1:
-                scores[name][0] += 1
-                cat_score += 1
+                scores[name][0] += 5
+                mech_score += 5
             if len(common) > 2:
-                scores[name][0] += 1
-                cat_score += 1
-            if len(common) > 3:
-                scores[name][0] += 1
-                cat_score += 1
-            if len(common) > 4:
-                scores[name][0] += 1
-                cat_score += 1
-            if len(common) > 5:
-                scores[name][0] += 1
-                cat_score += 1
+                scores[name][0] += 5
+                mech_score += 5
+        else:
+            if vector.categories != None:
+                common = set(info.categories).intersection(vector.categories)
+                if len(common) > 0:
+                    scores[name][0] += 1
+                    cat_score += 1
+                if len(common) > 1:
+                    scores[name][0] += 1
+                    cat_score += 1
+                if len(common) > 2:
+                    scores[name][0] += 1
+                    cat_score += 1
+                if len(common) > 3:
+                    scores[name][0] += 1
+                    cat_score += 1
+                if len(common) > 4:
+                    scores[name][0] += 1
+                    cat_score += 1
+                if len(common) > 5:
+                    scores[name][0] += 1
+                    cat_score += 1
 
         # If mechanic shared award points
         mech_score = 0
-        if vector.mechanic != None:
+        if advanced:
+            #if a user entered in a mechanic, they really want that
             common = set(info.mechanic).intersection(vector.mechanic)
             if len(common) > 0:
-                scores[name][0] += 1
-                mech_score += 1
+                scores[name][0] += 10
+                mech_score += 10
             if len(common) > 1:
-                scores[name][0] += 1
-                mech_score += 1
+                scores[name][0] += 5
+                mech_score += 5
             if len(common) > 2:
-                scores[name][0] += 1
-                mech_score += 1
-            if len(common) > 3:
-                scores[name][0] += 1
-                mech_score += 1
-            if len(common) > 4:
-                scores[name][0] += 1
-                mech_score += 1
-            if len(common) > 5:
-                scores[name][0] += 1
-                mech_score += 1
+                scores[name][0] += 5
+                mech_score += 5
+        else:
+            if vector.mechanic != None:
+                common = set(info.mechanic).intersection(vector.mechanic)
+                if len(common) > 0:
+                    scores[name][0] += 1
+                    mech_score += 1
+                if len(common) > 1:
+                    scores[name][0] += 2
+                    mech_score += 2
+                if len(common) > 2:
+                    scores[name][0] += 2
+                    mech_score += 2
+                if len(common) > 3:
+                    scores[name][0] += 2
+                    mech_score += 2
+                if len(common) > 4:
+                    scores[name][0] += 2
+                    mech_score += 2
+                if len(common) > 5:
+                    scores[name][0] += 2
+                    mech_score += 2
 
         # If the complexity is within a certain range award points. If they're closer together
         # award more points
         comp_score = 0
-        if (info.complexity <= vector.complexity + 1) and (info.complexity >= vector.complexity - 1):
-            scores[name][0] += 2
-            comp_score += 2
-        if (info.complexity <= vector.complexity + .8) and (info.complexity >= vector.complexity - .8):
-            scores[name][0] += 2
-            comp_score += 2
-        if (info.complexity <= vector.complexity + .5) and (info.complexity >= vector.complexity - .5):
-            scores[name][0] += 2
-            comp_score += 2
-        if (info.complexity <= vector.complexity + .3) and (info.complexity >= vector.complexity - .3):
-            scores[name][0] += 2
-            comp_score += 2
-        if (info.complexity <= vector.complexity + .1) and (info.complexity >= vector.complexity - .1):
-            scores[name][0] += 2
-            comp_score += 2
 
+        if advanced:
+            if (info.complexity >= vector.complexity[0]) and (info.complexity <= vector.complexity[1]):
+                print(vector.complexity[0], vector.complexity[1])
+                scores[name][0] += 10
+                comp_score += 10
+        else:
+            if (info.complexity <= vector.complexity + 1) and (info.complexity >= vector.complexity - 1):
+                scores[name][0] += 3
+                comp_score += 3
+            if (info.complexity <= vector.complexity + .8) and (info.complexity >= vector.complexity - .8):
+                scores[name][0] += 3
+                comp_score += 3
+            if (info.complexity <= vector.complexity + .5) and (info.complexity >= vector.complexity - .5):
+                scores[name][0] += 3
+                comp_score += 3
+            if (info.complexity <= vector.complexity + .3) and (info.complexity >= vector.complexity - .3):
+                scores[name][0] += 3
+                comp_score += 3
+            if (info.complexity <= vector.complexity + .1) and (info.complexity >= vector.complexity - .1):
+                scores[name][0] += 3
+                comp_score += 3
 
         # Average time is within a certain range, awared points
         time_score = 0
-        if (info.avg_time + 90 < vector.avg_time) and (info.avg_time - 90 > vector.avg_time):
-            scores[name][0] += 2
-            time_score += 2
-        if (info.avg_time + 60 < vector.avg_time) and (info.avg_time - 60 > vector.avg_time):
-            scores[name][0] += 2
-            time_score += 2
-        if (info.avg_time + 30 < vector.avg_time) and (info.avg_time - 30 > vector.avg_time):
-            scores[name][0] += 2
-            time_score += 2
+        if advanced:
+            #if your average time is within the bounds specificed
+            if (info.avg_time >= vector.min_time) and (info.avg_time <= vector.max_time):
+                scores[name][0] += 5
+                time_score += 5
+            #if your average time is within 15 minutes of average time specified
+            if (info.avg_time <= vector.min_time + 15) and (info.avg_time >= vector.max_time - 15):
+                scores[name][0] += 3
+                time_score += 3
+        else:
+            #within 45 minute range of query's average time
+            if (info.avg_time <= int(vector.min_time) + 45) and (info.avg_time >= int(vector.max_time) - 45):
+                scores[name][0] += 3
+                time_score += 3
+            if (info.avg_time <= int(vector.min_time) + 30) and (info.avg_time >= int(vector.max_time) - 30):
+                scores[name][0] += 3
+                time_score += 3
+            if (info.avg_time <= int(vector.min_time) + 15) and (info.avg_time >= int(vector.max_time) - 15):
+                scores[name][0] += 3
+                time_score += 3
 
+        # Higher weight for higher than average rated games
+        popularity_score = 0
+        if info.avg_rating > 7:
+            scores[name][0] += 5
+            popularity_score += 5
+        if info.avg_rating > 6:
+            scores[name][0] += 5
+            popularity_score += 5
         # Lower weight for lower than average rated games
         popularity_score = 0
         if info.avg_rating < 7:
-            scores[name][0] -= 3
-            popularity_score -= 3
-        if info.avg_time < 6:
-            scores[name][0] -= 3
-            popularity_score -= 3
-        
+            scores[name][0] -= 5
+            popularity_score -= 5
+        if info.avg_rating < 6:
+            scores[name][0] -= 5
+            popularity_score -= 5
+
         # Add weight to games that are owned by more than average
         # Add more if 1 std above average
         if info.owned >= 2700:
-            scores[name][0] += 5
-            popularity_score += 5
+            scores[name][0] += 6
+            popularity_score += 6
         if info.owned > 9000:
-            scores[name][0] += 5
-            popularity_score += 5
+            scores[name][0] += 6
+            popularity_score += 6
 
         # Remove weight from games that are not common
         # Remove more if significantly less common
         if info.owned < 2700:
-            scores[name][0] -= 2
-            popularity_score -= 2
+            scores[name][0] -= 6
+            popularity_score -= 6
         if info.owned < 500:
-            scores[name][0] -= 2
-            popularity_score -= 2
+            scores[name][0] -= 6
+            popularity_score -= 6
 
         # Add weight for games w more than average votes
         # Add more if significantly highly voted
@@ -302,45 +353,54 @@ def score(dataset, vector, advanced):
         # Lower weight for votes less than average
         # Lower even more if it has very few
         if info.num_votes < 1773:
-            scores[name][0] -= 2
-            popularity_score -= 2
+            scores[name][0] -= 4
+            popularity_score -= 4
         if info.num_votes < 500:
-            scores[name][0] -= 2
-            popularity_score -= 2
+            scores[name][0] -= 4
+            popularity_score -= 4
 
         # Add points if in top 50%, 25%, 10%, 5%
         if info.rank < (.5 * 5329):
             scores[name][0] += 2
             popularity_score += 2
         if info.rank < (.25 * 5329):
-            scores[name][0] += 2
-            popularity_score += 2
+            scores[name][0] += 3
+            popularity_score += 3
         if info.rank < (.1 * 5329):
-            scores[name][0] += 2
-            popularity_score += 2
+            scores[name][0] += 4
+            popularity_score += 4
         if info.rank < (.05 * 5329):
-            scores[name][0] += 2
-            popularity_score += 2
+            scores[name][0] += 5
+            popularity_score += 5
 
         # Lower weight for low rated games, bottom 50%, 25%, 10%, 5%
-        if info.rank > (.5 * 5329):
+        if info.rank > 5239 - (.5 * 5329):
             scores[name][0] -= 2
             popularity_score -= 2
-        if info.rank > (.25 * 5329):
-            scores[name][0] -= 2
-            popularity_score -= 2
-        if info.rank > (.1 * 5329):
-            scores[name][0] -= 2
-            popularity_score -= 2
-        if info.rank > (.05 * 5329):
-            scores[name][0] -= 2
-            popularity_score -= 2
+        if info.rank > 5239 - (.25 * 5329):
+            scores[name][0] -= 3
+            popularity_score -= 3
+        if info.rank > 5239 - (.1 * 5329):
+            scores[name][0] -= 4
+            popularity_score -= 4
+        if info.rank > 5239 - (.05 * 5329):
+            scores[name][0] -= 5
+            popularity_score -= 5
 
-        scores[name][1] = sorted({'Popularity' : popularity_score / 30,
-            'Time' : time_score / 6,
-            'Complexity' : comp_score / 10,
-            'Mechanics' : mech_score / 6, 
-            'Categories' : cat_score / 6}, key=operator.itemgetter(1), reverse=True)
+        if advanced:
+            scores[name][1] = sorted({
+                'Popularity' : popularity_score / 48,
+                'Time' : time_score / 8,
+                'Complexity' : comp_score / 10,
+                'Mechanics' : mech_score / 20,
+                'Categories' : cat_score / 20}, key=operator.itemgetter(1), reverse=True)
+        else:
+            scores[name][1] = sorted({
+                'Popularity' : popularity_score / 30,
+                'Time' : time_score / 6,
+                'Complexity' : comp_score / 10,
+                'Mechanics' : mech_score / 6,
+                'Categories' : cat_score / 6}, key=operator.itemgetter(1), reverse=True)
 
     sorted_scores = sorted(scores.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_scores
@@ -422,12 +482,18 @@ def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres):
     """
     min_players = n_players[0]
     max_players = n_players[1]
-    min_time = 30*length;
-    max_time = 30*length+30;
-    if (length == 3):
+    min_time = 30 * (length-1);
+    max_time = 30 * (length-1) + 30;
+
+    complexity_ranges = [(1, 1.5), (1.5, 2), (2, 2.5), (2.5, 3), (3, 3.5), (3.5, 4.3), (4.3, 5)]
+    adjusted_min = complexity_ranges[complexity[0] - 1][0]
+    adjusted_max = complexity_ranges[complexity[1] - 1][1]
+    adjusted_complexity = [adjusted_min, adjusted_max]
+
+    if (length == 4):
         max_time = 1000;
-    new_game = Game([], None, min_players, max_players, length*30, min_time, max_time, None,
-        None, None, None, None, mechanics, None, genres, complexity[0], None, None, None, False)
+    new_game = Game([], None, min_players, max_players, (min_time + max_time) / 2, min_time, max_time, None,
+        None, None, None, None, mechanics, None, genres, adjusted_complexity, None, None, None, False)
 
     results = score(dataset, new_game, True)
     print(results[0:10])
