@@ -264,6 +264,7 @@
         }, 500); //second value is how long it takes to scroll
         </script>
       {% endif %}
+      </div>
     </div>
   </div>
 
@@ -352,19 +353,17 @@
 
           <div class='card' id='difficulty'>
             <h2> Relative Complexity </h2>
+            <div id="slider-range"></div>
             <p>
               <!-- <label for="complexity-display">Complexity Range:</label> -->
               <input type="text" id="complexity-display" readonly>
               <!-- <output for="complexity-display" onforminput="value = input.valueAsNumber;"></output> -->
             </p>
-            <input style="display: inline; width: 45%;" type="text" id="complexity-game-display1" readonly>
-            <p style="display: inline">
-              --
-            </p>
-            <input style="display: inline; width: 45%;" type="text" id="complexity-game-display2" readonly>
-
-            <div id="slider-range"></div>
-
+            <p style='display:block; font-size:20px'>Games with Similar Complexity</p>
+            <div id='complexity-flex'>
+              <input type="text" id="complexity-game-display1" readonly>
+              <input type="text" id="complexity-game-display2" readonly>
+            </div>
             <script>
             var diffInput = [1,4]; //initial values
             var complexityExamples = ["Codenames, Werewolf", "Ticket to Ride, Resistance", "Catan, Dominion", "Pandemic Legacy, Cosmic Encounter", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium"];
@@ -377,7 +376,7 @@
                 values: diffInput,
                 slide: function( event, ui ) {
                   $( "#complexity-display" ).val(
-                    ui.values[ 0 ] + "   --   " + ui.values[ 1 ]
+                    ui.values[ 0 ] + "  -  " + ui.values[ 1 ]
                   );
                   diffInput = [ui.values[ 0 ], ui.values[ 1 ]];
                   // console.log(diffInput);
@@ -391,7 +390,7 @@
               });
               //Give default range on screen
               $( "#complexity-display" ).val(
-                $( "#slider-range" ).slider( "values", 0 ) + "   --   " + $( "#slider-range" ).slider( "values", 1 )
+                $( "#slider-range" ).slider( "values", 0 ) + "  -  " + $( "#slider-range" ).slider( "values", 1 )
               );
               $( "#complexity-game-display1" ).val(
                 complexityExamples[$( "#slider-range" ).slider( "values", 0 ) - 1]
@@ -481,80 +480,6 @@
               </script>
           </div>
 
-          <!-- <div class='card' id='mechanics'>
-            <div id='mechanicSearch'>
-              <h2> Mechanics </h2>
-              <input type='text' name="mechanicResult" id='mechanicResult' placeholder='Ex: Dice Rolling'>
-            </div>
-            <div id='myMechanics'>
-              <br />
-              <div class='mechanicTags'></div>
-            </div>
-
-            <script>
-              //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
-              mechanicInput = [];
-              $('#mechanicResult').bind("enterKey",function(e){
-                  value = $('#mechanicResult').val();
-                  if ($.inArray(value, mechanicInput)==-1 && mechanicList.indexOf(value) != -1) {
-                    mechanicInput.push(value);
-                    //remove non-alphabetical chars
-                    var val = value.replace(/[^a-zA-Z]+/g, '');
-                    //show it as a tag
-                    d3.select('.mechanicTags')
-                      .append('div')
-                      .attr('id',val)
-                      .attr('class','mechanicTag')
-                      .style('display','inline-flex')
-                      .append('button')
-                      .attr('type','button')
-                      .attr('class','X')
-                      .text('X')
-                      .on('click',function() {
-                        this.remove();
-                        d3.select("#"+val).remove();
-                        mechanicInput.splice(mechanicInput.indexOf(val),1);
-                      });
-                    d3.select("#"+val)
-                      .append('text')
-                      .text(value);
-                  }
-                  $('#mechanicResult').val('');
-              });
-
-              $("#mechanicResult").keyup(function(e){
-                if(e.keyCode == 13) {
-                  $(this).trigger("enterKey");
-                }
-            });
-
-            var autoCompleteMechanic = new autoComplete({
-                selector: 'input[name="mechanicResult"]',
-                minChars: 1,
-                source: function(term, suggest){
-                    term = term.toLowerCase();
-                    var choices = mechanicList;
-                    var matches = [];
-                    for (i=0; i<choices.length; i++) {
-                        // var choice = choices[i].toLowerCase();
-                        // console.log(choice);
-                        for (j=1;j<choices[i].length; j++) {
-                          if (choices[i].toLowerCase().substring(0,j) == term) {
-                            matches.push(choices[i]);
-                          };
-                        };
-                    }
-                    for (k=0; k<choices.length; k++) {
-                        if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
-                          matches.push(choices[k]);
-                        };
-                    }
-                    suggest(matches);
-              }
-            });
-            </script>
-          </div> -->
-
           <div class = 'card' id='advancedSubmit'>
               <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
                 <button id='resultInput'> See Results! </button>
@@ -596,6 +521,7 @@
               </script>
           </div>
         </div>
+        <!-- end of form div -->
         <div class="results">
           <!-- PRINT THE RESULTS FROM SEARCH -->
           {% if (results) and (state == 2) %}
@@ -679,8 +605,10 @@
             }, 1000); //second value is how long it takes to scroll
             </script>
             {% endif %}
-        </div>
+        </div> 
+        <!-- end of results -->
     </div>
+    <!-- end of state 2 div  -->
 
     <div id="footer">
       <div id="credits">

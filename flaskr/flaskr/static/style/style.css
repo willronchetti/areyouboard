@@ -31,6 +31,7 @@ body {
   margin-right: auto;
   background-color: #58585B;
   border: 2px solid #F2E5B1;
+  border-radius:4px;
   text-align: center;
 }
 #credits .credits-text {
@@ -122,23 +123,22 @@ body {
   border: 2px #F2E5B1 solid;
   border-radius: 4px;
   background-color: #58585B;
-  width: 465px;
+  width: 443px;
+  margin-top:10px;
 }
 
 /* TAGS *************************************/
 .gameTags {
   font-family: 'Arapey';
-  font-size:20px;
+  font-size:18px;
   background: #58585B;
-  /* width: 27%; */
-  width: 36vw;
   height: auto;
   display:block;
   margin-left: auto;
   margin-right: auto;
 }
 
-.gameTag, .categoryTag, .mechanicTag {
+.gameTag, .miscTag {
   border: 1px solid;
   border-radius:4px;
   padding: 3px;
@@ -208,12 +208,10 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   font-size: 24px;
   background: #9296A1;
   color: black;
-  /* color: #F2E5B1; */
-
   width: 11.5%;
   height: 70px;
   border-radius: 8px;
-
+  border-color: #727069;
   margin: 2px;
 }
 #number-of-players .player-buttons .selectedPlayer {
@@ -225,7 +223,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   font-size: 16px;
   background: #9296A1;
   color: black;
-
+  border-color: #727069;
   width:23%;
   height: 90px;
   border-radius: 8px;
@@ -262,11 +260,18 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
 }
 #difficulty #complexity-game-display1 {
   margin-right: 5px;
-  text-align: right;
+  text-align: left;
 }
 #difficulty #complexity-game-display2 {
   margin-left: 5px;
-  text-align: left;
+  text-align: right;
+}
+
+#complexity-flex {
+  display: flex;
+  align-items:baseline;
+  margin-left:3%;
+  margin-right:3%;
 }
 
 #difficulty #slider-range {
@@ -298,7 +303,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   width: 80%;
   background: #58585B;
   border: none;
-  border-bottom: 2px solid #F2E5B1;
+  border-bottom: 1px solid #F2E5B1;
 }
 #miscSearch input:focus {
   outline-width: 0;
@@ -329,7 +334,7 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
     margin: 10px 12.5%;
     height: 50px;
     font-family: 'Arapey';
-    color: white;
+    color: #F2E5B1;
     font-size:20px;
     background: #58585B;
     border: 2px solid #F2E5B1;
@@ -430,7 +435,6 @@ input[type=range]::-moz-range-thumb {
   text-align: center;
   display: block;
   background: #58585B;
-  margin-bottom: 20px;
   padding-top: 2px;
 
   margin-left: auto;
@@ -497,6 +501,7 @@ input[type=range]::-moz-range-thumb {
   margin-left: auto;
   margin-right: auto;
   font-size:24px;
+  padding-bottom:10px;
 }
 /* RESULTS GRID */
 .results #result-grid {

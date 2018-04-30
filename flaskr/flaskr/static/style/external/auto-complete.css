@@ -1,6 +1,12 @@
 .autocomplete-suggestions {
-    text-align: left; cursor: default; border: 2px solid #F2E5B1; border-radius: 1px 1px 4px 4px; border-top: 0; background: #9397A1; box-shadow: -1px 1px 3px rgba(0,0,0,.1); margin-left: 1px;
-
+    text-align: left; 
+    cursor: default; 
+    border: 2px solid #F2E5B1; 
+    border-radius: 1px 1px 4px 4px; 
+    border-top: 0; 
+    background: #838895;
+    box-shadow: -1px 1px 3px rgba(0,0,0,.1); 
+    margin-left: 1px;
     font-family:'Arapey';
 
     /* core styles should not be changed */
@@ -21,7 +27,7 @@
 /* highlighted letter in the word in the autocomplete */
 .autocomplete-suggestion b {
   font-weight: normal;
-  color: #070727;
+  color: #EFF3FF;
 }
 
 /* highlighting a suggestion */
