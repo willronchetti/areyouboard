@@ -20,6 +20,32 @@
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
+  <div id="about">
+    <button class="about-button" onclick="revealCredits()">About This App</button>
+    <div id="credits" style="opacity: 0; transition: 0.25s;">
+      <p class="credits-text">
+        Made at Cornell University
+      </p>
+      <p class="credits-text">
+        Eliot Huang (keh228),<br />
+        Jake Jermanok (jaj224),<br />
+        Tiffany Wang (tw292), <br />
+        Will Ronchetti (wrr33),<br />
+         and Ziyad Duron (zad22)
+      </p>
+    </div>
+    <script>
+    function revealCredits() {
+        var x = document.getElementById("credits");
+        if (x.style.opacity == 0) {
+            x.style.opacity = 1
+        } else {
+            x.style.opacity = 0;
+        }
+    }
+    </script>
+  </div>
+
   <!-- STATE 0 CASE -->
   <div id="state0" style="display: none">
     <div id="card-flex">
@@ -352,21 +378,23 @@
           </div>
 
           <div class='card' id='difficulty'>
-            <h2> Relative Complexity </h2>
-            <div id="slider-range"></div>
+            <h2> Game Complexity </h2>
             <p>
               <!-- <label for="complexity-display">Complexity Range:</label> -->
               <input type="text" id="complexity-display" readonly>
               <!-- <output for="complexity-display" onforminput="value = input.valueAsNumber;"></output> -->
             </p>
-            <p style='display:block; font-size:20px'>Games with Similar Complexity</p>
-            <div id='complexity-flex'>
-              <input type="text" id="complexity-game-display1" readonly>
-              <input type="text" id="complexity-game-display2" readonly>
-            </div>
+            <input style="display: inline; width: 46%;" type="text" id="complexity-game-display1" readonly>
+            <p style="display: inline">
+              --
+            </p>
+            <input style="display: inline; width: 46%;" type="text" id="complexity-game-display2" readonly>
+
+            <div id="slider-range"></div>
+
             <script>
             var diffInput = [1,4]; //initial values
-            var complexityExamples = ["Codenames, Werewolf", "Ticket to Ride, Resistance", "Catan, Dominion", "Pandemic Legacy, Cosmic Encounter", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium"];
+            var complexityExamples = ["Ex: Codenames, Werewolf", "Ex: Ticket to Ride, Resistance", "Ex: Catan, Dominion", "Ex: Pandemic Legacy", "Ex: Puerto Rico, Scythe", "Ex: Agricola, Gloomhaven", "Ex: Through The Ages"];
 
             $( function() {
               $( "#slider-range" ).slider({
@@ -376,7 +404,7 @@
                 values: diffInput,
                 slide: function( event, ui ) {
                   $( "#complexity-display" ).val(
-                    ui.values[ 0 ] + "  -  " + ui.values[ 1 ]
+                    ui.values[ 0 ] + "   --   " + ui.values[ 1 ]
                   );
                   diffInput = [ui.values[ 0 ], ui.values[ 1 ]];
                   // console.log(diffInput);
@@ -390,7 +418,7 @@
               });
               //Give default range on screen
               $( "#complexity-display" ).val(
-                $( "#slider-range" ).slider( "values", 0 ) + "  -  " + $( "#slider-range" ).slider( "values", 1 )
+                $( "#slider-range" ).slider( "values", 0 ) + "   --   " + $( "#slider-range" ).slider( "values", 1 )
               );
               $( "#complexity-game-display1" ).val(
                 complexityExamples[$( "#slider-range" ).slider( "values", 0 ) - 1]
@@ -605,17 +633,21 @@
             }, 1000); //second value is how long it takes to scroll
             </script>
             {% endif %}
-        </div> 
+        </div>
         <!-- end of results -->
     </div>
     <!-- end of state 2 div  -->
 
     <div id="footer">
-      <div id="credits">
+      <!-- <div id="credits">
+        <p class="credits-text">
+          Eliot Huang (keh228), Jake Jermanok (jaj224), Tiffany Wang (tw292), <br />
+          Will Ronchetti (wrr33), and Ziyad Duron (zad22)
+        </p>
         <p class="credits-text">
           Eliot Huang (keh228), Jake Jermanok (jaj224), Tiffany Wang (tw292), Will Ronchetti (wrr33), and Ziyad Duron (zad22)
         </p>
-      </div>
+      </div> -->
     </div>
 
     <!-- JAVASCRIPT -->
@@ -808,7 +840,7 @@
         var state2Div = d3.select("#state2");
         var swapSwitchesButton1 = d3.select("#swap-switches-button");
         var swapSwitchesButton2 = d3.select("#swap-switches-button2");
-        var credits = d3.select("#credits");
+        var about = d3.select("#about");
 
         if (state == 0) {
           currentState = 0;
@@ -819,8 +851,8 @@
           //don't show swap switches button
           swapSwitchesButton1.style("display", "none");
           swapSwitchesButton2.style("display", "none");
-          //show credits
-          credits.style("display", "block");
+          //show about
+          about.style("display", "block");
         }
 
         if (state == 1) {
@@ -835,7 +867,7 @@
             //show swap switches button
             swapSwitchesButton1.style("display", "block");
             //hide credits
-            credits.style("display", "none");
+            about.style("display", "none");
           }, 250);
         } // end of state 1
 
@@ -851,7 +883,7 @@
             //show swap switches button
             swapSwitchesButton2.style("display", "block");
             //hide credits
-            credits.style("display", "none");
+            about.style("display", "none");
           }, 250);
         } // end of state 2
       };
