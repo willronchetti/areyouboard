@@ -175,7 +175,7 @@ def score(dataset, vector, advanced):
                 pass
         except:
             if vector.tf_idf_vector.any() != None:
-                scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) / 
+                scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
                     np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 7
 
         # Add sentiment
@@ -191,7 +191,7 @@ def score(dataset, vector, advanced):
                 scores[name][0] += 10
                 cat_score += 10
             if len(common) > 1:
-                scores[name][0] += 5
+                scores[name][0] += 10
                 cat_score += 5
             if len(common) > 2:
                 scores[name][0] += 5
@@ -227,7 +227,7 @@ def score(dataset, vector, advanced):
                 scores[name][0] += 10
                 mech_score += 10
             if len(common) > 1:
-                scores[name][0] += 5
+                scores[name][0] += 10
                 mech_score += 5
             if len(common) > 2:
                 scores[name][0] += 5
