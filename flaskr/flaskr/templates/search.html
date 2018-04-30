@@ -19,25 +19,6 @@
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
-  <div class="credits">
-    <!-- Mockup: Maybe put this in the footer instead -->
-
-    <!-- <p class="credits-text">
-      Data collected for this application is for academic purposes only.
-    </p> -->
-    <!-- <p class="credits-text">
-      Built at Cornell University by Eliot Huang, Tiffany Wang, Ziyad Duron, Will Ronchetti, and Jake Jermanok.
-    </p> -->
-    <p class="credits-text">
-      Built at Cornell University by <br />
-      Eliot Huang <br />
-      Tiffany Wang<br />
-      Ziyad Duron<br />
-      Will Ronchetti<br />
-      Jake Jermanok<br />
-    </p>
-  </div>
-
   <!-- STATE 0 CASE -->
   <div id="state0" style="display: none">
     <div id="card-flex">
@@ -51,7 +32,7 @@
   <div id="state1">
     <div id="swap-switches-button" onclick="stateHandler(2)">
     </div>
-    <script>
+    <!-- <script>
     //Fade card out when hits certain threshold
     $(window).scroll(function(){
        if ($(window).scrollTop() >= 500) {  // change target to number
@@ -63,17 +44,18 @@
          // $("#swap-switches-button").css('display', 'block');
        }
     });
-    </script>
+    </script> -->
 
-    <div id="search-flex">
-      <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
-      <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
-        <button id='searchBarButton'>Search</button>
-        <input type="hidden" name="jsonval" value=""/>
-        <input type="hidden" name='state' value=""/>
-      </form>
-    </div>
-    <div class='gameTags'></div>
+    <div class="search-container">
+      <div id="search-flex">
+        <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
+        <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
+          <button id='searchBarButton'>Search</button>
+          <input type="hidden" name="jsonval" value=""/>
+          <input type="hidden" name='state' value=""/>
+        </form>
+      </div>
+      <div class='gameTags'></div>
 
       <script>
         //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
@@ -157,7 +139,6 @@
         }
       </script>
 
-
       <!-- Example Queries -->
       <div class="example-queries">
         <!-- <svg id="ex-q" width="470" height="60"></svg> -->
@@ -184,6 +165,7 @@
           });
       });
       </script>
+    </div>
 
     <!-- Results -->
     <div class="results">
@@ -231,8 +213,8 @@
             <div class="explanation-text">
               <h2>{{ results[i][0].name }}</h2>
               <hr />
-              <!-- <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p> -->
-              <div class="category-list">
+              <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
+              <!-- <div class="category-list">
                 <p style="display: inline;">Similar Aspects:</p>
                 {% for j in range(results[i][1][1]|length) %}
                   {% if j != ((results[i][1][1]|length)-1) %}
@@ -241,21 +223,11 @@
                     <p style="display: inline; color: white;">{{ results[i][1][1][j] }}</p>
                   {% endif %}
                 {% endfor %}
-              </div>
+              </div> -->
               <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
               <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
               <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
               <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
-              <div class="category-list">
-                <p style="display: inline;">Mechanics:</p>
-                {% for j in range(results[i][0].mechanic|length) %}
-                  {% if j != ((results[i][0].mechanic|length)-1) %}
-                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }},</p>
-                  {% else %}
-                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j]}}</p>
-                  {% endif %}
-                {% endfor %}
-              </div>
               <div class="category-list">
                 <p style="display: inline;">Categories:</p>
                 {% for j in range(results[i][0].categories|length) %}
@@ -263,6 +235,16 @@
                     <p style="display: inline; color: white;">{{ results[i][0].categories[j] }},</p>
                   {% else %}
                     <p style="display: inline; color: white;">{{ results[i][0].categories[j]}}</p>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="category-list">
+                <p style="display: inline;">Mechanics:</p>
+                {% for j in range(results[i][0].mechanic|length) %}
+                  {% if j != ((results[i][0].mechanic|length)-1) %}
+                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }},</p>
+                  {% else %}
+                    <p style="display: inline; color: white;">{{ results[i][0].mechanic[j]}}</p>
                   {% endif %}
                 {% endfor %}
               </div>
@@ -286,7 +268,7 @@
   <!-- STATE 2 CASE -->
   <div id="state2">
       <div id="swap-switches-button2" onclick="stateHandler(1)"></div>
-      <script>
+      <!-- <script>
       //Fade card out when hits certain threshold
       $(window).scroll(function(){
          if ($(window).scrollTop() >= 800) {  // change target to number
@@ -297,7 +279,7 @@
            $("#swap-switches-button2").css('opacity', '1');
          }
       });
-      </script>
+      </script> -->
 
       <div id="form">
           <div class='card' id='number-of-players'>
@@ -313,7 +295,7 @@
                   <button class="player-button" value="8"> 8+ </button>
               </div>
               <script>
-                var playerInput = [0,0];
+                var playerInput = [4,4]; //default value
 
                 $(".player-button").click(function() { //select by class
                   var clicked = $(this);
@@ -321,7 +303,7 @@
                   if (clicked.hasClass('selectedPlayer')) {
                     $('.player-button').removeClass('disabled'); //enable all again
                     clicked.removeClass('selectedPlayer');
-                    playerInput = [0,0];
+                    playerInput = [4,4];
                   } else {
                     $('.player-button').removeClass('selectedPlayer');
                     clicked.addClass('selectedPlayer');
@@ -344,7 +326,7 @@
               </div>
 
               <script>
-                var timeInput = 0;
+                var timeInput = 2;
 
                 $(".time-button").click(function() { //select by class
                   var clicked = $(this);
@@ -352,7 +334,7 @@
                   if (clicked.hasClass('selectedTime')) {
                     $(".time-button").removeClass('disabled'); //enable all again
                     clicked.removeClass('selectedTime');
-                    timeInput = 0;
+                    timeInput = 2;
                   } else {
                     $(".time-button").removeClass('selectedTime');
                     clicked.addClass('selectedTime');
@@ -367,7 +349,7 @@
           </div>
 
           <div class='card' id='difficulty'>
-            <h2> Complexity </h2>
+            <h2> Relative Complexity </h2>
             <p>
               <!-- <label for="complexity-display">Complexity Range:</label> -->
               <input type="text" id="complexity-display" readonly>
@@ -383,7 +365,7 @@
 
             <script>
             var diffInput = [1,4]; //initial values
-            var complexityExamples = ["Codenames", "Ticket to Ride, Resistance", "Catan", "Pandemic Legacy", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium", "Advanced Squad Leader"];
+            var complexityExamples = ["Codenames, Werewolf", "Ticket to Ride, Resistance", "Catan, Dominion", "Pandemic Legacy, Cosmic Encounter", "Puerto Rico, Scythe", "Agricola, Gloomhaven", "Through The Ages, Twilight Imperium"];
 
             $( function() {
               $( "#slider-range" ).slider({
@@ -419,33 +401,34 @@
             </script>
           </div>
 
-          <div class='card' id='categories'>
-            <div id='categorySearch'>
-              <h2> Category </h2>
-              <input type='text' name='categoryResult' id='categoryResult' placeholder='Ex: Card Game'>
+          <div class='card' id='misc'>
+            <!-- Categories and Mechanics -->
+            <div id='miscSearch'>
+              <h2> Anything else? </h2>
+              <input type='text' name='miscResult' id='miscResult' placeholder="Try 'Bluffing', 'Mythology', or 'Science Fiction'">
             </div>
-            <div id='myCategories'>
+            <div id='myMisc'>
               <br />
-              <div class='categoryTags'></div>
+              <div class='miscTags'></div>
             </div>
 
               <script>
                 //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
 
                 //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-                var categoryInput = [];
-                $('#categoryResult').bind("enterKey",function(e){
-                    value = $('#categoryResult').val();
-                    if ($.inArray(value, categoryInput)==-1 && categoryList.indexOf(value) != -1) {
+                var miscInput = [];
+                $('#miscResult').bind("enterKey",function(e){
+                    value = $('#miscResult').val();
+                    if ($.inArray(value, miscInput)==-1 && comboList.indexOf(value) != -1) {
                       //add it to the data
-                      categoryInput.push(value);
+                      miscInput.push(value);
                       //remove non-alphabetical chars
                       var val = value.replace(/[^a-zA-Z]+/g, '');
                       //show it as a tag
-                      d3.select('.categoryTags')
+                      d3.select('.miscTags')
                         .append('div')
                         .attr('id',val)
-                        .attr('class','categoryTag')
+                        .attr('class','miscTag')
                         .style('display','inline-flex')
                         .append('button')
                         .attr('type','button')
@@ -454,27 +437,27 @@
                         .on('click',function() {
                           this.remove();
                           d3.select("#"+val).remove();
-                          categoryInput.splice(categoryInput.indexOf(val),1);
+                          miscInput.splice(miscInput.indexOf(val),1);
                         });
                       d3.select("#"+val)
                         .append('text')
                         .text(value);
                     }
-                    $('#categoryResult').val('');
+                    $('#miscResult').val('');
                   });
 
-                $("#categoryResult").keyup(function(e){
+                $("#miscResult").keyup(function(e){
                   if(e.keyCode == 13) {
                     $(this).trigger("enterKey");
                   }
                 });
 
-                var autoCompleteCategory = new autoComplete({
-                  selector: 'input[name="categoryResult"]',
+                var autoCompleteMisc = new autoComplete({
+                  selector: 'input[name="miscResult"]',
                   minChars: 1,
                   source: function(term, suggest){
                       term = term.toLowerCase();
-                      var choices = categoryList;
+                      var choices = comboList; //categories and mechanics
                       var matches = [];
                       for (i=0; i<choices.length; i++) {
                           // var choice = choices[i].toLowerCase();
@@ -496,7 +479,7 @@
               </script>
           </div>
 
-          <div class='card' id='mechanics'>
+          <!-- <div class='card' id='mechanics'>
             <div id='mechanicSearch'>
               <h2> Mechanics </h2>
               <input type='text' name="mechanicResult" id='mechanicResult' placeholder='Ex: Dice Rolling'>
@@ -568,7 +551,7 @@
               }
             });
             </script>
-          </div>
+          </div> -->
 
           <div class = 'card' id='advancedSubmit'>
               <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
@@ -579,6 +562,19 @@
 
               <script>
                 function jsonAdvanced() {
+                  //seperate out miscInput
+                  categoryInput = []
+                  mechanicInput = []
+                  for (var z = 0; z < miscInput.length; z++) {
+                    var value = miscInput[z]
+                    if (mechanicList.includes(value)) {
+                      mechanicInput.push(value);
+                    }
+                    else if (categoryList.includes(value)) {
+                      categoryInput.push(value);
+                    }
+                  }
+
                   var resultComplex = [
                      { "state": 2 },
                     {
@@ -598,69 +594,100 @@
               </script>
           </div>
         </div>
-      </div>
+        <div class="results">
+          <!-- PRINT THE RESULTS FROM SEARCH -->
+          {% if (results) and (state == 2) %}
+          <h1 id="state2Anchor">Results</h1>
 
-      <div class="results">
-        <!-- PRINT THE RESULTS FROM SEARCH -->
-        {% if (results) and (state == 2) %}
-        <h1 id="state2Anchor">Results</h1>
-
-        <!-- CREATE GRID -->
-        <div id="results-grid2">
-          {% for i in range(results|length) %}
-            <div class="results-button" data-id="r{{results[i][0].rank}}"
-            style="background-image: url({{results[i][0].image}});">
-              <div class="results-button-caption">
-                <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
-                <p class="caption-info">Click for more info</p>
+          <!-- CREATE GRID -->
+          <div id="results-grid2">
+            {% for i in range(results|length) %}
+              <div class="results-button" data-id="r{{results[i][0].rank}}"
+              style="background-image: url({{results[i][0].image}});">
+                <div class="results-button-caption">
+                  <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
+                  <p class="caption-info">Click for more info</p>
+                </div>
               </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <!-- <p>Try searching for a game!</p> -->
-        {% endif %}
-        </div>
-
-        <!-- CREATE RESULTS EXPLANATIONS -->
-        {% if (results) and (state == 2) %}
-          {% for i in range(results|length) %}
-          <div id="r{{results[i][0].rank}}" class="results-explanation">
-            <div class="return">
-                <img class="return-btn" src="../static/images/return2.png">
-            </div>
-            <div class="explanation">
-              <div class="explanation-img">
-                <img src="{{ results[i][0].image }}" />
-              </div>
-              <div class="explanation-text">
-                <h2>{{ results[i][0].name }}
-                  <br />
-                  <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}" style="font-size: 20px; text-shadow: none;">Click for more info</a>
-                </h2>
-                <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
-                <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
-                <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
-                <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
-                <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
-                <p>Mechanics: <span class="whitetext">{{ results[i][0].mechanic }}</span></p>
-                <p>Themes: <span class="whitetext">{{ results[i][0].categories }}</span></p>
-
-                <a target="_blank" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
-              </div>
-            </div>
+            {% endfor %}
+          {% else %}
+            <!-- <p>Try searching for a game!</p> -->
+          {% endif %}
           </div>
-          {% endfor %}
 
-        <script>
-        $('html, body').animate({
-            scrollTop: $("#state2Anchor").offset().top - 320
-        }, 1000); //second value is how long it takes to scroll
-        </script>
-        {% endif %}
-      </div>
+          <!-- CREATE RESULTS EXPLANATIONS -->
+          {% if (results) and (state == 2) %}
+            {% for i in range(results|length) %}
+            <div id="r{{results[i][0].rank}}" class="results-explanation">
+              <div class="return">
+                  <img class="return-btn" src="../static/images/return2.png">
+              </div>
+              <div class="explanation">
+                <div class="explanation-img">
+                  <img src="{{ results[i][0].image }}" />
+                </div>
+                <div class="explanation-text">
+                  <h2>{{ results[i][0].name }}</h2>
+                  <hr />
+                  <p>Similarity Score: <span class="whitetext">{{ "%.2f" % results[i][1][0] }}</span></p>
+                  <!-- <div class="category-list">
+                    <p style="display: inline;">Similar Aspects:</p>
+                    {% for j in range(results[i][1][1]|length) %}
+                      {% if j != ((results[i][1][1]|length)-1) %}
+                        <p style="display: inline; color: white;">{{ results[i][1][1][j] }},</p>
+                      {% else %}
+                        <p style="display: inline; color: white;">{{ results[i][1][1][j] }}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div> -->
+                  <p>Number of Players: <span class="whitetext">{{ results[i][0].min_players }}-{{ results[i][0].max_players }}</span></p>
+                  <p>Complexity: <span class="whitetext">{{ "%.2f" % results[i][0].complexity }} / 5</span></p>
+                  <p>Average Playtime: <span class="whitetext">{{ results[i][0].avg_time }} minutes</span></p>
+                  <p>Average Rating: <span class="whitetext">{{ results[i][0].avg_rating[0:4] }} / 10</span></p>
+                  <div class="category-list">
+                    <p style="display: inline;">Categories:</p>
+                    {% for j in range(results[i][0].categories|length) %}
+                      {% if j != ((results[i][0].categories|length)-1) %}
+                        <p style="display: inline; color: white;">{{ results[i][0].categories[j] }},</p>
+                      {% else %}
+                        <p style="display: inline; color: white;">{{ results[i][0].categories[j]}}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <div class="category-list">
+                    <p style="display: inline;">Mechanics:</p>
+                    {% for j in range(results[i][0].mechanic|length) %}
+                      {% if j != ((results[i][0].mechanic|length)-1) %}
+                        <p style="display: inline; color: white;">{{ results[i][0].mechanic[j] }},</p>
+                      {% else %}
+                        <p style="display: inline; color: white;">{{ results[i][0].mechanic[j]}}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}">Learn More</a>
+                  <p style="display: inline;"> | </p>
+                  <a target="_blank" style="display: inline;" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            <script>
+            $('html, body').animate({
+                scrollTop: $("#state2Anchor").offset().top - 320
+            }, 1000); //second value is how long it takes to scroll
+            </script>
+            {% endif %}
+        </div>
     </div>
 
     <div id="footer">
+      <div id="credits">
+        <p class="credits-text">
+          Built at Cornell University by: <br /> <br />
+          Eliot Huang (keh228), Tiffany Wang (tyw6), Ziyad Duron (zad22), <br />
+          Will Ronchetti (wrr33), and Jake Jermanok (jaj224).
+        </p>
+      </div>
     </div>
 
     <!-- JAVASCRIPT -->
@@ -853,6 +880,7 @@
         var state2Div = d3.select("#state2");
         var swapSwitchesButton1 = d3.select("#swap-switches-button");
         var swapSwitchesButton2 = d3.select("#swap-switches-button2");
+        var credits = d3.select("#credits");
 
         if (state == 0) {
           currentState = 0;
@@ -863,6 +891,8 @@
           //don't show swap switches button
           swapSwitchesButton1.style("display", "none");
           swapSwitchesButton2.style("display", "none");
+          //show credits
+          credits.style("display", "block");
         }
 
         if (state == 1) {
@@ -876,6 +906,8 @@
 
             //show swap switches button
             swapSwitchesButton1.style("display", "block");
+            //hide credits
+            credits.style("display", "none");
           }, 250);
         } // end of state 1
 
@@ -890,6 +922,8 @@
 
             //show swap switches button
             swapSwitchesButton2.style("display", "block");
+            //hide credits
+            credits.style("display", "none");
           }, 250);
         } // end of state 2
       };
