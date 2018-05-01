@@ -526,6 +526,7 @@ input[type=range]::-moz-range-thumb {
 }
 .results h1 {
   font-size: 8vw;
+  margin-top:65px;
   font-family: StyleThief;
   margin-bottom: 0px;
   text-shadow: -5.5px 5.5px #070727;
