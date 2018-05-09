@@ -456,6 +456,84 @@
             </script>
           </div>
 
+          <div class='card' id='games'>
+            <!-- Categories and Mechanics -->
+            <div id='gamesSearch'>
+              <h2> Existing Similar Games? </h2>
+              <input type='text' name='gamesResult' id='gamesResult' placeholder="Try 'Catan', 'Pandemic', or 'Codenames'">
+            </div>
+            <div id='myGames'>
+              <br />
+              <div class='gamesTags'></div>
+            </div>
+
+              <script>
+                //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+
+                //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                var gamesInput = [];
+                $('#gamesResult').bind("enterKey",function(e){
+                    value = $('#gamesResult').val();
+                    if ($.inArray(value, gamesInput)==-1 && gameList.indexOf(value) != -1) {
+                      //add it to the data
+                      gamesInput.push(value);
+                      //remove non-alphabetical chars
+                      var val = value.replace(/[^a-zA-Z]+/g, '');
+                      //show it as a tag
+                      d3.select('.gamesTags')
+                        .append('div')
+                        .attr('id',val)
+                        .attr('class','gameTag')
+                        .style('display','inline-flex')
+                        .append('button')
+                        .attr('type','button')
+                        .attr('class','X')
+                        .text('X')
+                        .on('click',function() {
+                          this.remove();
+                          d3.select("#"+val).remove();
+                          gamesInput.splice(gamesInput.indexOf(val),1);
+                        });
+                      d3.select("#"+val)
+                        .append('text')
+                        .text(value);
+                    }
+                    $('#gamesResult').val('');
+                  });
+
+                $("#gamesResult").keyup(function(e){
+                  if(e.keyCode == 13) {
+                    $(this).trigger("enterKey");
+                  }
+                });
+
+                var autoCompleteGames = new autoComplete({
+                  selector: 'input[name="gamesResult"]',
+                  minChars: 1,
+                  source: function(term, suggest){
+                      term = term.toLowerCase();
+                      var choices = gameList; //categories and mechanics
+                      var matches = [];
+                      for (i=0; i<choices.length; i++) {
+                          // var choice = choices[i].toLowerCase();
+                          // console.log(choice);
+                          for (j=1;j<choices[i].length; j++) {
+                            if (choices[i].toLowerCase().substring(0,j) == term) {
+                              matches.push(choices[i]);
+                            };
+                          };
+                      }
+                      for (k=0; k<choices.length; k++) {
+                          if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                            matches.push(choices[k]);
+                          };
+                      }
+                      suggest(matches);
+                }
+              });
+              </script>
+          </div>
+
           <div class='card' id='misc'>
             <!-- Categories and Mechanics -->
             <div id='miscSearch'>
@@ -563,7 +641,8 @@
                       "time": timeInput,
                       "difficulty": diffInput,
                       "category": categoryInput,
-                      "mechanics": mechanicInput
+                      "mechanics": mechanicInput,
+                      "other_games": gamesInput
                     }];
                   var state2 = JSON.stringify({'state': 2});
                   var json = JSON.stringify(resultComplex);

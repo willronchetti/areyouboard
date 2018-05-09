@@ -330,14 +330,16 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   background: #F2E5B1;
 }
 
-#misc {
+#misc,
+#games {
   display: block;
   margin-left: auto;
   margin-right: auto;
   height: auto;
   text-align: center;
 }
-#miscSearch input {
+#miscSearch input,
+#gamesSearch input {
   height: 18px;
   font-size: 18px;
   font-family: 'Arapey';
@@ -348,15 +350,18 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   border: none;
   border-bottom: 1px solid #F2E5B1;
 }
-#miscSearch input:focus {
+#miscSearch input:focus,
+#gamesSearch input:focus  {
   outline-width: 0;
 }
-#miscResult {
+#miscResult,
+#gamesResult {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-#myMisc {
+#myMisc,
+#myGames {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -364,7 +369,8 @@ button:focus,input[type=range]:focus, #playerSlider:active, input#categorySearch
   font-size: 16px;
   display:inline;
 }
-.miscTags {
+.miscTags,
+.gameTags {
   min-height: 19px;
 }
 
