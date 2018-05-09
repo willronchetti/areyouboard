@@ -198,6 +198,8 @@
                 var example_query = this.children[1].innerText;
                 var search_text = $('#searchBar');
                 search_text.val(example_query);
+                //auto search when example query is clicked on
+                document.getElementById("searchBarButton").click();
             });
         });
         </script>
