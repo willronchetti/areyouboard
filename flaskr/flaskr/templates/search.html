@@ -21,7 +21,7 @@
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
   <div id="about">
-    <button id="about-btn" class="about-button" onclick="revealCredits()" onmouseover="textChange(0)" onmouseout="textChange(1)">?</button>
+    <button id="about-btn" class="about-button" onmouseover="textChange(0)" onmouseout="textChange(1)">?</button>
     <div id="credits" style="opacity: 0; transition: 0.25s;">
       <p class="credits-text">
         Made at Cornell University
@@ -44,26 +44,13 @@
         setTimeout(function() {
           x.innerHTML = "About This App"
         }, 150);
-      } else {
-        x.innerHTML = "?"
-      }
-
-      if (hidden == true) {
-        y.style.opacity = 0;
-      } else {
         y.style.opacity = 1;
+      } else {
+        x.innerHTML = "?";
+        y.style.opacity = 0;
       }
+    };
 
-    }
-
-    function revealCredits() {
-        var x = document.getElementById("credits");
-        if (x.style.opacity == 0) {
-          x.style.opacity = 1;
-        } else {
-          x.style.opacity = 0;
-        }
-    }
     </script>
   </div>
 
@@ -96,7 +83,7 @@
 
     <div class="search-container">
       <div id="search-flex">
-        <input id="searchBar" type="text" name='gameResult' placeholder="Enter a game..."/>
+        <input id="searchBar" type="text" name='gameResult' placeholder="Enter one (or more) games..."/>
         <form id="send" method="post" action="/receiveData" onsubmit="getJSON()" enctype='application/json'>
           <button id='searchBarButton'>Search</button>
           <input type="hidden" name="jsonval" value=""/>

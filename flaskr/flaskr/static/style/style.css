@@ -41,7 +41,6 @@ body {
 }
 #about .about-button:hover {
   font-size: 16px;
-  cursor: pointer;
   width: 200px;
   transition: 0.35s;
   /* box-shadow: 2px 2px 5px 0 #070727; */
@@ -149,7 +148,7 @@ body {
   border: 2px #F2E5B1 solid;
   border-radius: 4px;
   background-color: #58585B;
-  width: 443px;
+  width: 34.5vw;
   margin-top:10px;
 }
 
@@ -479,7 +478,7 @@ input[type=range]::-moz-range-thumb {
   margin-left: 0px;
   font-size: 1.5vw;
   /* width: 340px; */
-  width: 35vw;
+  width: 34.5vw;
   height: 220px;
   text-align: center;
   display: block;
@@ -533,6 +532,7 @@ input[type=range]::-moz-range-thumb {
 }
 .results h1 {
   font-size: 8vw;
+  margin-top:65px;
   font-family: StyleThief;
   margin-bottom: 0px;
   text-shadow: -5.5px 5.5px #070727;
