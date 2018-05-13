@@ -44,8 +44,10 @@ def getResults():
         else:
             complexity = data[1]["difficulty"]
 
+        print(data[1]['players'])
+
         related_games = doAdvancedSearch(Dataset(), data[1]["players"], data[1]["time"],
-            complexity, data[1]['mechanics'], data[1]["category"])[1]
+            complexity, data[1]['mechanics'], data[1]["category"], data[1]['other_games'])[1]
     else:
         originalState = 1
         d = request.form["jsonval"]

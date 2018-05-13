@@ -16,7 +16,8 @@ class Game(object):
     """
 
     def __init__(self, name, bgg_url, min_players, max_players, avg_time, min_time, max_time, avg_rating,
-        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V, sent):
+        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V, sent, 
+        additional_mechanics, additional_genres):
 
         self.name = name
         self.url = bgg_url
@@ -38,6 +39,8 @@ class Game(object):
         self.tf_idf_vector = vector
         self.svd = V
         self.sentiment = sent
+        self.user_specific_mechanics = additional_mechanics
+        self.user_specified_genres = additional_genres
 
 class Dataset(object):
     """
@@ -114,7 +117,7 @@ class Dataset(object):
 
                 self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
                 max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity,
-                rank, current_tf_idf, svd_row, False)
+                rank, current_tf_idf, svd_row, False, None, None)
 
             f.close()
 
@@ -158,16 +161,16 @@ def score(dataset, vector, advanced):
         scores[name] = [0, []]
 
         # Ignore same game
-        if (name == vector.name) or (name in vector.name):
+        if (name == vector.name):
             continue
 
         # Heavily weight games that are in the same player range
         if advanced:
-            if int(info.max_players) >= int(vector.max_players):
+            if int(info.max_players) >= int(vector.max_players) and int(info.min_players) <= int(vector.min_players):
                 scores[name][0] += 10
             else:
-                del scores[name]
-                continue
+                scores[name][0] -= 30
+                
 
         # Only do this if we have a vector
         try:
@@ -196,6 +199,20 @@ def score(dataset, vector, advanced):
             if len(common) > 2:
                 scores[name][0] += 5
                 cat_score += 5
+
+            # Heavily weight games that have the user specified genre
+            if vector.user_specified_genres != None:
+                user_common = set(info.categories).intersection(vector.user_specified_genres)
+                if len(user_common) > 0:
+                    scores[name][0] += 25
+                    cat_score += 25
+                if len(user_common) > 1:
+                    scores[name][0] += 25
+                    cat_score += 25
+                if len(user_common) > 2:
+                    scores[name][0] += 25
+                    cat_score += 25
+
         else:
             if vector.categories != None:
                 common = set(info.categories).intersection(vector.categories)
@@ -232,6 +249,19 @@ def score(dataset, vector, advanced):
             if len(common) > 2:
                 scores[name][0] += 5
                 mech_score += 5
+
+            # Heavily weight games that have the user specified mechanic
+            if vector.user_specific_mechanics != None:
+                user_common = set(info.mechanic).intersection(vector.user_specific_mechanics)
+                if len(user_common) > 0:
+                    scores[name][0] += 25
+                    cat_score += 25
+                if len(user_common) > 1:
+                    scores[name][0] += 25
+                    cat_score += 25
+                if len(user_common) > 2:
+                    scores[name][0] += 25
+                    cat_score += 25
         else:
             if vector.mechanic != None:
                 common = set(info.mechanic).intersection(vector.mechanic)
@@ -408,6 +438,12 @@ def getRelatedMultipleGames(dataset, games):
         Takes in a list of games and finds games related to those games
     """
 
+    new_game = createHybridGame(dataset, games)
+    results = score(dataset, new_game, False)
+    print(results[0:30])
+    return new_game, results
+
+def createHybridGame(dataset, games):
     min_players = 100
     max_players = 0
     min_time = 10000
@@ -418,9 +454,12 @@ def getRelatedMultipleGames(dataset, games):
     genres = set()
     complexity = (0, 0)
 
+    if len(games) == 1:
+        return dataset.getGames()[str(games[0].upper())]
+
     for g in games:
 
-        game = dataset.getGames()[g]
+        game = dataset.getGames()[str(g.upper())]
 
         # Bound min/max players on lowest/highest values
         if game.min_players < min_players:
@@ -457,10 +496,9 @@ def getRelatedMultipleGames(dataset, games):
         genres = set(genres.union(game.categories))
 
     new_game = Game(games, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False)
-    results = score(dataset, new_game, False)
-    print(results[0:30])
-    return new_game, results
+            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False, None, None)
+    return new_game
+
 
 def getRelatedGames(dataset, name):
     """
@@ -473,10 +511,12 @@ def getRelatedGames(dataset, name):
         print("Could not locate game")
         return []
 
-def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres):
+def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres, other_games):
     """
         Does an advanced search based on parameters given.
     """
+
+    # First, create a game object representing the parameters passed in
     min_players = n_players[0]
     max_players = n_players[1]
     min_time = 30 * (length-1);
@@ -489,11 +529,24 @@ def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres):
 
     if (length == 4):
         max_time = 1000;
-    new_game = Game([], None, min_players, max_players, (min_time + max_time) / 2, min_time, max_time, None,
-        None, None, None, None, mechanics, None, genres, adjusted_complexity, None, None, None, False)
+    specified_game = Game([], None, min_players, max_players, (min_time + max_time) / 2, min_time, max_time, None,
+        None, None, None, None, mechanics, None, genres, adjusted_complexity, None, None, None, False, None, None)
 
-    results = score(dataset, new_game, True)
-    return new_game, results
+    # Create hybrid game based on games they specified and combine with game they want
+    if other_games != []:
+        similar_games = createHybridGame(dataset, other_games)
+
+        total_query = Game([], None, min_players, max_time, (min_time + max_time) / 2, min_time, max_time, None,
+        None, None, None, None, set(mechanics).union(similar_games.mechanic), None, set(genres).union(similar_games.categories), 
+        adjusted_complexity, None, None, None, False, mechanics, genres)
+
+        results = score(dataset, total_query, True)
+
+    else:
+        total_query = specified_game
+        results = score(dataset, total_query, True)
+
+    return total_query, results
 
 if __name__ == "__main__":
     args = sys.argv
