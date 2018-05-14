@@ -42,12 +42,18 @@
       var y = document.getElementById("credits");
       if (val == 0) {
         setTimeout(function() {
-          x.innerHTML = "About This App"
+          x.style.height = "200px";
+          setTimeout(function() {
+          x.innerHTML = "<b>About This App</b> <br><br> Made at Cornell University <br><br> Eliot Huang (keh228) <br> Jake Jermanok (jaj224) <br> Tiffany Bang (tw292) <br> Will Ronchetti (wrr33) <br> & Ziyad Duron (zad22)"
+          }, 150);
         }, 150);
-        y.style.opacity = 1;
+        // y.style.opacity = 1;
       } else {
         x.innerHTML = "?";
-        y.style.opacity = 0;
+        setTimeout(function() {
+          x.style.height = "60px";
+        }, 150)
+        // y.style.opacity = 0;
       }
     };
 
