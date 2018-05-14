@@ -16,8 +16,8 @@ class Game(object):
     """
 
     def __init__(self, name, bgg_url, min_players, max_players, avg_time, min_time, max_time, avg_rating,
-        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V, sent, 
-        additional_mechanics, additional_genres):
+        geek_rating, num_votes, image_url, age, mechanic, owned, category, complexity, rank, vector, V, sent,
+        additional_mechanics, additional_genres, not_categories, not_mechanics):
 
         self.name = name
         self.url = bgg_url
@@ -41,6 +41,8 @@ class Game(object):
         self.sentiment = sent
         self.user_specific_mechanics = additional_mechanics
         self.user_specified_genres = additional_genres
+        self.not_categories = not_categories
+        self.not_mechanics = not_mechanics
 
 class Dataset(object):
     """
@@ -108,8 +110,9 @@ class Dataset(object):
                 max_time = row['max_time']
                 owned = row['owned']
                 votes = row['num_votes']
-                categories = row['category'].strip(' ').split(',')
-                mechanic = row['mechanic'].split(',')
+
+                categories = map(str.strip, row['category'].strip(' ').split(','))
+                mechanic = map(str.strip, row['mechanic'].split(','))
                 complexity = float(row['weight'])
                 rank = int(row['rank'])
                 current_tf_idf = None
@@ -117,7 +120,7 @@ class Dataset(object):
 
                 self.games[name] = Game(name, url, min_players, max_players, avg_time, min_time,
                 max_time, rating, g_rating, votes, image, age, mechanic, owned, categories, complexity,
-                rank, current_tf_idf, svd_row, False, None, None)
+                rank, current_tf_idf, svd_row, False, None, None, None, None)
 
             f.close()
 
@@ -161,8 +164,13 @@ def score(dataset, vector, advanced):
         scores[name] = [0, []]
 
         # Ignore same game
-        if (name == vector.name):
-            continue
+        # Handles if list or string
+        if (isinstance(vector.name, basestring)):
+            same_game_names = { vector.name }
+        else:
+            same_game_names = set(vector.name)
+
+        if name in same_game_names: continue
 
         # Heavily weight games that are in the same player range
         if advanced:
@@ -170,7 +178,7 @@ def score(dataset, vector, advanced):
                 scores[name][0] += 10
             else:
                 scores[name][0] -= 30
-                
+
 
         # Only do this if we have a vector
         try:
@@ -179,7 +187,7 @@ def score(dataset, vector, advanced):
         except:
             if vector.tf_idf_vector.any() != None:
                 scores[name][0] += (np.dot(vector.tf_idf_vector, np.array(info.tf_idf_vector, dtype=float)) /
-                    np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 7
+                    np.dot(vector.tf_idf_vector, vector.tf_idf_vector)) * 10
 
         # Add sentiment
         if info.sentiment == True:
@@ -197,21 +205,39 @@ def score(dataset, vector, advanced):
                 scores[name][0] += 10
                 cat_score += 10
             if len(common) > 2:
-                scores[name][0] += 5
-                cat_score += 5
+                scores[name][0] += 10
+                cat_score += 10
+            if len(common) > 3:
+                scores[name][0] += 10
+                cat_score += 10
+            if len(common) > 4:
+                scores[name][0] += 10
+                cat_score += 10
 
             # Heavily weight games that have the user specified genre
             if vector.user_specified_genres != None:
                 user_common = set(info.categories).intersection(vector.user_specified_genres)
                 if len(user_common) > 0:
-                    scores[name][0] += 25
-                    cat_score += 25
+                    scores[name][0] += 15
+                    cat_score += 15
                 if len(user_common) > 1:
-                    scores[name][0] += 25
-                    cat_score += 25
+                    scores[name][0] += 15
+                    cat_score += 15
                 if len(user_common) > 2:
-                    scores[name][0] += 25
-                    cat_score += 25
+                    scores[name][0] += 15
+                    cat_score += 15
+
+            if vector.not_categories != None:
+                user_not_common = set(info.categories).intersection(vector.not_categories)
+                if len(user_not_common) > 0:
+                    scores[name][0] -= 25
+                    cat_score -= 25
+                if len(user_not_common) > 1:
+                    scores[name][0] -= 15
+                    cat_score -= 15
+                if len(user_not_common) > 2:
+                    scores[name][0] -= 15
+                    cat_score -= 15
 
         else:
             if vector.categories != None:
@@ -247,8 +273,14 @@ def score(dataset, vector, advanced):
                 scores[name][0] += 10
                 mech_score += 10
             if len(common) > 2:
-                scores[name][0] += 5
-                mech_score += 5
+                scores[name][0] += 10
+                mech_score += 10
+            if len(common) > 3:
+                scores[name][0] += 10
+                cat_score += 10
+            if len(common) > 4:
+                scores[name][0] += 10
+                cat_score += 10
 
             # Heavily weight games that have the user specified mechanic
             if vector.user_specific_mechanics != None:
@@ -257,11 +289,28 @@ def score(dataset, vector, advanced):
                     scores[name][0] += 25
                     cat_score += 25
                 if len(user_common) > 1:
-                    scores[name][0] += 25
-                    cat_score += 25
+                    scores[name][0] += 15
+                    cat_score += 15
                 if len(user_common) > 2:
-                    scores[name][0] += 25
-                    cat_score += 25
+                    scores[name][0] += 15
+                    cat_score += 15
+
+            if name == "THE RESISTANCE: AVALON":
+                print(vector.not_mechanics)
+                print(info.mechanic)
+                print(set(info.mechanic).intersection(vector.not_mechanics))
+
+            if vector.not_mechanics != None:
+                user_not_common = set(info.mechanic).intersection(vector.not_mechanics)
+                if len(user_not_common) > 0:
+                    scores[name][0] -= 25
+                    cat_score -= 25
+                if len(user_not_common) > 1:
+                    scores[name][0] -= 15
+                    cat_score -= 15
+                if len(user_not_common) > 2:
+                    scores[name][0] -= 15
+                    cat_score -= 15
         else:
             if vector.mechanic != None:
                 common = set(info.mechanic).intersection(vector.mechanic)
@@ -389,28 +438,28 @@ def score(dataset, vector, advanced):
 
         # Add points if in top 50%, 25%, 10%, 5%
         if info.rank < (.5 * 5329):
-            scores[name][0] += 2
-            popularity_score += 2
+            scores[name][0] += 5
+            popularity_score += 5
         if info.rank < (.25 * 5329):
-            scores[name][0] += 3
-            popularity_score += 3
+            scores[name][0] += 5
+            popularity_score += 5
         if info.rank < (.1 * 5329):
-            scores[name][0] += 4
-            popularity_score += 4
+            scores[name][0] += 5
+            popularity_score += 5
         if info.rank < (.05 * 5329):
             scores[name][0] += 5
             popularity_score += 5
 
         # Lower weight for low rated games, bottom 50%, 25%, 10%, 5%
         if info.rank > 5239 - (.5 * 5329):
-            scores[name][0] -= 2
-            popularity_score -= 2
+            scores[name][0] -= 5
+            popularity_score -= 5
         if info.rank > 5239 - (.25 * 5329):
-            scores[name][0] -= 3
-            popularity_score -= 3
+            scores[name][0] -= 5
+            popularity_score -= 5
         if info.rank > 5239 - (.1 * 5329):
-            scores[name][0] -= 4
-            popularity_score -= 4
+            scores[name][0] -= 5
+            popularity_score -= 5
         if info.rank > 5239 - (.05 * 5329):
             scores[name][0] -= 5
             popularity_score -= 5
@@ -457,7 +506,9 @@ def createHybridGame(dataset, games):
     if len(games) == 1:
         return dataset.getGames()[str(games[0].upper())]
 
-    for g in games:
+    for i in range(len(games)):
+        g = games[i]
+        games[i] = str(g.upper()) #turn to uppercase
 
         game = dataset.getGames()[str(g.upper())]
 
@@ -496,7 +547,7 @@ def createHybridGame(dataset, games):
         genres = set(genres.union(game.categories))
 
     new_game = Game(games, None, min_players, max_players, length, min_time,
-            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False, None, None)
+            max_time, None, None, None, None, age, mechanics, None, genres, complexity[0], None, None, None, False, None, None, None, None)
     return new_game
 
 
@@ -511,7 +562,7 @@ def getRelatedGames(dataset, name):
         print("Could not locate game")
         return []
 
-def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres, other_games):
+def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres, other_games, not_category, not_mechanic):
     """
         Does an advanced search based on parameters given.
     """
@@ -519,32 +570,32 @@ def doAdvancedSearch(dataset, n_players, length, complexity, mechanics, genres, 
     # First, create a game object representing the parameters passed in
     min_players = n_players[0]
     max_players = n_players[1]
-    min_time = 30 * (length-1);
-    max_time = 30 * (length-1) + 30;
+    min_time = 30 * (length-1)
+    max_time = 30 * (length-1) + 30
 
     complexity_ranges = [(1, 1.5), (1.5, 2), (2, 2.5), (2.5, 3), (3, 3.5), (3.5, 4.3), (4.3, 5)]
     adjusted_min = complexity_ranges[complexity[0] - 1][0]
     adjusted_max = complexity_ranges[complexity[1] - 1][1]
     adjusted_complexity = [adjusted_min, adjusted_max]
 
-    if (length == 4):
-        max_time = 1000;
+    if (length == 4): max_time = 1000;
+
     specified_game = Game([], None, min_players, max_players, (min_time + max_time) / 2, min_time, max_time, None,
-        None, None, None, None, mechanics, None, genres, adjusted_complexity, None, None, None, False, None, None)
+        None, None, None, None, mechanics, None, genres, adjusted_complexity, None, None, None, False, None, None, not_category, not_mechanic)
 
     # Create hybrid game based on games they specified and combine with game they want
     if other_games != []:
         similar_games = createHybridGame(dataset, other_games)
 
-        total_query = Game([], None, min_players, max_time, (min_time + max_time) / 2, min_time, max_time, None,
-        None, None, None, None, set(mechanics).union(similar_games.mechanic), None, set(genres).union(similar_games.categories), 
-        adjusted_complexity, None, None, None, False, mechanics, genres)
+        total_query = Game(similar_games.name, None, min_players, max_time, (min_time + max_time) / 2, min_time, max_time, None, None, None, None, None, set(mechanics).union(similar_games.mechanic), None, set(genres).union(similar_games.categories),
+        adjusted_complexity, None, None, None, False, mechanics, genres, not_category, not_mechanic)
 
+        # print("hello search.py")
+        # print(not_category)
         results = score(dataset, total_query, True)
-
     else:
         total_query = specified_game
-        results = score(dataset, total_query, True)
+        results = score(dataset, specified_game, True)
 
     return total_query, results
 
