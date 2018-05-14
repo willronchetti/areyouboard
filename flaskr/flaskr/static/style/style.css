@@ -38,6 +38,7 @@ body {
   font-family: 'Arapey';
   border: 2px solid #F2E5B1;
   transition: 0.35s;
+  overflow:hidden;
 }
 #about .about-button:hover {
   font-size: 16px;
