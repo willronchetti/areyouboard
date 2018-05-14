@@ -205,6 +205,8 @@
                 var search_text = $('#searchBar');
                 search_text.val(example_query);
                 //auto search when example query is clicked on
+                document.getElementById("searchBarButton").style.backgroundColor = "#F2E5B1";
+                document.getElementById("searchBarButton").style.color = "#58585B";
                 document.getElementById("searchBarButton").click();
             });
         });
@@ -532,7 +534,7 @@
           <div class='card' id='misc'>
             <!-- Categories and Mechanics -->
             <div id='miscSearch'>
-              <h2> Anything else? </h2>
+              <h2> Anything Else? </h2>
               <input type='text' name='miscResult' id='miscResult' placeholder="Try 'Bluffing', 'Mythology', or 'Science Fiction'">
             </div>
             <div id='myMisc'>
@@ -607,6 +609,84 @@
               </script>
           </div>
 
+          <div class='card' id='notmisc'>
+            <!-- Categories and Mechanics -->
+            <div id='notmiscSearch'>
+              <h2> Anything You Don't Want? </h2>
+              <input type='text' name='notmiscResult' id='notmiscResult' placeholder="Try 'City Building', 'Dice Rolling', or 'Word Game'">
+            </div>
+            <div id='myNotMisc'>
+              <br />
+              <div class='notmiscTags'></div>
+            </div>
+
+              <script>
+                //https://stackoverflow.com/questions/6524288/jquery-event-for-user-pressing-enter-in-a-textbox?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa#comment58006970_9893269
+
+                //https://stackoverflow.com/questions/15244182/d3-create-buttons-from-an-array-of-string-containing-names?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                var notmiscInput = [];
+                $('#notmiscResult').bind("enterKey",function(e){
+                    value = $('#notmiscResult').val();
+                    if ($.inArray(value, notmiscInput)==-1 && comboList.indexOf(value) != -1) {
+                      //add it to the data
+                      notmiscInput.push(value);
+                      //remove non-alphabetical chars
+                      var val = value.replace(/[^a-zA-Z]+/g, '');
+                      //show it as a tag
+                      d3.select('.notmiscTags')
+                        .append('div')
+                        .attr('id',val + "2")
+                        .attr('class','notmiscTag')
+                        .style('display','inline-flex')
+                        .append('button')
+                        .attr('type','button')
+                        .attr('class','X')
+                        .text('X')
+                        .on('click',function() {
+                          this.remove();
+                          d3.select("#"+val+"2").remove();
+                          notmiscInput.splice(notmiscInput.indexOf(val+"2"),1);
+                        });
+                      d3.select("#"+val+"2")
+                        .append('text')
+                        .text(value);
+                    }
+                    $('#notmiscResult').val('');
+                  });
+
+                $("#notmiscResult").keyup(function(e){
+                  if(e.keyCode == 13) {
+                    $(this).trigger("enterKey");
+                  }
+                });
+
+                var autoCompleteNotMisc = new autoComplete({
+                  selector: 'input[name="notmiscResult"]',
+                  minChars: 1,
+                  source: function(term, suggest){
+                      term = term.toLowerCase();
+                      var choices = comboList; //categories and mechanics
+                      var matches = [];
+                      for (i=0; i<choices.length; i++) {
+                          // var choice = choices[i].toLowerCase();
+                          // console.log(choice);
+                          for (j=1;j<choices[i].length; j++) {
+                            if (choices[i].toLowerCase().substring(0,j) == term) {
+                              matches.push(choices[i]);
+                            };
+                          };
+                      }
+                      for (k=0; k<choices.length; k++) {
+                          if (~choices[k].toLowerCase().indexOf(term) && matches.indexOf(choices[k]) == -1) {
+                            matches.push(choices[k]);
+                          };
+                      }
+                      suggest(matches);
+                }
+              });
+              </script>
+          </div>
+
           <div class = 'card' id='advancedSubmit'>
               <form id='advancedForm' method='POST' onsubmit='jsonAdvanced()' action = '/receiveData' enctype='application/json'>
                 <button id='resultInput'> See Results! </button>
@@ -629,6 +709,20 @@
                     }
                   }
 
+                  notCategoryInput = []
+                  notMechanicInput = []
+                  for (var z = 0; z < notmiscInput.length; z++) {
+                    var value = notmiscInput[z]
+                    if (mechanicList.includes(value)) {
+                      notMechanicInput.push(value);
+                    }
+                    else if (categoryList.includes(value)) {
+                      notCategoryInput.push(value);
+                    }
+                  }
+                  console.log(notMechanicInput);
+                  console.log(notCategoryInput);
+
                   var resultComplex = [
                      { "state": 2 },
                     {
@@ -637,7 +731,9 @@
                       "difficulty": diffInput,
                       "category": categoryInput,
                       "mechanics": mechanicInput,
-                      "other_games": gamesInput
+                      "other_games": gamesInput,
+                      "not_category": notCategoryInput,
+                      "not_mechanic": notMechanicInput
                     }];
                   var state2 = JSON.stringify({'state': 2});
                   var json = JSON.stringify(resultComplex);
