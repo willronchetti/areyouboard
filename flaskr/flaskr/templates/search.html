@@ -39,21 +39,25 @@
 
     function textChange(val) {
       var x = document.getElementById("about-btn");
-      var y = document.getElementById("credits");
       if (val == 0) {
-        setTimeout(function() {
+        var timeout = setTimeout(function() {
           x.style.height = "200px";
-          setTimeout(function() {
-            x.innerHTML = "<b>About This App</b> <br><br> Made at Cornell University <br><br> Eliot Huang (keh228) <br> Jake Jermanok (jaj224) <br> Tiffany Wang (tw292) <br> Will Ronchetti (wrr33) <br> & Ziyad Duron (zad22)"
-          }, 150);
-        }, 150);
-
+          console.log('200')
+          var timeout2 = setTimeout(function() {
+            clearTimeout(timeout2);
+            console.log('here')
+            x.innerHTML = "<style='font-size: 16px'><b>About This App</b> <br><br> Made at Cornell University <br><br> Eliot Huang (keh228) <br> Jake Jermanok (jaj224) <br> Tiffany Wang (tw292) <br> Will Ronchetti (wrr33) <br> & Ziyad Duron (zad22)</font>"
+          }, 200);
+          console.log('middle')
+        }, 50);
+        console.log('completed')
         // y.style.opacity = 1;
       } else {
         x.innerHTML = "?";
         setTimeout(function() {
           x.style.height = "60px";
-        }, 150)
+          x.innerHTML = '?';
+        }, 250)
         // y.style.opacity = 0;
       }
     };
