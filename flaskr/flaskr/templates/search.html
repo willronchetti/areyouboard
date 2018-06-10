@@ -20,9 +20,9 @@
   <!-- HTML -->
   <a href="/"><h1 id="title">Are You Board?</h1></a>
 
-  <div id="about">
+    <div id="about">
     <button id="about-btn" class="about-button" onmouseover="textChange(0)" onmouseout="textChange(1)">?</button>
-    <!-- <div id="credits" style="opacity: 0; transition: 0.25s;">
+    <div id="credits" style="opacity: 0; transition: 0.25s;">
       <p class="credits-text">
         Made at Cornell University
       </p>
@@ -33,32 +33,20 @@
         Will Ronchetti (wrr33)<br />
         & Ziyad Duron (zad22)
       </p>
-    </div> -->
+    </div>
     <script>
     var hidden = true;
-
     function textChange(val) {
       var x = document.getElementById("about-btn");
+      var y = document.getElementById("credits");
       if (val == 0) {
-        var timeout = setTimeout(function() {
-          x.style.height = "200px";
-          console.log('200')
-          var timeout2 = setTimeout(function() {
-            clearTimeout(timeout2);
-            console.log('here')
-            x.innerHTML = "<style='font-size: 16px'><b>About This App</b> <br><br> Made at Cornell University <br><br> Eliot Huang (keh228) <br> Jake Jermanok (jaj224) <br> Tiffany Wang (tw292) <br> Will Ronchetti (wrr33) <br> & Ziyad Duron (zad22)</font>"
-          }, 200);
-          console.log('middle')
-        }, 50);
-        console.log('completed')
-        // y.style.opacity = 1;
+        setTimeout(function() {
+          x.innerHTML = "About This App"
+        }, 150);
+        y.style.opacity = 1;
       } else {
         x.innerHTML = "?";
-        setTimeout(function() {
-          x.style.height = "60px";
-          x.innerHTML = '?';
-        }, 250)
-        // y.style.opacity = 0;
+        y.style.opacity = 0;
       }
     };
 
