@@ -25,26 +25,26 @@ def search():
 @app.route('/receiveData', methods=['GET','POST'])
 def getResults():
 
-    print "Receiving Data"
     dataset = Dataset()
 
     originalState = 0
     queryName = []
 
-    # State variable is 2
-    if (json.loads(request.form['state'])['state'] == 2):
+    # State variable is 2 - do an advanced search
+    if json.loads(request.form['state'])['state'] == 2:
         originalState = 2
         d = request.form['advancedVal']
         data = json.loads(d)
-        print(data)
 
         # If no difficulty specified, give a medium difficulty
-        if data[1]["difficulty"] == []:
+        if not data[1]["difficulty"]:
             complexity = (2,3)
         else:
             complexity = data[1]["difficulty"]
 
         related_games = doAdvancedSearch(Dataset(), data[1]["players"], data[1]["time"], complexity, data[1]['mechanics'], data[1]["category"], data[1]['other_games'], data[1]['not_category'], data[1]['not_mechanic'])[1]
+
+    # Simple search
     else:
         originalState = 1
         d = request.form["jsonval"]
@@ -58,16 +58,16 @@ def getResults():
                 games.append(game.upper())
             related_games = getRelatedMultipleGames(dataset, games)[1]
 
-    top10_related_games = related_games[:30]
+    top30_related_games = related_games[:30]
 
     # Get the original vectors from the dataset for the most similar games
     related_games_info = []
-    for game_tup in top10_related_games:
+    for game_tup in top30_related_games:
         game_name = game_tup[0]
         game_data = dataset.games[game_name]
         related_games_info.append([game_data, game_tup[1]])
-    print(related_games_info)
     return render_template('search.html', state=originalState, query = queryName, results=related_games_info)
+
 
 if __name__ == "__main__":
     print("Flask app running at http://0.0.0.0:5000")
