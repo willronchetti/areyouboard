@@ -54,7 +54,7 @@ class Dataset(object):
         script_dir = os.path.dirname(__file__)
 
         # All game data
-        rel_path = "data/bgg_data_v3.csv"
+        rel_path = "data/bgg_data_v4.csv"
         data_file = os.path.join(script_dir, rel_path)
 
         # Svd numpy arrays

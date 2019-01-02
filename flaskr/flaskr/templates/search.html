@@ -287,7 +287,7 @@
                   {% endif %}
                 {% endfor %}
               </div>
-              <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}">Learn More</a>
+              <a target="_blank" href= "{{ results[i][0].url }}">Learn More</a>
               <p style="display: inline;"> | </p>
               <a target="_blank" style="display: inline;" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
             </div>
@@ -748,7 +748,7 @@
           <div id="results-grid2">
             {% for i in range(results|length) %}
               <div class="results-button" data-id="r{{results[i][0].rank}}"
-              style="background-image: url({{results[i][0].image}});">
+              style="background-image: url({{ results[i][0].image }});">
                 <div class="results-button-caption">
                   <p class="caption-name">{{ (i+1)|string + ". " }}{{ results[i][0].name }}</p>
                   <p class="caption-info">Click for more info</p>
@@ -769,7 +769,7 @@
               </div>
               <div class="explanation">
                 <div class="explanation-img">
-                  <img src="{{ results[i][0].image }}" />
+                  <img src="https://boardgamegeek.com/image/1222746/blood-bowl-team-manager-card-game" />
                 </div>
                 <div class="explanation-text">
                   <h2>{{ results[i][0].name }}</h2>
@@ -809,7 +809,7 @@
                       {% endif %}
                     {% endfor %}
                   </div>
-                  <a target="_blank" href= "https://boardgamegeek.com/boardgame/{{results[i][0].url}}">Learn More</a>
+                  <a target="_blank" href= "{{ results[i][0].url }}">Learn More</a>
                   <p style="display: inline;"> | </p>
                   <a target="_blank" style="display: inline;" href= "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords={{results[i][0].name}}+game">Find on Amazon</a>
                 </div>
