@@ -185,7 +185,7 @@ def score(dataset, vector, advanced):
 
         # Add sentiment
         if info.sentiment:
-            scores[name] += 10
+            scores[name][0] += 10
 
         # If categories shared award points
         cat_score = 0
