@@ -54,7 +54,7 @@ class Dataset(object):
         script_dir = os.path.dirname(__file__)
 
         # All game data
-        rel_path = "data/bgg_data_v4.csv"
+        rel_path = "data/bgg_data_v3_updated.csv"
         data_file = os.path.join(script_dir, rel_path)
 
         # Svd numpy arrays
@@ -92,7 +92,7 @@ class Dataset(object):
                 # Get all the stuff we need, add it to global dict
                 url = row['bgg_url']
                 age = int(row['age'])
-                image = row['image_url']
+                image = row['new_image_urls']
                 rating = row['avg_rating']
                 g_rating = row['geek_rating']
                 min_players = row['min_players']
