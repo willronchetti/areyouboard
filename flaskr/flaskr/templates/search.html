@@ -5,6 +5,7 @@
     <title>Are You Board?</title>
     <meta charset="UTF-8">
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="icon" href="../static/images/loading-dice2.png">
     <link rel="shortcut icon" href="{{ url_for('static', filename='../static/images/loading-dice2.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Arapey" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='../static/style/style.css'>
@@ -59,7 +60,7 @@
       <img src="../static/images/red.png" alt="red card" id="red" onclick="redSelect()"></img>
       <img src="../static/images/blue.png" alt="blue card" id="blue" onclick="blueSelect()"></img>
     </div>
-    <svg id="card-desc" width="400" height="50"></svg>
+    <svg id="card-desc" width="400" height="70"></svg>
   </div>
 
   <!-- STATE 1 CASE -->
@@ -867,7 +868,7 @@
       var red = d3.select("#red");
       var blue = d3.select("#blue");
       var svg = d3.select("#card-desc");
-      var h = 50;
+      var h = 70;
       var w = 400;
       var bool = true;
 
@@ -898,10 +899,10 @@
       red.on("mouseover", function() {
         if (bool == true) {
           svg.select(".textBack")
-          .attr("x", 20)
+          .attr("x", 40)
           .attr("y", 0)
-          .attr("width", 145)
-          .attr("height", h)
+          .attr("width", 125)
+          .attr("height", h/1.5)
           svg.select(".Rtext")
           .attr("fill", "#F2E5B1")
           .text("Similar Games")
@@ -931,8 +932,8 @@
           svg.select(".textBack")
           .attr("x", w-170)
           .attr("y", 0)
-          .attr("width", 145)
-          .attr("height", h)
+          .attr("width", 135)
+          .attr("height", h/1.5)
           svg.select(".Btext")
           .attr("fill", "#F2E5B1")
           .text("Custom Search")
